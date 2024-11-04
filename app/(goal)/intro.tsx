@@ -3,9 +3,12 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import goalStyles from "./goalStyle"
+import globalStyles from "../globalStyle"
+import logo from "../../assets/images/logo-prime.png"
 
 export default function Intro() {
   const router = useRouter();
@@ -28,23 +31,26 @@ export default function Intro() {
       <SafeAreaView
         style={{ flex: 1, gap: 32, paddingTop: 32 }}
       >
-        <Text style={{ fontSize: 24, color: 'white', paddingHorizontal: 24 }}>Introdução</Text>
+        <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
+          <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+        </TouchableOpacity>
 
         <SingleViewPager
           onNext={handleNext}
           renderItem={() => (
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 8,
-                borderWidth: 1,
-                borderColor: 'gray',
-                marginHorizontal: 24,
-              }}
-            >
-              <TouchableOpacity onPress={handleNext}>
-                <Text style={{ fontSize: 18, color: 'white' }}>Próximo</Text>
-              </TouchableOpacity>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <View
+                style={goalStyles.introContainer}
+              >
+                  <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
+                    Introdução
+                  </Text>
+                  <View style={{ paddingTop: 25, flex: 1 }}>                    
+                      <Text style={goalStyles.texto_dados}>
+                        teste
+                      </Text>                    
+                  </View>                
+              </View>
             </View>
           )}
         />

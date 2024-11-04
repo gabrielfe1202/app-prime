@@ -21,7 +21,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flex: 1
     },
-    
+    titulo_dados: {
+        fontSize: 25,
+        color: '#fff',
+        textAlign: 'center',
+        //fontFamily: fonts.passo
+    },
+    texto_dados: {
+        fontSize: 20,
+        color: '#fff',
+        textAlign: 'center'
+    },
 });
 
 export default styles;
