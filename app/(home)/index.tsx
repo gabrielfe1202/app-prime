@@ -10,30 +10,31 @@ import { useAsync } from "@/utils/use-async";
 import { Kid } from "@/entities/kid";
 import agendaImage from "../../assets/images/agenda.png"
 import fotos from "../../assets/images/fotos.png"
+import globalStyles from "../globalStyle"
+import { delay } from "@/utils/delay";
 const { width, height } = Dimensions.get('screen');
 
 export default function Home() {
     const [stateload, setStateload] = useState<boolean>(false);
     const [refreshing, setRefreshing] = useState<boolean>(false);
-
-    const router = useRouter();
-
     const [kidInfo, setKidInfo] = useState<Kid>();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const router = useRouter();    
+
+    const fetchKidInformation = async () => {
+        setStateload(true)
+        try {
+            const data = await DI.kid.kidInformations();
+            setKidInfo(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            delay(1000).then(() => {
+                setStateload(false)
+            })
+        }
+    };
 
     useEffect(() => {
-        const fetchKidInformation = async () => {
-            try {
-                const data = await DI.kid.kidInformations();
-                setKidInfo(data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchKidInformation();
     }, []);
 
@@ -49,7 +50,7 @@ export default function Home() {
                     visible={stateload}
                     textContent="carregando..."
                     color={'#FFA431'}
-                    //textStyle={defaultStyles.buttonText}
+                    textStyle={globalStyles.buttonText}
                     cancelable={false}
                     overlayColor={'#ffffff'}
                 />
@@ -60,7 +61,7 @@ export default function Home() {
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            onRefresh={() => { /*reloadPage()*/ }}
+                            onRefresh={() => { fetchKidInformation() }}
                             progressBackgroundColor={'#fff'}
                         />
                     }
@@ -116,7 +117,7 @@ export default function Home() {
                             </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[styles.button_titulo, { padding: 0, paddingVertical: 0, overflow: 'hidden' }]} onPress={() => {}}>
+                        <TouchableOpacity style={[styles.button_titulo, { padding: 0, paddingVertical: 0, overflow: 'hidden' }]} onPress={() => { }}>
                             <ImageBackground source={{ uri: kidInfo?.imagem }} resizeMode="cover" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                             </ImageBackground>
                             <View style={styles.overlay} />

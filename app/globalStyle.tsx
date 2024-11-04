@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
         height: 100,
         marginBottom: 5
     },
+    buttonText: {
+        textAlign: 'center',
+        //fontFamily: fontFamilyBold,
+        fontWeight: 'bold',
+        //color: colors.laranja,
+        fontSize: 20,
+    },
 });
 
 export default styles;
