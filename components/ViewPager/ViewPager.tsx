@@ -174,6 +174,15 @@ export function ViewPagerImpl<DataItem>(
               const isBeforePositioned = position !== item._id - 1;
 
               return {
+                opacity: 1,
+                transform: [
+                  {
+                    scale: 1
+                  }
+                ]
+              }
+
+              /*return {
                 opacity: isCurrentPositioned
                   ? interpolate(listOffset.value, [0, 1], [0, 1], Extrapolation.CLAMP)
                   : isBeforePositioned
@@ -188,7 +197,7 @@ export function ViewPagerImpl<DataItem>(
                         : 1,
                   }
                 ]
-              }
+              }*/
             })
           ]}
         >
