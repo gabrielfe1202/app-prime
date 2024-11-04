@@ -23,7 +23,7 @@ export default function Layout() {
   }
 
   function handleReachHead() {
-    delay(200).then(() => router.replace('/'));
+    delay(200).then(() => router.replace('/intro'));
   }
 
   return (

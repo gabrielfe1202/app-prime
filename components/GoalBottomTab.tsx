@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useGoal } from "@/contexts/goal-context";
 import { Goal } from "@/entities/goal";
 import { asyncArrayToState } from "@/utils/use-async";
+import { router } from "expo-router";
 
 export type GroupedGoal = {
   id: number;
@@ -49,6 +50,18 @@ export function GoalBottomTab({ onGotoPage }: Props) {
         padding: 24,
       }}
     >
+      <TouchableOpacity        
+        style={{
+          backgroundColor: "#ccc",
+          height: 64,
+          width: 64,
+          borderRadius: 8,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={() => router.replace('/')}
+      >
+      </TouchableOpacity>
       {groupedGoals.map(goal => (
         <TouchableOpacity
           key={goal.id}

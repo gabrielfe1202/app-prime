@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
+import { View } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,8 +29,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName="(goal)" screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="(goal)" /> */}
+      <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
+        
       </Stack>
     </ThemeProvider>
   );
