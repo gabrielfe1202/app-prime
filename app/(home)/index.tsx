@@ -98,19 +98,7 @@ export default function Home() {
 
                     <View style={{ width: width * 0.9, flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 
-                        <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#FFC300', alignItems: 'center' }]}
-                            onPress={() => {
-                                /*navigation.navigate("Agenda", {
-                                    Idt_cri_crianca: Idt_cri_crianca,
-                                    dataInit: initDate,
-                                    datas: datas,
-                                    liberado: agendaLiberada,
-                                    agendado: agendaAgendado,
-                                    data_ativa: DataAtiva,
-                                    dataAgendada: agendaDataAgendada
-                                })*/
-                            }}
-                        >
+                        <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#FFC300', alignItems: 'center' }]} onPress={() => { }}>
                             <Image style={styles.imagem_titulo} source={agendaImage} resizeMode='contain' />
                             <Text style={[styles.texto_titulo, { textAlign: 'center' }]}>
                                 age
