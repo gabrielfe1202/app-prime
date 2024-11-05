@@ -15,6 +15,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'Futura': require('../assets/fonts/futur.otf'),
+    'Futura-bold': require('../assets/fonts/FuturaBoldfont.otf'),
+    'Futura-light': require('../assets/fonts/futuralightbt.otf'),
+    'Futura-medium': require('../assets/fonts/futuramediumbt.otf'),
   });
 
   useEffect(() => {

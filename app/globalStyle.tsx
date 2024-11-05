@@ -1,6 +1,20 @@
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get('screen');
 
+const fonts = {
+    passo: 'Futura-medium',
+    passoTitulo: 'Futura',
+    textoResposta: 'Futura-light'
+}
+
+const colors = {
+    laranja: '#FFA431',
+    azul: '#20B9EC',
+    white: '#fff'
+}
+
+export { fonts, colors}
+
 const styles = StyleSheet.create({
     logoContainer: {
         width: width, 
@@ -16,7 +30,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         //fontFamily: fontFamilyBold,
         fontWeight: 'bold',
-        //color: colors.laranja,
+        color: colors.laranja,
         fontSize: 20,
     },
 });

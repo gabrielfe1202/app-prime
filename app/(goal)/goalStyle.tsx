@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { fonts } from "../globalStyle";
 const { width, height } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: '#fff',
         textAlign: 'center',
-        //fontFamily: fonts.passo
+        fontFamily: fonts.passo
     },
     texto_dados: {
         fontSize: 20,

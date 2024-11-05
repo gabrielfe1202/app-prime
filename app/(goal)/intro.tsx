@@ -55,6 +55,8 @@ export default function Intro() {
           )}
         />
 
+        <View style={{height: 70}} />
+
         <GoalBottomTab onGotoPage={handleGoToGoal} />
       </SafeAreaView>
     </GestureHandlerRootView>
