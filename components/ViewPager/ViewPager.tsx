@@ -173,16 +173,52 @@ export function ViewPagerImpl<DataItem>(
               const isCurrentPositioned = position !== item._id;
               const isBeforePositioned = position !== item._id - 1;
 
-              return {
+              /*return {
                 opacity: 1,
                 transform: [
                   {
                     scale: 1
                   }
                 ]
-              }
+              }*/
 
-              /*return {
+              const getOpacity = () => {
+                if (isCurrentPositioned) {
+                  return interpolate(listOffset.value, [0, 1], [1, 1], Extrapolation.CLAMP);  // Garantindo opacidade 1 para o item atual
+                }
+                if (isBeforePositioned) {
+                  return interpolate(listOffset.value, [0, 1], [1, 0], Extrapolation.CLAMP); // Desaparece suavemente o item anterior
+                }
+                return 0;  // Os outros itens terão opacidade 0 (invisíveis)
+              };
+
+              const getScale = () => {
+                if (isCurrentPositioned) {
+                  return interpolate(listOffset.value, [0, 1], [0.8, 1], Extrapolation.CLAMP);  // Faz o item crescer de 80% para 100%
+                }
+                if (isBeforePositioned) {
+                  return interpolate(listOffset.value, [0, 1], [1, 0.8], Extrapolation.CLAMP); // Encolhe o item anterior
+                }
+                return 0.8;  // Os outros itens terão uma escala reduzida para 80%
+              };
+
+              const getZIndex = () => {
+                // Garantir que o item atual tenha maior prioridade (está no topo)
+                if (isCurrentPositioned) return 1;
+                if (isBeforePositioned) return 0.5;  // O item anterior pode ter um zIndex menor
+                return 0;  // Os outros itens ficam atrás
+              };
+              return {
+                opacity: getOpacity(),
+                transform: [
+                  {
+                    scale: getScale(),
+                  },
+                ],
+                zIndex: getZIndex(),  // Configura o zIndex para garantir a ordem de renderização
+              };
+
+              return {
                 opacity: isCurrentPositioned
                   ? interpolate(listOffset.value, [0, 1], [0, 1], Extrapolation.CLAMP)
                   : isBeforePositioned
@@ -197,7 +233,7 @@ export function ViewPagerImpl<DataItem>(
                         : 1,
                   }
                 ]
-              }*/
+              }
             })
           ]}
         >

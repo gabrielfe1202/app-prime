@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { GoalBottomTab } from '@/components/GoalBottomTab';
@@ -6,8 +6,11 @@ import { ViewPager } from '@/components/ViewPager/ViewPager';
 import { useGoal } from '@/contexts/goal-context';
 import { delay } from '@/utils/delay';
 import { asyncArrayToState } from '@/utils/use-async';
-import { useRouter } from 'expo-router';
+import { useRouter, Link } from 'expo-router';
 import { Steps } from './steps';
+import { Goal } from '@/entities/goal';
+import { Entypo } from '@expo/vector-icons';
+const { width, height } = Dimensions.get('screen');
 
 export default function Layout() {
   const { goalVPRef, goals, selectedGoal, onChangeSelection } = useGoal();
@@ -26,12 +29,23 @@ export default function Layout() {
     delay(200).then(() => router.replace('/intro'));
   }
 
+  function handleModal(item: Goal) {
+    router.push({
+      pathname: '/(goal)/modalGoal',
+      params: {
+        goal: item.description,
+        goalText: item.text,
+        goalColor: item.color
+      }
+    })
+  }
+
   return (
     <GestureHandlerRootView>
       <View style={styles.container}>
         {goals.state === 'LOADING' && <Text>Carregando Objetivos</Text>}
         {goals.state === 'SUCCESS' && (
-          <View style={{ height: 96 + 128, gap: 16 }}>
+          <View style={{ height: 126 + 128, gap: 16 }}>
             {selectedGoal.state && (
               <View style={{ paddingHorizontal: 24 }}>
                 <Text
@@ -45,10 +59,24 @@ export default function Layout() {
             <ViewPager
               ref={goalVPRef}
               data={goalsState}
-              style={{ maxHeight: 96 }}
+              style={{ maxHeight: 126 }}
               renderItem={item => (
-                <View style={[styles.itemContainer, { backgroundColor: item.color }]}>
-                  <Text style={styles.itemTitle}>{item.id} - {item.description}</Text>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <View style={[styles.dados, {
+                    backgroundColor: item.color,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                  },
+                  { borderRadius: 20, borderTopEndRadius: 20, borderTopStartRadius: 20, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }]}>
+                    <TouchableOpacity
+                      style={[styles.accordionHeader, { maxWidth: '100%' }]}
+                      onPress={() => handleModal(item)}
+                    >
+                      <Text style={[styles.texto_dados, { paddingBottom: 10, fontWeight: '800', /*fontFamily: fonts.passoTitulo,*/ width: '85%' }]}>{item.description}</Text>
+                      <Entypo name={"plus"} size={38} color="white" style={[{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: -10, marginLeft: 5 }]} />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
               onChange={onChangeSelection}
@@ -109,6 +137,20 @@ const styles = StyleSheet.create({
     paddingTop: 64,
     justifyContent: 'space-between',
   },
+  dados: {
+    width: width * 0.9,
+    backgroundColor: '#96989A',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 20,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  accordionHeader: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
   listContainer: {
     flex: 1,
     maxHeight: 128,
@@ -143,5 +185,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'semibold',
     color: 'white'
+  },
+  texto_dados: {
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center',
+    //fontFamily: fonts.passo,
+    lineHeight: 24
   },
 });

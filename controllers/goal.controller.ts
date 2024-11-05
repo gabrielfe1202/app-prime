@@ -14,6 +14,7 @@ export class GoalController {
           Idt_objetivo: z.number(),
           Idt_titulo: z.number(),
           objetivo: z.string(),
+          texto: z.string(),
           titulo: z.string(),
           bac_cor: z.string(),
           ultimaRespostaId: z.number().nullable(),
@@ -44,6 +45,7 @@ export class GoalController {
       goal.$clientId = randomID(16);
       goal.id = String(_objetivo.Idt_objetivo);
       goal.title = _objetivo.titulo;
+      goal.text = _objetivo.texto;
       goal.title_id = String(_objetivo.Idt_titulo);
       goal.description = _objetivo.objetivo;
       goal.color = _objetivo.bac_cor;
