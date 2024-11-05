@@ -6,26 +6,26 @@ export class TitleController {
         const TituloSchema = z.object({
             Idt_titulo: z.number(),
             titulo: z.string().nullable(),
-            ordem: z.number().nullable(), 
+            ordem: z.number().nullable(),
             ordem_app: z.number().nullable(),
-            imagem: z.string().url().nullable(), 
+            imagem: z.string().url().nullable(),
             imagem_app: z.string().url().nullable(),
             bac_cor: z.string().nullable(),
             texto: z.string().nullable(),
-            grafico: z.number().nullable(), 
+            grafico: z.number().nullable(),
             titulo_selected: z.string().nullable(),
             menu: z.number().nullable(),
             objetivos: z.string().nullable(),
             conclusao: z.string().nullable(),
-            ordem_objetivo: z.number().nullable(), 
-          });
-          
-          const TitulosSchema = z.object({
-            titulos: z.array(TituloSchema), 
-          });
+            ordem_objetivo: z.number().nullable(),
+        });
+
+        const TitulosSchema = z.object({
+            titulos: z.array(TituloSchema),
+        });
 
         const result = TitulosSchema.safeParse(this.data);
-console.log("reesult", result)
+
         if (result.error) return [];
 
         const titles = result.data.titulos.map(_titulo => {
