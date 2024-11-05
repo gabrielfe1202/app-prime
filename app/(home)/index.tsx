@@ -12,19 +12,24 @@ import agendaImage from "../../assets/images/agenda.png"
 import fotos from "../../assets/images/fotos.png"
 import globalStyles from "../globalStyle"
 import { delay } from "@/utils/delay";
+import { GoalTitle } from "@/entities/goal";
 const { width, height } = Dimensions.get('screen');
 
 export default function Home() {
-    const [stateload, setStateload] = useState<boolean>(false);
+    const [stateload, setStateload] = useState<boolean>(true);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [kidInfo, setKidInfo] = useState<Kid>();
-    const router = useRouter();    
+    const [titles, setTitles] = useState<GoalTitle[]>()
+    const router = useRouter();
 
     const fetchKidInformation = async () => {
         setStateload(true)
         try {
             const data = await DI.kid.kidInformations();
+            const title = await DI.titles.GetTitles();
             setKidInfo(data);
+            setTitles(title)
+            console.log(title)
         } catch (err) {
             console.error(err);
         } finally {
@@ -117,28 +122,31 @@ export default function Home() {
                             </View>
                         </TouchableOpacity>
 
-                        {/*titulos.map((item: any) => {
-                            if (item.grafico != 1 && item.Idt_titulo != 5 && item.Idt_titulo != 6) {
-                                if (item.menu == 1) {
-                                    return (
-                                        <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#96989A', justifyContent: 'center', alignItems: 'center' }]} onPress={() => ver_passo(item.Idt_titulo)}>
-                                            <Text style={[styles.texto_titulo]}>
-                                                {item.titulo}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    )
-                                } else {
-                                    return (
-                                        <TouchableOpacity key={item.Idt_titulo} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => ver_passo(item.Idt_titulo)}>
-                                            <Image style={styles.imagem_titulo} source={{ uri: item.imagem }} resizeMode='contain' />
-                                            <Text style={styles.texto_titulo}>
-                                                {item.titulo}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    )
-                                }
-                            }
-                        })*/}
+                        {titles &&
+                            titles
+                                .filter(x => x.menu == 2)
+                                .map((item: any) => {
+                                    if (item.grafico != 1 && item.Idt_titulo != 5 && item.Idt_titulo != 6) {
+                                        if (item.menu == 1) {
+                                            return (
+                                                <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#96989A', justifyContent: 'center', alignItems: 'center' }]} onPress={() => { }}>
+                                                    <Text style={[styles.texto_titulo]}>
+                                                        {item.titulo}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            )
+                                        } else {
+                                            return (
+                                                <TouchableOpacity key={item.Idt_titulo} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => { }}>
+                                                    <Image style={styles.imagem_titulo} source={{ uri: item.imagem }} resizeMode='contain' />
+                                                    <Text style={styles.texto_titulo}>
+                                                        {item.titulo}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            )
+                                        }
+                                    }
+                                })}
 
 
                         <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#999999', alignItems: 'center', width: width * 0.9 }]} onPress={() => { router.push('/intro') }}>
