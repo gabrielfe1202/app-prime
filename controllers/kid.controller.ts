@@ -1,8 +1,16 @@
 import { Kid } from "@/entities/kid";
+import { User } from "@/entities/user";
 import { z } from 'zod'
 
 export class KidController {
     async kidInformations(): Promise<Kid> {
+        const userSchema = z.object({
+            Idt_usuario: z.number(),
+            Nom_usuario: z.string(),
+            Nom_login: z.string().nullable(),
+            Img_usuario: z.string().nullable()
+        })    
+
         const requestShape = z.object({
             crianca: z.object({
                 Idt_Cri_Crianca: z.number(),
@@ -39,7 +47,7 @@ export class KidController {
                 ativo_sim: z.boolean().nullable(),
                 titulos: z.string().nullable(),
                 pais: z.string().nullable(),
-                educadoras: z.array(z.any()),
+                educadoras: z.array(userSchema),
                 imagens: z.string().nullable(),
                 reuniao: z.string().nullable(),
                 agenda: z.string().nullable(),
@@ -55,10 +63,21 @@ export class KidController {
         const kid = new Kid();      
         const result = requestShape.safeParse(this.data);
 
+        console.log(result)
+
         if (result.error) return kid;
 
         kid.populate(result.data.crianca)
 
+        kid.educadoras = result.data.crianca.educadoras.map(edu => {
+            const user = new User()
+
+            user.id = edu.Idt_usuario;
+            user.name = edu.Nom_usuario;
+
+            return user;
+        })
+        
         return kid;
 
     }
@@ -97,7 +116,54 @@ export class KidController {
             "ativo_sim": null,
             "titulos": null,
             "pais": null,
-            "educadoras": [],
+            "educadoras": [
+                {
+                    "Idt_usuario": 478,
+                    "Idt_cliente": null,
+                    "Nom_cliente": null,
+                    "Idt_empresa": null,
+                    "Nom_empresa": null,
+                    "Idt_generico": null,
+                    "Nom_usuario": "educadora",
+                    "Nom_user": null,
+                    "Nom_login": null,
+                    "Nom_frase_senha": null,
+                    "Nom_login_criador": null,
+                    "Idc_usuario_ativo": null,
+                    "Nom_usuario_ativo": null,
+                    "Sal": "00000000-0000-0000-0000-000000000000",
+                    "Idt_Programa": null,
+                    "Nom_Programa": null,
+                    "nom_telefone": null,
+                    "nom_celular": null,
+                    "nom_funcao": null,
+                    "Tip_equipe": null,
+                    "Ult_login": null,
+                    "DataFormatada": null,
+                    "Idt_tip_equipe": null,
+                    "tip_equipe": null,
+                    "Img_usuario": null,
+                    "End_endereco": "  ",
+                    "End_numero": null,
+                    "End_complemento": null,
+                    "End_cep": null,
+                    "End_bairro": null,
+                    "End_cidade": null,
+                    "End_estado": null,
+                    "End_comercial_endereco": "  ",
+                    "End_comercial_numero": null,
+                    "End_comercial_complemento": null,
+                    "End_comercial_cep": null,
+                    "End_comercial_bairro": null,
+                    "End_comercial_cidade": null,
+                    "End_comercial_estado": null,
+                    "Cpf_usuario": null,
+                    "Rg_usuario": null,
+                    "responsavel_financeiro": null,
+                    "equipe": "Educadora",
+                    "filho_ativo": 0
+                }
+            ],
             "imagens": null,
             "reuniao": null,
             "agenda": null,

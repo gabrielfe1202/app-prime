@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Kid {
 
     public Idt_Cri_Crianca: number | null;
@@ -32,7 +34,7 @@ export class Kid {
     public ativo_sim: boolean | null;
     public titulos: string | null;
     public pais: string | null;
-    public educadoras: any[]; // Ajuste conforme a estrutura de educadoras
+    public educadoras: User[];
     public imagens: string | null;
     public reuniao: string | null;
     public agenda: string | null;

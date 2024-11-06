@@ -29,7 +29,6 @@ export default function Home() {
             const title = await DI.titles.GetTitles();
             setKidInfo(data);
             setTitles(title)
-            console.log(title)
         } catch (err) {
             console.error(err);
         } finally {
@@ -90,11 +89,11 @@ export default function Home() {
                             </View>
                             <Text style={[styles.texto_dados, { fontWeight: '800' }]}>{kidInfo?.data_formata}</Text>
                             <Text style={[styles.texto_dados, {}]}>Educadoras:</Text>
-                            {/*educadoras.map((item: any) => {
-                                    return (
-                                        <Text style={[styles.texto_dados, styles.educadora]}>{item.Nom_usuario}</Text>
-                                    )
-                                })*/}
+                            {kidInfo?.educadoras.map(item => {
+                                return (
+                                    <Text style={[styles.texto_dados, styles.educadora]}>{item.name}</Text>
+                                )
+                            })}
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={[styles.texto_dados]}>Supervisão: <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 8 }]}>Christine Bruder</Text></Text>
                             </View>
