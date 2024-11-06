@@ -91,7 +91,7 @@ export default function Home() {
                             <Text style={[styles.texto_dados, {}]}>Educadoras:</Text>
                             {kidInfo?.educadoras.map(item => {
                                 return (
-                                    <Text style={[styles.texto_dados, styles.educadora]}>{item.name}</Text>
+                                    <Text key={item.id.toString()} style={[styles.texto_dados, styles.educadora]}>{item.name}</Text>
                                 )
                             })}
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -125,26 +125,14 @@ export default function Home() {
                             titles
                                 .filter(x => x.menu == 2)
                                 .map((item: any) => {
-                                    if (item.grafico != 1 && item.Idt_titulo != 5 && item.Idt_titulo != 6) {
-                                        if (item.menu == 1) {
-                                            return (
-                                                <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#96989A', justifyContent: 'center', alignItems: 'center' }]} onPress={() => { }}>
-                                                    <Text style={[styles.texto_titulo]}>
-                                                        {item.titulo}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            )
-                                        } else {
-                                            return (
-                                                <TouchableOpacity key={item.Idt_titulo} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => { }}>
-                                                    <Image style={styles.imagem_titulo} source={{ uri: item.imagem }} resizeMode='contain' />
-                                                    <Text style={styles.texto_titulo}>
-                                                        {item.titulo}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            )
-                                        }
-                                    }
+                                    return (
+                                        <TouchableOpacity key={item.Idt_titulo.toString()} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => { }}>
+                                            <Image style={styles.imagem_titulo} source={{ uri: item.imagem }} resizeMode='contain' />
+                                            <Text style={styles.texto_titulo}>
+                                                {item.titulo}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )
                                 })}
 
 

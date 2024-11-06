@@ -63,8 +63,6 @@ export class KidController {
         const kid = new Kid();      
         const result = requestShape.safeParse(this.data);
 
-        console.log(result)
-
         if (result.error) return kid;
 
         kid.populate(result.data.crianca)

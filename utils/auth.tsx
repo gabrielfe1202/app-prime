@@ -5,7 +5,6 @@ import { DI } from '@/controllers/DI';
 import { delay } from './delay';
 import { Loading } from '@/components/Loading';
 
-// Tipo para o componente envolvido pelo decorador
 type AuthComponentProps = {
     children?: ReactNode;
 };
@@ -20,12 +19,11 @@ export function withAuthCheck<P extends AuthComponentProps>(WrappedComponent: Co
             const checkAuth = async () => {
                 delay(1500).then(async () => {
                     try {
-
                         const authenticated = await DI.user.isAuthenticated();
                         setIsAuthenticated(authenticated);
                     } catch (error) {
                         console.error('Error checking authentication', error);
-                        setIsAuthenticated(false); // Caso erro, assumimos que não está autenticado
+                        setIsAuthenticated(false); 
                     } finally {
                         setIsLoading(false);
                     }
@@ -33,18 +31,17 @@ export function withAuthCheck<P extends AuthComponentProps>(WrappedComponent: Co
             };
 
             checkAuth();
-        }, []); // Apenas rodar uma vez, na montagem do componente
+        }, []); 
 
         if (isLoading) {
-            return <Loading />; // Você pode substituir por uma tela de carregamento ou algo do tipo
+            return <Loading />;
         }
 
         if (!isAuthenticated) {
-            router.replace('/login'); // Redireciona para a página de login
-            return null; // Não renderiza o componente se não estiver autenticado
+            router.replace('/login');
+            return null; 
         }
 
-        // Se estiver autenticado, renderiza o componente original
         return <WrappedComponent {...props} />;
     }
 }
