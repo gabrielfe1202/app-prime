@@ -51,6 +51,8 @@ export class GoalStep {
 
   image!: string | null;
 
+  order!: number | null;
+
   asnwers: GoalStepAnswer[] = [];
 }
 
