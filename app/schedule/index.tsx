@@ -23,8 +23,7 @@ function Schedule() {
     const fetchScheduleInfos = async () => {
         setStateload(true)
         try {
-            const data = await DI.schedule.getConfigSchedule();
-            console.log(data.datesAvailable)
+            const data = await DI.schedule.getConfigSchedule();            
             setMarkedDates(data.datesAvailable)
             setInitDate(data.initialDate())
         } catch (err) {
