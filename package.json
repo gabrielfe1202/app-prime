@@ -26,9 +26,11 @@
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
+    "lottie-react-native": "6.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-calendars": "^1.1307.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-pager-view": "6.3.0",
@@ -37,8 +39,7 @@
     "react-native-screens": "3.31.1",
     "react-native-web": "~0.19.10",
     "zod": "^3.23.8",
-    "zustand": "^5.0.1",
-    "lottie-react-native": "6.7.0"
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
