@@ -3,9 +3,12 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Image } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../../assets/images/logo-prime.png"
+import goalStyles from './goalStyle'
+import globalStyles from "../globalStyle"
 
 export default function Ending() {
   const router = useRouter();
@@ -24,31 +27,37 @@ export default function Ending() {
     });
   }
 
+
+
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={{ flex: 1, gap: 32, paddingTop: 32 }}>
-        <Text style={{ fontSize: 24, color: 'white', paddingHorizontal: 24 }}>Conclusão</Text>
+
+        <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
+          <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+        </TouchableOpacity>
 
         <SingleViewPager
           onPrevious={handlePrevious}
           renderItem={() => (
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 8,
-                borderWidth: 1,
-                borderColor: 'gray',
-                marginHorizontal: 24,
-              }}
-            >
-              <TouchableOpacity onPress={handlePrevious}>
-                <Text style={{ fontSize: 18, color: 'white' }}>
-                  {"<- Voltar"}
+            <View key={'intro'} style={{ flex: 1, alignItems: "center" }}>
+              <View
+                style={goalStyles.introContainer}
+              >
+                <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
+                  Considerações finais
                 </Text>
-              </TouchableOpacity>
+                <View style={{ paddingTop: 25, flex: 1 }}>
+                  <Text style={goalStyles.texto_dados}>
+                    teste
+                  </Text>
+                </View>
+              </View>
             </View>
           )}
         />
+
+        <View style={{ height: 70 }} />
 
         <GoalBottomTab onGotoPage={handleGoToGoal} />
       </SafeAreaView>
