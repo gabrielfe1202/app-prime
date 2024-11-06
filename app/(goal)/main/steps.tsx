@@ -87,7 +87,7 @@ function Main({ goal }: Props) {
               <Text style={styles.passo_texto}>
                   {step.description}
               </Text>
-              {!isNullOrEmpty(step.image) && -(
+              {!isNullOrEmpty(step.image) && (
                   <Image source={{ uri: step.image! }} style={{ width: width * 0.5, height: width * 0.45, maxWidth: 250, maxHeight: 250 }} resizeMode='contain' />
               )}
           </View>
