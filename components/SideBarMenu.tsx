@@ -15,7 +15,7 @@ interface SideBarProps {
 
 export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const translateX = useSharedValue(-300);
-    const [modalVisible, setModalVisible] = useState<boolean>(true)
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [user, setUser] = useState<User>()
 
     const fetchuserInformation = async () => {
