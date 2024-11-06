@@ -60,5 +60,9 @@ export class GoalStepAnswer {
   description!: string;
 
   date_label!: string;
+
+  userName!: string | null;
+
+  weeks!: string | null;
 }
 

@@ -95,13 +95,13 @@ function Main({ goal }: Props) {
                   <View key={answer.id} style={[styles.passo, { borderColor: details.data?.color }]}>
                       <Text style={[styles.passo_data, { color: '#505050' }]}>
                           {answer.date_label} {'\n'}
-                          {/*answer.semanas*/}
+                          {answer.weeks}
                       </Text>
                       <Text style={styles.passo_texto}>
                           {answer.description}
                       </Text>
                       <Text style={[styles.autor_resposta, { color: details.data?.color }]}>
-                          {/*answer.nom_usuario*/}
+                          {answer.userName}
                       </Text>
                   </View>
               )

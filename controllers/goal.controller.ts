@@ -27,6 +27,8 @@ export class GoalController {
                   Idt_passo_resposta: z.number(),
                   texto: z.string(),
                   data_formatada: z.string(),
+                  nom_usuario: z.string().nullable(),
+                  semanas: z.string().nullable(),
                 }),
               ),
             }),
@@ -67,6 +69,8 @@ export class GoalController {
           goalStepAsnwer.id = String(_resposta.Idt_passo_resposta);
           goalStepAsnwer.date_label = _resposta.data_formatada;
           goalStepAsnwer.description = _resposta.texto;
+          goalStepAsnwer.userName = _resposta.nom_usuario;
+          goalStepAsnwer.weeks = _resposta.semanas;
 
           return goalStepAsnwer;
         });
