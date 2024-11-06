@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import homeImage from "../assets/images/home.png"
 import menuImage from "../assets/images/menu.png"
 import { DI } from "@/controllers/DI";
+import { SideBarMenu } from "./SideBarMenu";
 const { width, height } = Dimensions.get('screen');
 
 export type GroupedGoal = {
@@ -31,6 +32,9 @@ export function GoalBottomTab({ onGotoPage }: Props) {
   const { goalVPRef, goals } = useGoal();
   const [titles, setTitles] = useState<GoalTitle[]>()
   const goalsState = asyncArrayToState(goals);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const closeModal = () => setModalVisible(false);
 
   const groupedGoals = useMemo((): GroupedGoal[] => {
     return groupGoalsByColor(goalsState)
@@ -59,31 +63,36 @@ export function GoalBottomTab({ onGotoPage }: Props) {
 
 
   return (
-    <View style={footerStyles.container} >
-      <TouchableOpacity onPress={() => { router.replace('/(home)') }} >
-        <Image source={homeImage} style={footerStyles.icones} resizeMode='contain' />
-      </TouchableOpacity>
+    <>
 
-      <View style={{ flexDirection: "row" }}>
-        {titles &&
-          titles
-            .filter(x => x.menu == 1)
-            .map((item, index) => {
-              if (item.imagem_app != null && item.imagem_app != '') {
-                return (
-                  <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
-                    <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
-                  </TouchableOpacity>
-                )
-              }
-            })
-        }
+      <SideBarMenu visible={modalVisible} onClose={closeModal} />
+
+      <View style={footerStyles.container} >
+        <TouchableOpacity onPress={() => { router.replace('/(home)') }} >
+          <Image source={homeImage} style={footerStyles.icones} resizeMode='contain' />
+        </TouchableOpacity>
+
+        <View style={{ flexDirection: "row" }}>
+          {titles &&
+            titles
+              .filter(x => x.menu == 1)
+              .map((item, index) => {
+                if (item.imagem_app != null && item.imagem_app != '') {
+                  return (
+                    <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
+                      <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
+                    </TouchableOpacity>
+                  )
+                }
+              })
+          }
+        </View>
+
+        <TouchableOpacity onPress={() => setModalVisible(true)} >
+          <Image source={menuImage} style={footerStyles.icones} resizeMode='contain' />
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity onPress={() => { }} >
-        <Image source={menuImage} style={footerStyles.icones} resizeMode='contain' />
-      </TouchableOpacity>
-    </View>
+    </>
   )
 
   return (

@@ -2,7 +2,7 @@ import { User } from "@/entities/user";
 import { z } from 'zod'
 
 export class UserController {
-    async getUserInformations(): Promise<User | null> {
+    async getUserInformations(): Promise<User> {
         const userSchema = z.object({
             Idt_usuario: z.number(),
             Nom_usuario: z.string(),
@@ -10,15 +10,20 @@ export class UserController {
             Img_usuario: z.string().nullable()
         });
 
-        const result = userSchema.safeParse(this.data);        
+        const requestSchema = z.object({
+            usuario: userSchema
+        })
 
-        if (result.error) return null;
+        const result = requestSchema.safeParse(this.data);        
 
         const user = new User()
-        user.id = result.data.Idt_usuario;
-        user.name = result.data.Nom_usuario;
-        user.email = result.data.Nom_login;
-        user.imageUser = result.data.Img_usuario;
+        
+        if (result.error) return user;
+
+        user.id = result.data.usuario.Idt_usuario;
+        user.name = result.data.usuario.Nom_usuario;
+        user.email = result.data.usuario.Nom_login;
+        user.imageUser = result.data.usuario.Img_usuario;
 
         return user;
     }
