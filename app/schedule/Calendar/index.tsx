@@ -19,11 +19,6 @@ interface CalendarComponentProps {
 
 export function CalendarComponent({ markedDates, onDayPress }: CalendarComponentProps) {
     const [day, setDay] = useState<DateData>()
-    const [shadowOffsetWidth, setShadowOffsetWidth] = useState(10);
-    const [shadowOffsetHeight, setShadowOffsetHeight] = useState(10);
-    const [shadowRadius, setShadowRadius] = useState(10);
-    const [shadowOpacity, setShadowOpacity] = useState(1);
-
 
     return (
         <View style={styles.container}>
