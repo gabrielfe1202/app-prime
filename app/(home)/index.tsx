@@ -133,7 +133,8 @@ export default function Home() {
                                             </Text>
                                         </TouchableOpacity>
                                     )
-                                })}
+                                })
+                        }
 
 
                         <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#999999', alignItems: 'center', width: width * 0.9 }]} onPress={() => { router.push('/intro') }}>
