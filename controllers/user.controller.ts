@@ -1,6 +1,5 @@
-import { GoalTitle } from "@/entities/goal";
 import { User } from "@/entities/user";
-import { Primitive, z } from 'zod'
+import { z } from 'zod'
 
 export class UserController {
     async getUserInformations(): Promise<User | null> {
@@ -25,7 +24,7 @@ export class UserController {
     }
 
     async isAuthenticated(): Promise<boolean> {
-        return false
+        return true
     }
 
     private data = {

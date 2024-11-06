@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { DI } from '@/controllers/DI';
 import { delay } from './delay';
+import { Loading } from '@/components/Loading';
 
 // Tipo para o componente envolvido pelo decorador
 type AuthComponentProps = {
@@ -35,7 +36,7 @@ export function withAuthCheck<P extends AuthComponentProps>(WrappedComponent: Co
         }, []); // Apenas rodar uma vez, na montagem do componente
 
         if (isLoading) {
-            return <Text>Loading...</Text>; // Você pode substituir por uma tela de carregamento ou algo do tipo
+            return <Loading />; // Você pode substituir por uma tela de carregamento ou algo do tipo
         }
 
         if (!isAuthenticated) {
