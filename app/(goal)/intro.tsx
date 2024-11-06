@@ -39,7 +39,7 @@ function Intro() {
         <SingleViewPager
           onNext={handleNext}
           renderItem={() => (
-            <View style={{ flex: 1, alignItems: "center" }}>
+            <View key={'intro'} style={{ flex: 1, alignItems: "center" }}>
               <View
                 style={goalStyles.introContainer}
               >
