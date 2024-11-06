@@ -13,6 +13,7 @@ import fotos from "../../assets/images/fotos.png"
 import globalStyles from "../globalStyle"
 import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
+import { BottomTab } from "@/components/BottomTab";
 const { width, height } = Dimensions.get('screen');
 
 export default function Home() {
@@ -149,6 +150,7 @@ export default function Home() {
 
                 </ScrollView>
 
+                <BottomTab />
 
             </SafeAreaView>
 
