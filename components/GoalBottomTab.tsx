@@ -71,7 +71,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
             .map((item, index) => {
               if (item.imagem_app != null && item.imagem_app != '') {
                 return (
-                  <TouchableOpacity onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
+                  <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
                     <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
                   </TouchableOpacity>
                 )

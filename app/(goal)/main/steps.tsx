@@ -92,7 +92,7 @@ function Main({ goal }: Props) {
           </View>
           {step.asnwers.map(answer => {
               return (
-                  <View style={[styles.passo, { borderColor: details.data?.color }]}>
+                  <View key={answer.id} style={[styles.passo, { borderColor: details.data?.color }]}>
                       <Text style={[styles.passo_data, { color: '#505050' }]}>
                           {answer.date_label} {'\n'}
                           {/*answer.semanas*/}
