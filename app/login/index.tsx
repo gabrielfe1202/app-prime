@@ -35,25 +35,7 @@ export default function Intro() {
           <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
         </TouchableOpacity>
 
-        <SingleViewPager
-          onNext={handleNext}
-          renderItem={() => (
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <View
-                style={goalStyles.introContainer}
-              >
-                  <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
-                    Introdução teste
-                  </Text>
-                  <View style={{ paddingTop: 25, flex: 1 }}>                    
-                      <Text style={goalStyles.texto_dados}>
-                        teste
-                      </Text>                    
-                  </View>                
-              </View>
-            </View>
-          )}
-        />
+        <Text>Login</Text>
 
         <View style={{height: 70}} />
 
