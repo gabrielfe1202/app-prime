@@ -15,9 +15,10 @@ LocaleConfig.defaultLocale = "pt-br"
 interface CalendarComponentProps {
     markedDates: string[];
     onDayPress: (day: DateData) => void;
+    initDate: string;
 }
 
-export function CalendarComponent({ markedDates, onDayPress }: CalendarComponentProps) {
+export function CalendarComponent({ markedDates, onDayPress, initDate }: CalendarComponentProps) {
     const [day, setDay] = useState<DateData>()
 
     return (
@@ -33,11 +34,11 @@ export function CalendarComponent({ markedDates, onDayPress }: CalendarComponent
                             height: 5,
                         },
                         shadowOpacity: 0.36,
-                        shadowRadius: 6.68,
-                        
+                        shadowRadius: 6.68,                        
                         elevation: 11,
                     },
                 ]}
+                initialDate={initDate}
                 renderArrow={(direction: "right" | "left") => (
                     <Feather size={24} color="#515151" name={`chevron-${direction}`} />
                 )}

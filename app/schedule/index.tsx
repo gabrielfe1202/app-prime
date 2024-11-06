@@ -9,6 +9,7 @@ const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
     const markedDates = ['2024-11-07', '2024-11-08', '2024-11-09'];
+    const initDate = "2024-11-01";
     const [selectedDate, setSelectedDate] = useState<DateData>()
 
     const handleDayPress = (date: DateData) => {
@@ -24,7 +25,7 @@ function Schedule() {
             </TouchableOpacity>
 
             <View style={{}}>
-                <CalendarComponent markedDates={markedDates} onDayPress={handleDayPress} />
+                <CalendarComponent markedDates={markedDates} onDayPress={handleDayPress} initDate={initDate} />
             </View>
 
             <View>
