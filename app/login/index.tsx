@@ -6,12 +6,11 @@ import { useRouter } from "expo-router";
 import { Text, View, Image } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import goalStyles from "./goalStyle"
+import goalStyles from "../(goal)/goalStyle"
 import globalStyles from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
-import { withAuthCheck } from "@/utils/auth";
 
-function Intro() {
+export default function Intro() {
   const router = useRouter();
   const { goalVPRef } = useGoal();
 
@@ -44,7 +43,7 @@ function Intro() {
                 style={goalStyles.introContainer}
               >
                   <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
-                    Introdução
+                    Introdução teste
                   </Text>
                   <View style={{ paddingTop: 25, flex: 1 }}>                    
                       <Text style={goalStyles.texto_dados}>
@@ -63,5 +62,3 @@ function Intro() {
     </GestureHandlerRootView>
   )
 }
-
-export default withAuthCheck(Intro);
