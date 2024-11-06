@@ -1,5 +1,6 @@
-import { ScheduleConfigs } from "@/entities/schedule";
+import { ScheduleConfigs, ScheduleTimes } from "@/entities/schedule";
 import { User } from "@/entities/user";
+import { DateData } from "react-native-calendars";
 import { z } from 'zod'
 
 export class ScheduleController {
@@ -46,6 +47,34 @@ export class ScheduleController {
         }
     }
 
+    async getTimesFromDate(date: DateData): Promise<ScheduleTimes[]> {        
+        const timeSchema = z.object({
+            Idt_age_horario: z.number(),
+            data: z.string(),
+            data_formata: z.string(),
+        })
+
+        const requestSchema = z.object({
+            horarios: z.array(timeSchema)
+        });
+
+        const result = requestSchema.safeParse(this.dataTimes);
+
+        if(result.error) return [];
+
+        const times = result.data.horarios.map(_horario => {
+            const time = new ScheduleTimes()
+
+            time.id = _horario.Idt_age_horario;
+            time.date = _horario.data;
+            time.dateLabel = _horario.data_formata;
+
+            return time
+        })
+
+        return times
+    }
+
     private data = {
         "datas": [
             "2024-09-11",
@@ -69,6 +98,51 @@ export class ScheduleController {
             "data_ativa_formatada": "27/11/2023 às 10:37",
             "data_agendada": null
         }
+    }
+
+    private dataTimes = {
+        "datas": [
+            "2024-09-11",
+            "2024-09-23",
+            "2024-09-26"
+        ],
+        "horarios": [
+            {
+                "Idt_age_horario": 34,
+                "data": "2024-09-11T08:30:00",
+                "data_formata": "11/09/2024 às 08:30",
+                "Idt_Cri_Crianca": null,
+                "nom_cri": null
+            },
+            {
+                "Idt_age_horario": 34,
+                "data": "2024-09-11T08:30:00",
+                "data_formata": "11/09/2024 às 08:30",
+                "Idt_Cri_Crianca": null,
+                "nom_cri": null
+            },
+            {
+                "Idt_age_horario": 34,
+                "data": "2024-09-11T08:30:00",
+                "data_formata": "11/09/2024 às 08:30",
+                "Idt_Cri_Crianca": null,
+                "nom_cri": null
+            },
+            {
+                "Idt_age_horario": 34,
+                "data": "2024-09-11T08:30:00",
+                "data_formata": "11/09/2024 às 08:30",
+                "Idt_Cri_Crianca": null,
+                "nom_cri": null
+            },
+            {
+                "Idt_age_horario": 34,
+                "data": "2024-09-11T08:30:00",
+                "data_formata": "11/09/2024 às 08:30",
+                "Idt_Cri_Crianca": null,
+                "nom_cri": null
+            },
+        ]
     }
 
 }

@@ -1,21 +1,24 @@
-import { SafeAreaView, Text, View, Dimensions, TouchableOpacity, Image } from "react-native";
+import { SafeAreaView, Text, View, Dimensions, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CalendarComponent } from "./Calendar";
 import { withAuthCheck } from "@/utils/auth";
 import { DateData } from "react-native-calendars";
 import { useEffect, useState } from "react";
-import globalStyles from "../globalStyle"
+import globalStyles, { colors, fonts } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { DI } from "@/controllers/DI";
 import { delay } from "@/utils/delay";
 import { Loading } from "@/components/Loading";
+import { ScheduleTimes } from "@/entities/schedule";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+import { BottomTab } from "@/components/BottomTab";
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
-    const markedDates1 = ['2024-11-07', '2024-11-08', '2024-11-09'];
-    const [ markedDates, setMarkedDates ] = useState<string[]>([])
+    const [markedDates, setMarkedDates] = useState<string[]>([])
     const initDate = "2024-11-01";
     const [selectedDate, setSelectedDate] = useState<DateData>()
     const [stateload, setStateload] = useState<boolean>(true);
+    const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
 
     const fetchScheduleInfos = async () => {
         setStateload(true)
@@ -36,35 +39,105 @@ function Schedule() {
         fetchScheduleInfos();
     }, []);
 
-    const handleDayPress = (date: DateData) => {
-        setSelectedDate(date)
+    const handleDayPress = async (date: DateData) => {
+        setSelectedDate(date);
+        const times = await DI.schedule.getTimesFromDate(date);
+        setDateTimes(times)
     }
 
-    if(stateload){
-        return(
+    if (stateload) {
+        return (
             <Loading />
         )
     }
 
     return (
-        <SafeAreaView
-            style={{ flex: 1, paddingTop: 32 }}
-        >
-            <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
-                <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
-            </TouchableOpacity>
+        <GestureHandlerRootView>
+            <SafeAreaView
+                style={{ flex: 1, paddingTop: 32 }}
+            >
+                <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
+                    <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+                </TouchableOpacity>
 
-            <View style={{}}>
-                <CalendarComponent markedDates={markedDates} onDayPress={handleDayPress} initDate={initDate} />
-            </View>
+                <View style={{}}>
+                    <CalendarComponent markedDates={markedDates} onDayPress={handleDayPress} initDate={initDate} />
+                </View>
 
-            <View>
-                <Text>data: {selectedDate?.dateString}</Text>
-            </View>
+                <View style={styles.timesContainer}>
 
-        </SafeAreaView>
+                    <Text style={styles.titleTimes}>Horários:</Text>
+
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ gap: 15, paddingBottom: 45 }}
+                    >
+                        {dateTimes.map((time, index) => (
+                            <View
+                                key={index}
+                                style={[
+                                    styles.times,
+                                    {
+                                        shadowColor: "#000",
+                                        shadowOffset: {
+                                            width: 2,
+                                            height: 1,
+                                        },
+                                        shadowOpacity: 0.36,
+                                        shadowRadius: 5.68,
+                                        elevation: 3,
+                                    },
+                                ]}
+                            >
+                                <Text>{time.dateLabel}</Text>
+                                <TouchableOpacity style={styles.timesBtn} onPress={() => { }}>
+                                    <Text>Reservar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </ScrollView>
+                </View>
+
+                <View style={{ height: 60 }} />
+
+                <BottomTab />
+
+            </SafeAreaView>
+        </GestureHandlerRootView>
     )
 }
 
 
 export default withAuthCheck(Schedule)
+
+const styles = StyleSheet.create({
+    timesContainer: {
+        flex: 1,
+        alignItems: "center"
+    },
+    titleTimes: {
+        width: width * 0.9,
+        fontSize: 25,
+        fontWeight: "bold",
+        fontFamily: fonts.passoTitulo,
+        color: colors.laranja,
+        paddingBottom: 15
+    },
+    times: {
+        width: width * 0.9,
+        backgroundColor: 'white',
+        paddingVertical: 15,
+        paddingHorizontal: 25,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#bfbfbf',
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    timesBtn: {
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        backgroundColor: colors.laranja,
+        borderRadius: 7
+    }
+})

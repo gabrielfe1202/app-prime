@@ -7,3 +7,11 @@ export class ScheduleConfigs {
 
     datesAvailable: string[] = []
 }
+
+export class ScheduleTimes {
+    id!:  number
+
+    date!: string;
+
+    dateLabel!: string
+}
