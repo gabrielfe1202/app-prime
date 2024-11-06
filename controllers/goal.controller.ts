@@ -22,6 +22,7 @@ export class GoalController {
             z.object({
               Idt_passo: z.number(),
               texto: z.string(),
+              imagem: z.string().nullable(),
               des_Passos_Respostas: z.array(
                 z.object({
                   Idt_passo_resposta: z.number(),
@@ -61,6 +62,7 @@ export class GoalController {
         goalStep.$clientId = randomID(16);
         goalStep.id = String(_passo.Idt_passo);
         goalStep.description = _passo.texto;
+        goalStep.image = _passo.imagem;
 
         goalStep.asnwers = _passo.des_Passos_Respostas.map(_resposta => {
           const goalStepAsnwer = new GoalStepAnswer();

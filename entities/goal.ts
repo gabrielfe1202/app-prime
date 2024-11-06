@@ -49,6 +49,8 @@ export class GoalStep {
 
   description!: string;
 
+  image!: string | null;
+
   asnwers: GoalStepAnswer[] = [];
 }
 

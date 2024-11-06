@@ -5,6 +5,7 @@ import { useGoal } from "@/contexts/goal-context";
 import { DI } from "@/controllers/DI";
 import { Goal, GoalStep } from "@/entities/goal";
 import { delay } from "@/utils/delay";
+import { isNullOrEmpty } from "@/utils/stringFunctions";
 import { asyncArrayToState, useAsync } from "@/utils/use-async";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, Image, Dimensions, StyleSheet } from "react-native";
@@ -86,9 +87,9 @@ function Main({ goal }: Props) {
               <Text style={styles.passo_texto}>
                   {step.description}
               </Text>
-              {/*step.imagem != null && (
-                  <Image source={{ uri: step.imagem }} style={{ width: width * 0.5, height: width * 0.45, maxWidth: 250, maxHeight: 250 }} resizeMode='contain' />
-              )*/}
+              {!isNullOrEmpty(step.image) && -(
+                  <Image source={{ uri: step.image! }} style={{ width: width * 0.5, height: width * 0.45, maxWidth: 250, maxHeight: 250 }} resizeMode='contain' />
+              )}
           </View>
           {step.asnwers.map(answer => {
               return (
