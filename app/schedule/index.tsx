@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
     const [markedDates, setMarkedDates] = useState<string[]>([])
-    const initDate = "2024-11-01";
+    const [initDate, setInitDate] = useState<string>('')
     const [selectedDate, setSelectedDate] = useState<DateData>()
     const [stateload, setStateload] = useState<boolean>(true);
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
@@ -26,6 +26,7 @@ function Schedule() {
             const data = await DI.schedule.getConfigSchedule();
             console.log(data.datesAvailable)
             setMarkedDates(data.datesAvailable)
+            setInitDate(data.initialDate())
         } catch (err) {
             console.error(err);
         } finally {

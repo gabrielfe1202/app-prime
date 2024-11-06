@@ -36,6 +36,8 @@ export class ScheduleController {
         configs.id = result.data.agenda.Idt_agenda_config;
         configs.startTime = result.data.agenda.horario_inicio;
         configs.endTime = result.data.agenda.horario_fim;
+        configs.year = result.data.agenda.ano;
+        configs.month = result.data.agenda.mes;
         configs.datesAvailable = result.data.datas;
 
         return configs;
@@ -77,9 +79,6 @@ export class ScheduleController {
 
     private data = {
         "datas": [
-            "2024-09-11",
-            "2024-09-23",
-            "2024-09-26",
             "2024-11-09",
             "2024-11-12",
         ],
@@ -88,7 +87,7 @@ export class ScheduleController {
             "horario_inicio": "07:00:00",
             "horario_fim": "19:00:00",
             "hora_intervalo": "00:15:00",
-            "mes": "09",
+            "mes": "11",
             "ano": "2024",
             "data_ativa": "2023-11-27T10:37:23",
             "limite_datas": null,
