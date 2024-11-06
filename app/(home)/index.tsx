@@ -102,10 +102,10 @@ export default function Home() {
 
                     <View style={{ width: width * 0.9, flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 
-                        <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#FFC300', alignItems: 'center' }]} onPress={() => { }}>
+                        <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#FFC300', alignItems: 'center' }]} onPress={() => router.replace('/schedule')}>
                             <Image style={styles.imagem_titulo} source={agendaImage} resizeMode='contain' />
                             <Text style={[styles.texto_titulo, { textAlign: 'center' }]}>
-                                age
+                                {'Agendar\nreunião'}
                             </Text>
                         </TouchableOpacity>
 
