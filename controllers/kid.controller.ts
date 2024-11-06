@@ -1,6 +1,6 @@
-import { Kid } from "@/entities/kid";
+import { Kid, KidImage } from "@/entities/kid";
 import { User } from "@/entities/user";
-import { z } from 'zod'
+import { number, z } from 'zod'
 
 export class KidController {
     async kidInformations(): Promise<Kid> {
@@ -77,6 +77,40 @@ export class KidController {
         })
         
         return kid;
+
+    }
+
+    async getImagesGallery(): Promise<KidImage[]> {
+        const imageShape = z.object({
+            Idt_Cri_Imagem: z.number(),                    
+            link: z.string(),
+            link_media: z.string(),
+            link_pequena: z.string(),                        
+            ano: z.string(),
+        })
+
+        const requestShape = z.object({
+            ano: z.array(z.string()),
+            imagens: z.array(imageShape)
+        })
+
+        const result = requestShape.safeParse(this.dataImages)
+
+        if(result.error) return []
+
+        const images = result.data.imagens.map(_img => {
+            const image = new KidImage()
+
+            image.id = _img.Idt_Cri_Imagem;
+            image.link = _img.link;
+            image.linkMedium = _img.link_media;
+            image.linkSmall = _img.link_pequena;
+            image.year = _img.ano;
+
+            return image
+        })
+
+        return images
 
     }
 
@@ -172,5 +206,61 @@ export class KidController {
             "contratos": 0,
             "contratos_m": 0
         }
+    }
+
+    private dataImages = {
+        "ano": [
+            "2018-02"
+        ],
+        "imagens": [
+            {
+                "Idt_Cri_Imagem": 102321,
+                "Idt_Cri_Crianca": null,
+                "ordem": null,
+                "link": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/grande/10320151140174.jpg",
+                "link_media": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140174.jpg",
+                "link_pequena": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/pequena/10320151140174.jpg",
+                "rotulo": null,
+                "data": "2018-08-21T18:27:35",
+                "ano": "2018-02",
+                "publicar": null,
+                "publicados": null,
+                "nao_publi": null,
+                "nom_pasta": null,
+                "agora": null
+            },
+            {
+                "Idt_Cri_Imagem": 102323,
+                "Idt_Cri_Crianca": null,
+                "ordem": null,
+                "link": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/grande/10320151140173.jpg",
+                "link_media": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140173.jpg",
+                "link_pequena": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/pequena/10320151140173.jpg",
+                "rotulo": null,
+                "data": "2018-08-21T18:27:31",
+                "ano": "2018-02",
+                "publicar": null,
+                "publicados": null,
+                "nao_publi": null,
+                "nom_pasta": null,
+                "agora": null
+            },
+            {
+                "Idt_Cri_Imagem": 102325,
+                "Idt_Cri_Crianca": null,
+                "ordem": null,
+                "link": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/grande/10320151140176.jpg",
+                "link_media": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140176.jpg",
+                "link_pequena": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/pequena/10320151140176.jpg",
+                "rotulo": null,
+                "data": "2018-08-27T18:27:15",
+                "ano": "2018-02",
+                "publicar": null,
+                "publicados": null,
+                "nao_publi": null,
+                "nom_pasta": null,
+                "agora": null
+            }
+        ]
     }
 }

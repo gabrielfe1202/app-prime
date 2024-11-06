@@ -137,5 +137,16 @@ export class Kid {
         this.contratos_m = validatedData.contratos_m;
     }
 
-  }
-  
+}
+
+export class KidImage {
+    id!: number;
+
+    link!: string;
+
+    linkMedium!: string;
+
+    linkSmall!: string;
+
+    year!: string;
+}
