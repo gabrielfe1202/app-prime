@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 
 import { GoalBottomTab } from '@/components/GoalBottomTab';
 import { ViewPager } from '@/components/ViewPager/ViewPager';
@@ -41,8 +41,12 @@ export default function Layout() {
   }
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView>      
       <View style={styles.container}>
+      <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20 }}
+          showsVerticalScrollIndicator={false}
+      >
         {goals.state === 'LOADING' && <Text>Carregando Objetivos</Text>}
         {goals.state === 'SUCCESS' && (
           <View style={{ height: 126 + 128, gap: 16 }}>
@@ -102,10 +106,13 @@ export default function Layout() {
           </View>
         )}
 
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, width, height }}>
           <Steps />
         </View>
 
+          <View style={{height: 70}} />
+
+        </ScrollView>
         <GoalBottomTab />
       </View>
     </GestureHandlerRootView>

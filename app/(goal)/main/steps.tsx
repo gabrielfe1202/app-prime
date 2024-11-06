@@ -82,7 +82,7 @@ function Main({ goal }: Props) {
           styles.passo_container,
           { width, flex: 1, justifyContent: 'flex-start' },          
       ]}>
-          <View style={{ padding: 10, backgroundColor: details.data?.color, borderRadius: 5, }}>
+          <View style={{ padding: 10, backgroundColor: details.data?.color, borderRadius: 5, marginBottom: -15 }}>
               <Text style={{ fontSize: 16, color: '#fff', fontFamily: fonts.textoResposta }}>Passo {step.id}</Text>
           </View>
           <View style={[styles.passo, { borderColor: details.data?.color }]}>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       padding: 20,
       alignItems: 'center',
-      marginTop: -5
+      marginTop: 2      
   },
   passo_texto: {
       textAlign: 'center',
