@@ -9,7 +9,7 @@ import { asyncArrayToState } from '@/utils/use-async';
 import { useRouter, Link } from 'expo-router';
 import { Steps } from './steps';
 import { Goal } from '@/entities/goal';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen');
 
 export default function Layout() {
@@ -41,76 +41,88 @@ export default function Layout() {
   }
 
   return (
-    <GestureHandlerRootView>      
+    <GestureHandlerRootView>
       <View style={styles.container}>
-      <ScrollView
+        <ScrollView
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20 }}
           showsVerticalScrollIndicator={false}
-      >
-        {goals.state === 'LOADING' && <Text>Carregando Objetivos</Text>}
-        {goals.state === 'SUCCESS' && (
-          <View style={{ height: 126 + 128, gap: 16 }}>
-            {selectedGoal.state && (
-              <View style={{ paddingHorizontal: 24 }}>
-                <Text
-                  style={{ color: selectedGoal.state.color, fontSize: 32, textAlign: 'center' }}
-                >
-                  {selectedGoal.state.title}
-                </Text>
-              </View>
-            )}
-
-            <ViewPager
-              ref={goalVPRef}
-              data={goalsState}
-              style={{ maxHeight: 126, width }}
-              renderItem={item => (
-                <View key={item.id} style={{flex: 1, alignItems: 'center'}}>
-                  <View style={[styles.dados, {
-                    backgroundColor: item.color,
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
-                  },
-                  { borderRadius: 20, borderTopEndRadius: 20, borderTopStartRadius: 20, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }]}>
-                    <TouchableOpacity
-                      style={[styles.accordionHeader, { maxWidth: '100%' }]}
-                      onPress={() => handleModal(item)}
-                    >
-                      <Text style={[styles.texto_dados, { paddingBottom: 10, fontWeight: '800', /*fontFamily: fonts.passoTitulo,*/ width: '85%' }]}>{item.description}</Text>
-                      <Entypo name={"plus"} size={38} color="white" style={[{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: -10, marginLeft: 5 }]} />
-                    </TouchableOpacity>
-                  </View>
+        >
+          {goals.state === 'LOADING' && <Text>Carregando Objetivos</Text>}
+          {goals.state === 'SUCCESS' && (
+            <View style={{ height: 126 + 128, gap: 16 }}>
+              {selectedGoal.state && (
+                <View style={{ paddingHorizontal: 24 }}>
+                  <Text
+                    style={{ color: selectedGoal.state.color, fontSize: 32, textAlign: 'center' }}
+                  >
+                    {selectedGoal.state.title}
+                  </Text>
                 </View>
               )}
-              onChange={onChangeSelection}
-              onReachTail={handleReachTail}
-              onReachHead={handleReachHead}
-              renderHead={() => <Text style={{ color: 'white', fontSize: 24 }}>Introdução</Text>}
-              renderTail={() => <Text style={{ color: 'white', fontSize: 24 }}>Finalização</Text>}
-            />
 
-            <View
-              style={{
-                paddingHorizontal: 24,
-                gap: 24,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Btn label="<" onPress={() => goalVPRef.current?.previousPage()} />
-              <Text style={{ color: 'white', fontSize: 16 }}>{goalsLabel}</Text>
-              <Btn label=">" onPress={() => goalVPRef.current?.nextPage()} />
+              <ViewPager
+                ref={goalVPRef}
+                data={goalsState}
+                style={{ maxHeight: 126, width }}
+                renderItem={item => (
+                  <View key={item.id} style={{ flex: 1, alignItems: 'center' }}>
+                    <View style={[styles.dados, {
+                      backgroundColor: item.color,
+                      flexDirection: 'column',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center'
+                    },
+                    { borderRadius: 20, borderTopEndRadius: 20, borderTopStartRadius: 20, borderBottomEndRadius: 20, borderBottomStartRadius: 20 }]}>
+                      <TouchableOpacity
+                        style={[styles.accordionHeader, { maxWidth: '100%' }]}
+                        onPress={() => handleModal(item)}
+                      >
+                        <Text style={[styles.texto_dados, { paddingBottom: 10, fontWeight: '800', /*fontFamily: fonts.passoTitulo,*/ width: '85%' }]}>{item.description}</Text>
+                        <Entypo name={"plus"} size={38} color="white" style={[{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: -10, marginLeft: 5 }]} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+                onChange={onChangeSelection}
+                onReachTail={handleReachTail}
+                onReachHead={handleReachHead}
+                renderHead={() => <Text style={{ color: 'white', fontSize: 24 }}>Introdução</Text>}
+                renderTail={() => <Text style={{ color: 'white', fontSize: 24 }}>Finalização</Text>}
+              />
+
+              {/*<View
+                style={{
+                  paddingHorizontal: 24,
+                  gap: 24,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Btn label="<" onPress={() => goalVPRef.current?.previousPage()} />
+                <Text style={{ color: 'white', fontSize: 16 }}>{goalsLabel}</Text>
+                <Btn label=">" onPress={() => goalVPRef.current?.nextPage()} />
+              </View>*/}
+
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => goalVPRef.current?.previousPage()}>
+                  <FontAwesome name="arrow-left" size={24} style={{ color: selectedGoal.state ? selectedGoal.state.color : "#000" }} />
+                </TouchableOpacity>
+                <Text style={styles.objetivos}>{goalsLabel}</Text>
+                <TouchableOpacity onPress={() => goalVPRef.current?.nextPage()}>
+                  <FontAwesome name="arrow-right" size={24} style={{ color: selectedGoal.state ? selectedGoal.state.color : "#000" }} />
+                </TouchableOpacity>
+              </View>
+
             </View>
+          )}
+
+          <View style={{ flex: 1, width, height }}>
+            <Steps />
           </View>
-        )}
 
-        <View style={{ flex: 1, width, height }}>
-          <Steps />
-        </View>
-
-          <View style={{height: 70}} />
+          <View style={{ height: 70 }} />
 
         </ScrollView>
         <GoalBottomTab />
@@ -199,5 +211,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     //fontFamily: fonts.passo,
     lineHeight: 24
+  },
+  objetivos: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#505050'
   },
 });

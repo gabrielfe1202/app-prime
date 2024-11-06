@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
       paddingVertical: 5,
   },
   passo: {
-      flex: 1,
+      //flex: 1,
       minHeight: 200,
       width: width * 0.9,
       borderWidth: 2,
