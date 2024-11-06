@@ -17,11 +17,14 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const translateX = useSharedValue(-300);
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [user, setUser] = useState<User>()
+    const [countChilds, setCountChilds] = useState<number>(0)
 
     const fetchuserInformation = async () => {
         try {
-            const data = await DI.user.getUserInformations();            
+            const data = await DI.user.getUserInformations();
+            const childs = await DI.user.getUserChilds()
             setUser(data)
+            setCountChilds(childs.length)
         } catch (err) {
             console.error(err);
         }
@@ -62,19 +65,20 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                             <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
                         </View>
                         <View style={sideMenu.buttonsContainer}>
-                            <SideMenuItem
-                                iconName="child"
-                                text="Filhos"
-                                iconFamily="FontAwesome"
-                                callback={() => { }}
-                            />
+                            {countChilds > 1 && (
+                                <SideMenuItem
+                                    iconName="child"
+                                    text="Filhos"
+                                    iconFamily="FontAwesome"
+                                    callback={() => { }}
+                                />
+                            )}
                             <SideMenuItem
                                 iconName="logout"
                                 text="Sair"
                                 iconFamily="MaterialCommunityIcons"
                                 callback={() => { }}
                             />
-
                         </View>
                     </View>
                 </Animated.View>
