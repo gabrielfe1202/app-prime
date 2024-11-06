@@ -78,10 +78,7 @@ function Main({ goal }: Props) {
       data={steps}
       style={{ flex: 1 }}
       renderItem={step => (
-        <View style={[
-          styles.passo_container,
-          { width, flex: 1, justifyContent: 'flex-start' },          
-      ]}>
+        <View key={step.id} style={[styles.passo_container,{ width, flex: 1, justifyContent: 'flex-start' },]}>
           <View style={{ padding: 10, backgroundColor: details.data?.color, borderRadius: 5, marginBottom: -15 }}>
               <Text style={{ fontSize: 16, color: '#fff', fontFamily: fonts.textoResposta }}>Passo {step.id}</Text>
           </View>

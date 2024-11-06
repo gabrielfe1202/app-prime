@@ -63,9 +63,9 @@ export default function Layout() {
             <ViewPager
               ref={goalVPRef}
               data={goalsState}
-              style={{ maxHeight: 126 }}
+              style={{ maxHeight: 126, width }}
               renderItem={item => (
-                <View style={{flex: 1, alignItems: 'center'}}>
+                <View key={item.id} style={{flex: 1, alignItems: 'center'}}>
                   <View style={[styles.dados, {
                     backgroundColor: item.color,
                     flexDirection: 'column',
