@@ -23,7 +23,6 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
 
     return (
         <View style={styles.container}>
-
             <Calendar
                 style={[
                     styles.calendar,
@@ -34,7 +33,7 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                             height: 5,
                         },
                         shadowOpacity: 0.36,
-                        shadowRadius: 6.68,                        
+                        shadowRadius: 6.68,
                         elevation: 11,
                     },
                 ]}
@@ -65,9 +64,10 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                 dayComponent={({ date, state }: { date: DateData; state: DayState }) => {
                     const isMarked = markedDates.includes(date.dateString);
                     const isSelected = date.dateString === day?.dateString;
-
+                    
                     return (
                         <TouchableOpacity
+                            key={date.dateString}
                             style={[
                                 styles.day,
                                 isSelected && styles.daySelected,

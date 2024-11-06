@@ -4,4 +4,6 @@ export class ScheduleConfigs {
     startTime!: string;
 
     endTime!: string;
+
+    datesAvailable: string[] = []
 }
