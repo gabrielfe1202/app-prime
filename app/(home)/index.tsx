@@ -15,9 +15,10 @@ import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
+import { withAuthCheck } from "@/utils/auth";
 const { width, height } = Dimensions.get('screen');
 
-export default function Home() {
+function Home() {
     const [stateload, setStateload] = useState<boolean>(true);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [kidInfo, setKidInfo] = useState<Kid>();
@@ -149,6 +150,8 @@ export default function Home() {
         </GestureHandlerRootView>
     )
 }
+
+export default withAuthCheck(Home)
 
 const styles = StyleSheet.create({
     container: {
