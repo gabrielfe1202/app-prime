@@ -1,6 +1,9 @@
+import { DI } from '@/controllers/DI';
+import { KidImage } from '@/entities/kid';
+import { delay } from '@/utils/delay';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Button, Animated } from 'react-native';
 import PagerView, { PagerViewProps } from 'react-native-pager-view';
 import {
@@ -23,8 +26,10 @@ const images = [
 
 
 const Gallery = () => {
+    const [stateload, setStateload] = useState<boolean>(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
+    const [kidImages, setKidImages] = useState<KidImage[]>([])
     const pagerRef = useRef<PagerView | null>(null);
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
@@ -32,6 +37,25 @@ const Gallery = () => {
     const toggleViewMode = () => {
         setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel');
     };
+
+
+    const fetchKidImages = async () => {
+        setStateload(true)
+        try {
+            const data = await DI.kid.getImagesGallery();
+            setKidImages(data)
+        } catch (err) {
+            console.error(err);
+        } finally {
+            delay(1000).then(() => {
+                setStateload(false)
+            })
+        }
+    };
+
+    useEffect(() => {
+        fetchKidImages();
+    }, []);
 
     const renderThumbnail = ({ item, index }: { item: { id: string, uri: string }, index: number }) => (
         <TouchableOpacity
@@ -51,8 +75,8 @@ const Gallery = () => {
     const renderGridView = () => {
         return (
             <FlatList
-                data={images}
-                renderItem={({ item, index }: { item: { id: string, uri: string }, index: number }) => (
+                data={kidImages}
+                renderItem={({ item, index }: { item: KidImage, index: number }) => (
                     <TouchableOpacity
                         onPress={() => {
                             setCurrentIndex(index);
@@ -66,10 +90,10 @@ const Gallery = () => {
                             currentIndex == index && { borderWidth: 2 }
                         ]}
                     >
-                        <Image source={{ uri: item.uri }} style={styles.gridImage} />
+                        <Image source={{ uri: item.linkMedium }} style={styles.gridImage} />
                     </TouchableOpacity>
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.link + "grid"}
                 numColumns={3}
                 columnWrapperStyle={styles.gridRow}
                 contentContainerStyle={styles.gridContainer}
@@ -153,7 +177,7 @@ const Gallery = () => {
                             onPageScroll={handlePageScroll} 
                             ref={pagerRef} 
                         >
-                            {images.map((image, index) => (
+                            {kidImages.map((image, index) => (
                                 <View key={image.id} style={styles.page}>
                                     <Animated.View
                                         style={[
@@ -164,15 +188,15 @@ const Gallery = () => {
                                             },
                                         ]}
                                     >
-                                        <Image source={{ uri: image.uri }} style={styles.image} />
+                                        <Image source={{ uri: image.linkMedium }} style={styles.image} />
                                     </Animated.View>
                                 </View>
                             ))}
                         </PagerView>
 
                         <FlatList
-                            data={images}
-                            renderItem={({ item, index }: { item: { id: string, uri: string }, index: number }) => (
+                            data={kidImages}
+                            renderItem={({ item, index }: { item: KidImage, index: number }) => (
                                 <TouchableOpacity
                                     onPress={() => {
                                         setCurrentIndex(index);
@@ -186,11 +210,11 @@ const Gallery = () => {
                                         currentIndex == index && { borderWidth: 2 }                           
                                     ]}
                                 >
-                                    <Image source={{ uri: item.uri }} style={styles.thumbnail} />
+                                    <Image source={{ uri: item.linkSmall }} style={styles.thumbnail} />
                                 </TouchableOpacity>
                             )}
                             horizontal
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={(item) => item.link}
                             style={styles.thumbnailList}
                             contentContainerStyle={styles.thumbnailListContainer}
                             showsHorizontalScrollIndicator={false}
