@@ -1,5 +1,7 @@
+import { useChild } from '@/contexts/ChildContext';
 import { DI } from '@/controllers/DI';
 import { KidImage } from '@/entities/kid';
+import { withAuthCheck } from '@/utils/auth';
 import { delay } from '@/utils/delay';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -37,6 +39,8 @@ const Gallery = () => {
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
     const router = useRouter();
+    const childContext = useChild();
+    const { childId } = childContext!;
     const toggleViewMode = () => {
         setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel');
     };
@@ -151,6 +155,7 @@ const Gallery = () => {
                     <View style={{ width: width * 0.55 }}>
                         <TouchableOpacity onPress={() => { router.replace('/(home)') }} style={{ width: '50%' }}>
                             <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />
+                            <Text>{childId}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: width * 0.3, flexDirection: 'row', justifyContent: 'flex-start' }}>

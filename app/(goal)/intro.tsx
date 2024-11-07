@@ -64,4 +64,4 @@ function Intro() {
   )
 }
 
-export default withAuthCheck(Intro);
+export default Intro;

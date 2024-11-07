@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { DI } from '@/controllers/DI';
 import { delay } from './delay';
 import { Loading } from '@/components/Loading';
+import Login from '@/app/login';
 
 type AuthComponentProps = {
     children?: ReactNode;
@@ -23,7 +24,7 @@ export function withAuthCheck<P extends AuthComponentProps>(WrappedComponent: Co
                         setIsAuthenticated(authenticated);
                     } catch (error) {
                         console.error('Error checking authentication', error);
-                        setIsAuthenticated(false); 
+                        setIsAuthenticated(false);
                     } finally {
                         setIsLoading(false);
                     }
@@ -31,17 +32,18 @@ export function withAuthCheck<P extends AuthComponentProps>(WrappedComponent: Co
             };
 
             checkAuth();
-        }, []); 
+        }, []);
 
         if (isLoading) {
             return <Loading />;
         }
 
-        if (!isAuthenticated) {
-            router.replace('/login');
-            return null; 
+        if (!isAuthenticated) {            
+            return <Login />;
         }
 
-        return <WrappedComponent {...props} />;
+        return (
+            <WrappedComponent {...props} />            
+        );
     }
 }

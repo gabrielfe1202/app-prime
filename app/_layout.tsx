@@ -7,6 +7,8 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
+import { AuthAndChildChecker } from '@/contexts/AuthChildChecker';
+import { ChildProvider } from '@/contexts/ChildContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,10 +34,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
-        
-      </Stack>
-    </ThemeProvider>
+    <ChildProvider>
+      <AuthAndChildChecker>
+        <ThemeProvider value={DefaultTheme}>
+          <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
+
+          </Stack>
+        </ThemeProvider>
+      </AuthAndChildChecker >
+    </ChildProvider>
   );
 }

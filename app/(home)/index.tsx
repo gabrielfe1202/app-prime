@@ -16,6 +16,8 @@ import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
 import { withAuthCheck } from "@/utils/auth";
+import { AuthAndChildChecker } from "@/contexts/AuthChildChecker";
+import { ChildProvider, useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 function Home() {
@@ -23,6 +25,8 @@ function Home() {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [kidInfo, setKidInfo] = useState<Kid>();
     const [titles, setTitles] = useState<GoalTitle[]>()
+    const childContext = useChild();
+    const { childId } = childContext!;
     const router = useRouter();
 
     const fetchKidInformation = async () => {
@@ -49,8 +53,6 @@ function Home() {
 
     return (
         <GestureHandlerRootView>
-
-
             <SafeAreaView style={styles.container}>
 
                 <ScrollView
@@ -77,7 +79,7 @@ function Home() {
                                 <Text style={[styles.texto_dados]}>
                                     Nome:
                                     <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 8 }]}>
-                                        {kidInfo?.Nome}
+                                        {kidInfo?.Nome} {childId}
                                     </Text>
                                 </Text>
                             </View>
@@ -151,7 +153,7 @@ function Home() {
     )
 }
 
-export default withAuthCheck(Home)
+export default Home
 
 const styles = StyleSheet.create({
     container: {
