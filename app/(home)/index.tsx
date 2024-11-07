@@ -14,6 +14,7 @@ import globalStyles from "../globalStyle"
 import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
+import { Loading } from "@/components/Loading";
 const { width, height } = Dimensions.get('screen');
 
 export default function Home() {
@@ -43,22 +44,13 @@ export default function Home() {
         fetchKidInformation();
     }, []);
 
-
+    if (stateload) return <Loading />
 
     return (
         <GestureHandlerRootView>
 
 
             <SafeAreaView style={styles.container}>
-
-                <Spinner
-                    visible={stateload}
-                    textContent="carregando..."
-                    color={'#FFA431'}
-                    textStyle={globalStyles.buttonText}
-                    cancelable={false}
-                    overlayColor={'#ffffff'}
-                />
 
                 <ScrollView
                     contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20 }}
