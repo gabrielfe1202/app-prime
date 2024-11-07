@@ -10,10 +10,13 @@ import goalStyles from "./goalStyle"
 import globalStyles from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { withAuthCheck } from "@/utils/auth";
+import { useEffect, useState } from "react";
+import { Loading } from "@/components/Loading";
 
 function Intro() {
   const router = useRouter();
   const { goalVPRef } = useGoal();
+  const [stateload, setStateload] = useState<boolean>(true);
 
   function handleNext() {
     router.push('/main');
@@ -26,6 +29,14 @@ function Intro() {
       goalVPRef.current?.gotoPageWhere(g => g.color === goal.color);
     });
   }
+
+  useEffect(() => {
+    delay(1500).then(() => {
+      setStateload(false)
+    })
+  }, [])
+
+  if(stateload) return <Loading />
 
   return (
     <GestureHandlerRootView>

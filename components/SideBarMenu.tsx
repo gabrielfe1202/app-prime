@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { User } from "@/entities/user";
 import { DI } from "@/controllers/DI";
+import { useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 interface SideBarProps {
@@ -18,6 +19,8 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [user, setUser] = useState<User>()
     const [countChilds, setCountChilds] = useState<number>(0)
+    const childContext = useChild();
+    const { setChildId } = childContext!;
 
     const fetchuserInformation = async () => {
         try {
@@ -70,7 +73,7 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                                     iconName="child"
                                     text="Filhos"
                                     iconFamily="FontAwesome"
-                                    callback={() => { }}
+                                    callback={() => { setChildId(null) }}
                                 />
                             )}
                             <SideMenuItem

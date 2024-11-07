@@ -1,5 +1,5 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -16,6 +16,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
+    Inter_900Black,
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     'Futura': require('../assets/fonts/futur.otf'),
     'Futura-bold': require('../assets/fonts/FuturaBoldfont.otf'),

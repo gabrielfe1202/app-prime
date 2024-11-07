@@ -17,16 +17,6 @@ import {
 } from 'react-native-popup-menu';
 const { width, height } = Dimensions.get('screen');
 
-const images = [
-    { id: '1', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140174.jpg' },
-    { id: '2', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140174.jpg' },
-    { id: '3', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140173.jpg' },
-    { id: '4', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140174.jpg' },
-    { id: '5', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140173.jpg' },
-    { id: '6', uri: 'https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/media/10320151140174.jpg' },
-];
-
-
 const Gallery = () => {
     const [stateload, setStateload] = useState<boolean>(true);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -154,8 +144,7 @@ const Gallery = () => {
                 >
                     <View style={{ width: width * 0.55 }}>
                         <TouchableOpacity onPress={() => { router.replace('/(home)') }} style={{ width: '50%' }}>
-                            <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />
-                            <Text>{childId}</Text>
+                            <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />                            
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: width * 0.3, flexDirection: 'row', justifyContent: 'flex-start' }}>
