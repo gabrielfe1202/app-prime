@@ -26,7 +26,7 @@ function Home() {
     const [kidInfo, setKidInfo] = useState<Kid>();
     const [titles, setTitles] = useState<GoalTitle[]>()
     const childContext = useChild();
-    const { childId } = childContext!;
+    const { kidController } = childContext!;
     const router = useRouter();
 
     const fetchKidInformation = async () => {
@@ -79,7 +79,7 @@ function Home() {
                                 <Text style={[styles.texto_dados]}>
                                     Nome:
                                     <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 8 }]}>
-                                        {kidInfo?.Nome} {DI.kid.getId()}
+                                        {kidInfo?.Nome} {kidController.getId()}
                                     </Text>
                                 </Text>
                             </View>

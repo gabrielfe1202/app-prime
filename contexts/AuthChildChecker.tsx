@@ -56,10 +56,13 @@ export function AuthAndChildChecker({ children }: AuthChildCheckerProps): JSX.El
         return <SelectChildScreen />;
     }
 
-    const { childId } = childContext;
+    const { childId, kidController } = childContext;
 
     if (!childId) {
         return <SelectChildScreen />;
     }
+
+    kidController.setId(childId)
+
     return <>{children}</>;
 }
