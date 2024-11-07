@@ -21,7 +21,7 @@ export default function SelectChildScreen() {
     if (!childContext) return null;
     const { setChildId } = childContext;
 
-    const handleSelectChild = (id: string) => {        
+    const handleSelectChild = (id: number) => {        
         setChildId(id);       
     };
 
@@ -58,7 +58,7 @@ export default function SelectChildScreen() {
                     {childs.map((item, index) => {
                         return (
                             <View key={index}>
-                                <TouchableOpacity style={styles.button} onPress={() => handleSelectChild(item.Idt_Cri_Crianca!.toString())}>
+                                <TouchableOpacity style={styles.button} onPress={() => handleSelectChild(item.Idt_Cri_Crianca!)}>
                                     <ImageBackground source={{ uri: item.imagem }} resizeMode='cover' style={[styles.image_filho,{}]}
                                         imageStyle={{ borderRadius: 15,backgroundColor: 'rgba(0,0,0,0.4)' }}>
                                     </ImageBackground>

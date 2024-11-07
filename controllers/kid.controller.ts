@@ -3,6 +3,16 @@ import { User } from "@/entities/user";
 import { number, z } from 'zod'
 
 export class KidController {
+    private Id: number = 0;
+
+    setId(id: number){
+        this.Id = id
+    }
+
+    getId(): number{
+        return this.Id
+    }
+
     async kidInformations(): Promise<Kid> {
         const userSchema = z.object({
             Idt_usuario: z.number(),

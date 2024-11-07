@@ -40,6 +40,7 @@ export function AuthAndChildChecker({ children }: AuthChildCheckerProps): JSX.El
     useEffect(() => {
         if (childContext?.childId) {
             router.replace('/(home)');
+            DI.kid.setId(childContext.childId)
         }
     }, [childContext?.childId]);
 
