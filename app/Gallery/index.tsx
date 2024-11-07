@@ -30,6 +30,8 @@ const Gallery = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
     const [kidImages, setKidImages] = useState<KidImage[]>([])
+    const [filters, setFilters] = useState<string[]>([])
+    const [filterItem, setFilterItem] = useState<string>('')
     const pagerRef = useRef<PagerView | null>(null);
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
@@ -43,7 +45,8 @@ const Gallery = () => {
         setStateload(true)
         try {
             const data = await DI.kid.getImagesGallery();
-            setKidImages(data)
+            setKidImages(data.images)
+            setFilters(data.years)
         } catch (err) {
             console.error(err);
         } finally {
@@ -150,19 +153,14 @@ const Gallery = () => {
                                 <Feather name="list" size={27} color="black" />
                             </MenuTrigger>
                             <MenuOptions>
-                                {/*filters.map((item: any) => (
-                                <MenuOption
-                                    onSelect={() => {}}
-                                    text={item}
-                                    customStyles={{ optionWrapper: { padding: 5, backgroundColor: filterItem == item ? "#000" : "#fff" }, optionText: { fontSize: 18, color: filterItem == item ? "#fff" : "#000" } }}
-                                />
-                            ))*/}
-                                <MenuOption
-                                    onSelect={() => { }}
-                                    text={'000'}
-                                    customStyles={{ optionWrapper: { padding: 5, backgroundColor: "#fff" }, optionText: { fontSize: 18, color: "#000" } }}
-                                />
-
+                                {filters.map(item => (
+                                    <MenuOption
+                                        key={item}
+                                        onSelect={() => { }}
+                                        text={item}
+                                        customStyles={{ optionWrapper: { padding: 5, backgroundColor: filterItem == item ? "#000" : "#fff" }, optionText: { fontSize: 18, color: filterItem == item ? "#fff" : "#000" } }}
+                                    />
+                                ))}
                             </MenuOptions>
                         </Menu>
                     </View>
@@ -174,8 +172,8 @@ const Gallery = () => {
                             style={styles.pagerView}
                             initialPage={currentIndex}
                             onPageSelected={onPageSelected}
-                            onPageScroll={handlePageScroll} 
-                            ref={pagerRef} 
+                            onPageScroll={handlePageScroll}
+                            ref={pagerRef}
                         >
                             {kidImages.map((image, index) => (
                                 <View key={image.id} style={styles.page}>
@@ -207,7 +205,7 @@ const Gallery = () => {
                                     }}
                                     style={[
                                         styles.thumbnailWrapper,
-                                        currentIndex == index && { borderWidth: 2 }                           
+                                        currentIndex == index && { borderWidth: 2 }
                                     ]}
                                 >
                                     <Image source={{ uri: item.linkSmall }} style={styles.thumbnail} />
@@ -272,16 +270,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 1,
     },
-    thumbnailList: {        
+    thumbnailList: {
         maxHeight: 125,
         marginBottom: 35
     },
     thumbnailListContainer: {
         alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: 30,
         gap: 10
     },
-    thumbnailWrapper: {        
+    thumbnailWrapper: {
         borderWidth: 1,
         borderColor: '#000',
         borderRadius: 5,

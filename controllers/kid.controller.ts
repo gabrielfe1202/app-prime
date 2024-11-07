@@ -80,7 +80,7 @@ export class KidController {
 
     }
 
-    async getImagesGallery(): Promise<KidImage[]> {
+    async getImagesGallery(): Promise<{years: string[], images: KidImage[]}> {
         const imageShape = z.object({
             Idt_Cri_Imagem: z.number(),                    
             link: z.string(),
@@ -96,7 +96,7 @@ export class KidController {
 
         const result = requestShape.safeParse(this.dataImages)
 
-        if(result.error) return []
+        if(result.error) return { years: [], images: []}
 
         const images = result.data.imagens.map(_img => {
             const image = new KidImage()
@@ -110,7 +110,10 @@ export class KidController {
             return image
         })
 
-        return images
+        return {
+            years: result.data.ano,
+            images: images
+        }
 
     }
 
