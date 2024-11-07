@@ -30,8 +30,9 @@ const Gallery = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
     const [kidImages, setKidImages] = useState<KidImage[]>([])
+    const [filteredkidImages, setFilteredKidImages] = useState<KidImage[]>([])
     const [filters, setFilters] = useState<string[]>([])
-    const [filterItem, setFilterItem] = useState<string>('')
+    const [filterItem, setFilterItem] = useState<string>('Todos')
     const pagerRef = useRef<PagerView | null>(null);
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
@@ -60,6 +61,14 @@ const Gallery = () => {
         fetchKidImages();
     }, []);
 
+    useEffect(() => {
+        if(filterItem == "Todos"){
+            setFilteredKidImages(kidImages)
+        }else{
+            setFilteredKidImages(kidImages.filter(x => x.year == filterItem))
+        }
+    }, [filterItem, kidImages])
+
     const renderThumbnail = ({ item, index }: { item: { id: string, uri: string }, index: number }) => (
         <TouchableOpacity
             onPress={() => {
@@ -78,7 +87,7 @@ const Gallery = () => {
     const renderGridView = () => {
         return (
             <FlatList
-                data={kidImages}
+                data={filteredkidImages}
                 renderItem={({ item, index }: { item: KidImage, index: number }) => (
                     <TouchableOpacity
                         onPress={() => {
@@ -156,7 +165,7 @@ const Gallery = () => {
                                 {filters.map(item => (
                                     <MenuOption
                                         key={item}
-                                        onSelect={() => { }}
+                                        onSelect={() => setFilterItem(item)}
                                         text={item}
                                         customStyles={{ optionWrapper: { padding: 5, backgroundColor: filterItem == item ? "#000" : "#fff" }, optionText: { fontSize: 18, color: filterItem == item ? "#fff" : "#000" } }}
                                     />
@@ -175,7 +184,7 @@ const Gallery = () => {
                             onPageScroll={handlePageScroll}
                             ref={pagerRef}
                         >
-                            {kidImages.map((image, index) => (
+                            {filteredkidImages.map((image, index) => (
                                 <View key={image.id} style={styles.page}>
                                     <Animated.View
                                         style={[
@@ -193,7 +202,7 @@ const Gallery = () => {
                         </PagerView>
 
                         <FlatList
-                            data={kidImages}
+                            data={filteredkidImages}
                             renderItem={({ item, index }: { item: KidImage, index: number }) => (
                                 <TouchableOpacity
                                     onPress={() => {

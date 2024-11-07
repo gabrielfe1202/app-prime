@@ -110,9 +110,12 @@ export class KidController {
             return image
         })
 
+        const years = result.data.ano
+        years.unshift('Todos')
+
         return {
-            years: result.data.ano,
-            images: images
+            years,
+            images
         }
 
     }
@@ -213,7 +216,8 @@ export class KidController {
 
     private dataImages = {
         "ano": [
-            "2018-02"
+            "2018-02",
+            "2019-02"
         ],
         "imagens": [
             {
@@ -241,7 +245,7 @@ export class KidController {
                 "link_pequena": "https://o2sistema.blob.core.windows.net/o2sistema/Primetime/69-16112023135122/pequena/10320151140173.jpg",
                 "rotulo": null,
                 "data": "2018-08-21T18:27:31",
-                "ano": "2018-02",
+                "ano": "2019-02",
                 "publicar": null,
                 "publicados": null,
                 "nao_publi": null,
