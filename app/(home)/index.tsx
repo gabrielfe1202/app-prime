@@ -83,7 +83,7 @@ function Home() {
                                 <Text style={[styles.texto_dados]}>
                                     Nome:
                                     <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 8 }]}>
-                                        {kidInfo?.Nome} {kidController.getId()}
+                                        {kidInfo?.Nome} 
                                     </Text>
                                 </Text>
                             </View>
