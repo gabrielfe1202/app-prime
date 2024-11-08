@@ -7,6 +7,7 @@ import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle } from '
 import { User } from "@/entities/user";
 import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
+import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');
 
 interface SideBarProps {
@@ -21,6 +22,7 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const [countChilds, setCountChilds] = useState<number>(0)
     const childContext = useChild();
     const { setChildId } = childContext!;
+    const { setUserToken, userController } = useAppUser()
 
     const fetchuserInformation = async () => {
         try {
@@ -52,6 +54,11 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
         };
     });
 
+    const handleLogOut = async () => {
+        userController.logout()
+        setUserToken(null)
+    }
+
     return (
         <Modal visible={modalVisible} transparent={true} animationType="none" onRequestClose={onClose}>
             <View style={sideMenu.modalOverlay}>
@@ -80,7 +87,7 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                                 iconName="logout"
                                 text="Sair"
                                 iconFamily="MaterialCommunityIcons"
-                                callback={() => { }}
+                                callback={handleLogOut}
                             />
                         </View>
                     </View>

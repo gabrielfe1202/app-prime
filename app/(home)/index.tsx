@@ -17,7 +17,7 @@ import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
 import { withAuthCheck } from "@/utils/auth";
 import { AuthAndChildChecker } from "@/contexts/AuthChildChecker";
-import { ChildProvider, useChild } from "@/contexts/ChildContext";
+import { useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 function Home() {

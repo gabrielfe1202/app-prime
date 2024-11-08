@@ -29,8 +29,18 @@ export class UserController {
         return user;
     }
 
+    private authtenticated: boolean = false;
+
     async isAuthenticated(): Promise<boolean> {
-        return true
+        return this.authtenticated
+    }
+
+    async login() {
+        this.authtenticated = true;
+    }
+
+    async logout(){
+        this.authtenticated = false;
     }
 
     async getUserChilds(): Promise<Kid[]> {

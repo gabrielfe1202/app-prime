@@ -10,6 +10,7 @@ import goalStyles from "../(goal)/goalStyle"
 import globalStyles, { colors } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { useState } from "react";
+import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');
 
 export default function Login() {
@@ -19,10 +20,11 @@ export default function Login() {
   const [senha, setSenha] = useState<string>('')
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
   const [erro, setErro] = useState<string>('');
-
+  const { setUserToken, userController } = useAppUser() || {}
 
   function handleLogin() {
-    
+    userController?.login()
+    setUserToken!('aaaaa')
   }
 
   return (

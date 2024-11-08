@@ -14,49 +14,16 @@ interface AuthChildCheckerProps {
 }
 
 export function AuthAndChildChecker({ children }: AuthChildCheckerProps): JSX.Element {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+    const router = useRouter();    
     const childContext = useChild();
-
-    useEffect(() => {
-        const checkAuth = async () => {
-            delay(1500).then(async () => {
-                try {
-                    const authenticated = await DI.user.isAuthenticated();
-                    setIsAuthenticated(authenticated);
-                } catch (error) {
-                    console.error('Error checking authentication', error);
-                    setIsAuthenticated(false);
-                } finally {
-                    setIsLoading(false);
-                }
-            })
-        };
-
-        checkAuth();
-    }, []);
+    const { childId, kidController } = childContext!;
 
     useEffect(() => {
         if (childContext?.childId) {
             router.replace('/(home)');
             DI.kid.setId(childContext.childId)
         }
-    }, [childContext?.childId]);
-
-    if (isLoading) {
-        return <Loading />;
-    }
-
-    if (!isAuthenticated) {
-        return <Login />;
-    }
-
-    if (!childContext) {
-        return <SelectChildScreen />;
-    }
-
-    const { childId, kidController } = childContext;
+    }, [childContext?.childId]);        
 
     if (!childId) {
         return <SelectChildScreen />;

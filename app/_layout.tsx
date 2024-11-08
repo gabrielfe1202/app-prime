@@ -9,6 +9,8 @@ import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import { AuthAndChildChecker } from '@/contexts/AuthChildChecker';
 import { ChildProvider } from '@/contexts/ChildContext';
+import { UserProvider } from '@/contexts/UserContext';
+import { AuthChecker } from '@/contexts/AuthChecker';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,14 +37,18 @@ export default function RootLayout() {
   }
 
   return (
-    <ChildProvider>
-      <AuthAndChildChecker>
-        <ThemeProvider value={DefaultTheme}>
-          <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
+    <UserProvider>
+      <AuthChecker>
+        <ChildProvider>
+          <AuthAndChildChecker>
+            <ThemeProvider value={DefaultTheme}>
+              <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
 
-          </Stack>
-        </ThemeProvider>
-      </AuthAndChildChecker >
-    </ChildProvider>
+              </Stack>
+            </ThemeProvider>
+          </AuthAndChildChecker >
+        </ChildProvider>
+      </AuthChecker>
+    </UserProvider>
   );
 }
