@@ -42,6 +42,8 @@ export function AuthChecker({ children }: AuthCheckerProps): JSX.Element {
         return <Loading />;
     }    
 
+    console.log("token", userToken)
+
     if (isNullOrEmpty(userToken)) return <Login />;
 
     return <>{children}</>;

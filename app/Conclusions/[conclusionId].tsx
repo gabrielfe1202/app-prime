@@ -13,12 +13,13 @@ import { useEffect, useState } from "react";
 import { DI } from "@/controllers/DI";
 import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
+import { BottomTab } from "@/components/BottomTab";
+import { Loading } from "@/components/Loading";
 const { width, height } = Dimensions.get('screen');
 
 type ConclusionParams = {
   conclusionId: string;
 };
-
 
 export default function ConclusionPage() {
   const [stateload, setStateload] = useState<boolean>(true);
@@ -28,19 +29,6 @@ export default function ConclusionPage() {
   const { goalVPRef } = useGoal();
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const { conclusionId } = useLocalSearchParams<ConclusionParams>();
-
-  function handlePrevious() {
-    router.back(); // volta (provavelmente para o inicio)
-    router.push('/main'); // volta para o inicio dos passos
-  }
-
-  function handleGoToGoal(goal: GroupedGoal) {
-    router.replace('/main');
-
-    delay(200).then(() => {
-      goalVPRef.current?.gotoPageWhere(g => g.color === goal.color);
-    });
-  }
 
   const fetchConclusions = async () => {
     setStateload(true)
@@ -61,61 +49,58 @@ export default function ConclusionPage() {
     fetchConclusions();
   }, []);
 
+  if(stateload) return <Loading />
+
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={{ flex: 1, gap: 32, paddingTop: 12 }}>
 
-        <SingleViewPager
-          onPrevious={handlePrevious}
-          renderItem={() => (
-            <View key={'intro'} style={{ flex: 1, alignItems: "center" }}>
-              <ScrollView
-                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20, }}
-                showsVerticalScrollIndicator={false}
-              >
-                <Text>{conclusionId}</Text>
-                <TouchableOpacity style={[globalStyles.logoContainer, { paddingBottom: 30 }]} onPress={() => { }}>
-                  <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
-                </TouchableOpacity>
+        <View key={'intro'} style={{ flex: 1, alignItems: "center" }}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20, }}
+            showsVerticalScrollIndicator={false}
+          >
+            <TouchableOpacity style={[globalStyles.logoContainer, { paddingBottom: 30 }]} onPress={() => { }}>
+              <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+            </TouchableOpacity>
 
-                <View
-                  style={goalStyles.introContainer}
-                >
-                  <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
-                    {title?.titulo}
-                  </Text>
-                  <View style={{ paddingTop: 25, flex: 1 }}>
-                    {conclusions.map(item => {
-                      var x = new Date(item.dateLabel)
-                      return (
-                        <View key={item.id} style={{ paddingTop: 25 }}>
-                          <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
-                            {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1])]}
-                          </Text>
-                          <Text style={goalStyles.texto_dados}>
-                            {item.text}
-                          </Text>
-                        </View>
-                      )
-                    })}
+            <View
+              style={goalStyles.introContainer}
+            >
+              <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
+                {title?.titulo}
+              </Text>
+              <View style={{ paddingTop: 25, flex: 1 }}>
+                {conclusions.map(item => {
+                  var x = new Date(item.dateLabel)
+                  return (
+                    <View key={item.id} style={{ paddingTop: 25 }}>
+                      <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
+                        {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1])]}
+                      </Text>
+                      <Text style={goalStyles.texto_dados}>
+                        {item.text}
+                      </Text>
+                    </View>
+                  )
+                })}
 
-                    {conclusions.length == 0 && (
-                      <View style={{ paddingTop: 25 }}>
-                        <Text style={goalStyles.texto_dados}>
-                          Ainda não temos nenhum {/*titulo*/}
-                        </Text>
-                      </View>
-                    )}
+                {conclusions.length == 0 && (
+                  <View style={{ paddingTop: 25 }}>
+                    <Text style={goalStyles.texto_dados}>
+                      Ainda não temos nenhum {title?.titulo}
+                    </Text>
                   </View>
-                </View>
-              </ScrollView>
-
-              <View style={{ height: 70 }} />
+                )}
+              </View>
             </View>
-          )}
-        />
+          </ScrollView>
 
-        <GoalBottomTab onGotoPage={handleGoToGoal} />
+          <View style={{ height: 70 }} />
+        </View>
+
+        <BottomTab />
+
       </SafeAreaView>
     </GestureHandlerRootView>
   );

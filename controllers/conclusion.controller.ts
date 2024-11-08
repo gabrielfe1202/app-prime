@@ -1,5 +1,6 @@
 import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
+import api from "@/utils/axiosApi";
 import { z } from "zod";
 
 export class ConclusionController {
@@ -19,31 +20,47 @@ export class ConclusionController {
             })
         })
 
-        const result = requestShape.safeParse(this.data)
-
-        if (result.error) return {
-            conclusions: [],
-            title: new GoalTitle()
-        }
-
-        const conclusions = result.data.conclusao.map(_conclusao => {
-            const conclusion = new Conclusion();
-
-            conclusion.id = _conclusao.Idt_conclusao;
-            conclusion.text = _conclusao.texto;
-            conclusion.dateLabel = _conclusao.data_formatada;
-
-            return conclusion;
-        })
-
-        const title = new GoalTitle();
-
-        title.Idt_titulo = result.data.titulo.Idt_titulo;
-        title.titulo = result.data.titulo.titulo;
-
-        return {
-            conclusions,
-            title
+        try {
+            const response = await api.get('/Conclusao', {
+                params: {
+                    id: id, 
+                    token: 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8',
+                    idt_crianca: 69
+                }
+            });
+    
+            const result = requestShape.safeParse(response.data);
+    
+            if (result.error) {
+                console.error('Erro de validação', result.error);
+                return {
+                    conclusions: [],
+                    title: new GoalTitle()
+                };
+            }
+    
+            const conclusions = result.data.conclusao.map(_conclusao => {
+                const conclusion = new Conclusion();
+                conclusion.id = _conclusao.Idt_conclusao;
+                conclusion.text = _conclusao.texto;
+                conclusion.dateLabel = _conclusao.data_formatada;
+                return conclusion;
+            });
+    
+            const title = new GoalTitle();
+            title.Idt_titulo = result.data.titulo.Idt_titulo;
+            title.titulo = result.data.titulo.titulo;
+    
+            return {
+                conclusions,
+                title
+            };
+        } catch (error) {
+            console.error('Erro na requisição', error);
+            return {
+                conclusions: [],
+                title: new GoalTitle()
+            };
         }
     }
 

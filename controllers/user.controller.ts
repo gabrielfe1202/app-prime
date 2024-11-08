@@ -42,7 +42,7 @@ export class UserController {
     }
 
     async login(): Promise<string>  {
-        let token = 'teste'
+        let token = ''
         await AsyncStorage.setItem('@Primeapp:usertoken', token)
         return token
     }
