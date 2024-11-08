@@ -49,6 +49,10 @@ function Home() {
         fetchKidInformation();
     }, []);
 
+    const handleGoTitle = (id: number) => {
+        router.push(`/Conclusions/${id}`)
+    }
+
     if (stateload) return <Loading />
 
     return (
@@ -122,7 +126,7 @@ function Home() {
                                 .filter(x => x.menu == 2)
                                 .map((item: any) => {
                                     return (
-                                        <TouchableOpacity key={item.Idt_titulo.toString()} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => { }}>
+                                        <TouchableOpacity key={item.Idt_titulo.toString()} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => handleGoTitle(item.Idt_titulo)}>
                                             <Image style={styles.imagem_titulo} source={{ uri: item.imagem }} resizeMode='contain' />
                                             <Text style={styles.texto_titulo}>
                                                 {item.titulo}
