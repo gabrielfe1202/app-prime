@@ -31,15 +31,15 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
             try {
                 const storedToken = await userController.getToken();
                 if (storedToken) {
-                    setUserToken(storedToken); // Se o token existir, atualiza o estado
+                    setUserToken(storedToken); 
                 } else {
-                    setUserToken(null); // Caso não exista, define como null
+                    setUserToken(null);
                 }
             } catch (error) {
                 console.error('Error loading token from AsyncStorage', error);
-                setUserToken(null); // Caso ocorra erro, define como null
+                setUserToken(null); 
             } finally {
-                setIsLoading(false); // Finaliza o carregamento
+                setIsLoading(false);
             }
         };
 
@@ -47,7 +47,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
     }, []);
 
     if (isLoading) {
-        return <Loading />; // Ou pode retornar um componente de carregamento se necessário
+        return <Loading />;
     }
 
     return (
