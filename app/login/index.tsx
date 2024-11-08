@@ -24,7 +24,7 @@ export default function Login() {
 
   function handleLogin() {
     userController.login()
-    setUserToken('aaaaa')
+    setUserToken('f0a625f7-e83b-4e20-8b40-03fb4606eaa8')
   }
 
   return (

@@ -1,9 +1,10 @@
 import { GoalTitle } from "@/entities/goal";
 import api from "@/utils/axiosApi";
 import { z } from 'zod'
+import { DI } from "./DI";
 
 export class TitleController {
-    async GetTitles(): Promise<GoalTitle[]> {
+    async GetTitles(token: string | null): Promise<GoalTitle[]> {
         const TituloSchema = z.object({
             Idt_titulo: z.number(),
             titulo: z.string().nullable(),
@@ -25,11 +26,10 @@ export class TitleController {
             titulos: z.array(TituloSchema),
         });
 
-
         try {
             const response = await api.get('/Titulos', {
                 params: {
-                    token: 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8'
+                    token
                 }
             });
 

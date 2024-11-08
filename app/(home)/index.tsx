@@ -18,6 +18,7 @@ import { Loading } from "@/components/Loading";
 import { withAuthCheck } from "@/utils/auth";
 import { AuthAndChildChecker } from "@/contexts/AuthChildChecker";
 import { useChild } from "@/contexts/ChildContext";
+import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');
 
 function Home() {
@@ -28,12 +29,13 @@ function Home() {
     const childContext = useChild();
     const { kidController } = childContext!;
     const router = useRouter();
+    const { userToken, setUserToken } = useAppUser(); 
 
     const fetchKidInformation = async () => {
         setStateload(true)
         try {
             const data = await DI.kid.kidInformations();
-            const title = await DI.titles.GetTitles();
+            const title = await DI.titles.GetTitles(userToken);
             setKidInfo(data);
             setTitles(title)
         } catch (err) {

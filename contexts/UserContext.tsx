@@ -18,7 +18,7 @@ interface UserProviderProps {
 export function UserProvider({ children }: UserProviderProps): JSX.Element {
     const [userToken, setUserToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const userController = useMemo(() => new UserController(), []);
+    const userController = new UserController();
 
     const value = {
         userToken,

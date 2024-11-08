@@ -9,6 +9,7 @@ import homeImage from "../assets/images/home.png"
 import menuImage from "../assets/images/menu.png"
 import { DI } from "@/controllers/DI";
 import { SideBarMenu } from "./SideBarMenu";
+import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');
 
 export type GroupedGoal = {
@@ -33,6 +34,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
   const [titles, setTitles] = useState<GoalTitle[]>()
   const goalsState = asyncArrayToState(goals);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const { userToken, setUserToken } = useAppUser(); 
 
   const closeModal = () => setModalVisible(false);
 
@@ -50,7 +52,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
 
   const fetchKidInformation = async () => {
     try {
-      const title = await DI.titles.GetTitles();
+      const title = await DI.titles.GetTitles(userToken);
       setTitles(title)
     } catch (err) {
       console.error(err);
