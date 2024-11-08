@@ -1,6 +1,8 @@
 import { Kid } from "@/entities/kid";
 import { User } from "@/entities/user";
 import { z } from 'zod'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isNullOrEmpty } from "@/utils/stringFunctions";
 
 export class UserController {
     async getUserInformations(): Promise<User> {
@@ -29,18 +31,24 @@ export class UserController {
         return user;
     }
 
-    private authtenticated: boolean = false;
+    async getToken(): Promise<string | null> {
+        const token = await AsyncStorage.getItem('@Primeapp:usertoken');
+        return token;
+    }
 
     async isAuthenticated(): Promise<boolean> {
-        return this.authtenticated
+        const token = await this.getToken()
+        return !isNullOrEmpty(token)
     }
 
-    async login() {
-        this.authtenticated = true;
+    async login(): Promise<string>  {
+        let token = 'teste'
+        await AsyncStorage.setItem('@Primeapp:usertoken', token)
+        return token
     }
 
-    async logout(){
-        this.authtenticated = false;
+    async logout(): Promise<void> {
+        await AsyncStorage.removeItem('@Primeapp:usertoken')        
     }
 
     async getUserChilds(): Promise<Kid[]> {

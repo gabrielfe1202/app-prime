@@ -40,11 +40,9 @@ export function AuthChecker({ children }: AuthCheckerProps): JSX.Element {
 
     if (isLoading) {
         return <Loading />;
-    }
+    }    
 
-    if (!isAuthenticated && isNullOrEmpty(userToken)) {
-        return <Login />;
-    }
+    if (isNullOrEmpty(userToken)) return <Login />;
 
     return <>{children}</>;
 }

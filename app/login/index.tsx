@@ -20,11 +20,11 @@ export default function Login() {
   const [senha, setSenha] = useState<string>('')
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
   const [erro, setErro] = useState<string>('');
-  const { setUserToken, userController } = useAppUser() || {}
+  const { setUserToken, userController } = useAppUser()
 
   function handleLogin() {
-    userController?.login()
-    setUserToken!('aaaaa')
+    userController.login()
+    setUserToken('aaaaa')
   }
 
   return (

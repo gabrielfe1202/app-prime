@@ -8,6 +8,7 @@ import { User } from "@/entities/user";
 import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";
+import { useRouter } from "expo-router";
 const { width, height } = Dimensions.get('screen');
 
 interface SideBarProps {
@@ -22,7 +23,12 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const [countChilds, setCountChilds] = useState<number>(0)
     const childContext = useChild();
     const { setChildId } = childContext!;
-    const { setUserToken, userController } = useAppUser()
+    const { userToken, setUserToken } = useAppUser(); // Hook para acessar o contexto
+
+  const handleLogOut = async () => {    
+    setUserToken(null); // Remove o token
+  };
+    const router = useRouter();
 
     const fetchuserInformation = async () => {
         try {
@@ -54,10 +60,12 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
         };
     });
 
-    const handleLogOut = async () => {
-        userController.logout()
-        setUserToken(null)
-    }
+    // const handleLogOut = async () => {
+    //     await userController.logout()
+    //     const teste = await userController.getToken()
+    //     console.log(teste)
+    //     setUserToken(null)
+    // }
 
     return (
         <Modal visible={modalVisible} transparent={true} animationType="none" onRequestClose={onClose}>
@@ -72,7 +80,7 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                             />
                         </View>
                         <View style={sideMenu.headerBgTextContainer}>
-                            <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
+                            <Text style={sideMenu.headerBgTextValue}>Olá, {userToken} {user?.getFirstName()}</Text>
                         </View>
                         <View style={sideMenu.buttonsContainer}>
                             {countChilds > 1 && (
