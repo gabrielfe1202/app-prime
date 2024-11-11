@@ -3,6 +3,16 @@ import { User } from "@/entities/user";
 import { z } from 'zod'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isNullOrEmpty } from "@/utils/stringFunctions";
+import api from "@/utils/axiosApi";
+
+type LoginResponse = {
+    status: "SUCCESS",
+    token: string
+} | {
+    status: "ERROR",
+    msg: string
+}
+
 
 export class UserController {
     private token = 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8';
@@ -43,14 +53,56 @@ export class UserController {
         return !isNullOrEmpty(token)
     }
 
-    async login(): Promise<string>  {
-        let token = 'b1903c95-78d2-400a-b21d-dd212a898276'
-        await AsyncStorage.setItem('@Primeapp:usertoken', token)
-        return token
+    async login(user: string, password: string): Promise<LoginResponse> {
+
+        try {           
+            const requestShape = z.object({
+                token: z.string().optional(),
+                errorMsg: z.string().optional()
+            })
+
+            const response = await api.post('/login/', {
+                "login": user,
+                "senha": password
+            });
+            
+            const result = requestShape.safeParse(response.data)
+
+            if (result.error) return {
+                status: "ERROR",
+                msg: "Erro ao efetuar login",
+            }
+
+            if(result.data.errorMsg != undefined){
+                return {
+                    status: "ERROR",
+                    msg: result.data.errorMsg,
+                }    
+            }
+
+            if(result.data.token != undefined){
+                await AsyncStorage.setItem('@Primeapp:usertoken', result.data.token)
+                return {
+                    status: "SUCCESS",
+                    token: result.data.token
+                }
+            }            
+
+            return {
+                status: "ERROR",
+                msg: "Erro ao efetuar login",
+            }
+        } catch (error) {
+            console.error('Erro na requisição', error);
+            return {
+                status: "ERROR",
+                msg: "Erro ao efetuar login",
+            }
+        }
     }
 
     async logout(): Promise<void> {
-        await AsyncStorage.removeItem('@Primeapp:usertoken')        
+        await AsyncStorage.removeItem('@Primeapp:usertoken')
     }
 
     async getUserChilds(): Promise<Kid[]> {
