@@ -80,7 +80,7 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                             />
                         </View>
                         <View style={sideMenu.headerBgTextContainer}>
-                            <Text style={sideMenu.headerBgTextValue}>Olá, {userToken} {user?.getFirstName()}</Text>
+                            <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
                         </View>
                         <View style={sideMenu.buttonsContainer}>
                             {countChilds > 1 && (
@@ -122,10 +122,11 @@ const sideMenu = StyleSheet.create({
     inside: {
         width: width * sideMenuSize,
         backgroundColor: '#fff',
+        justifyContent: "center",
+        paddingBottom: height * 0.2
     },
     headerBgTextContainer: {
-        justifyContent: 'center',
-        marginTop: height * 0.02,
+        justifyContent: 'center',        
         marginHorizontal: width * 0.07,
         alignItems: 'center',
     },
@@ -135,7 +136,8 @@ const sideMenu = StyleSheet.create({
         fontSize: 24,
     },
     buttonsContainer: {
-        flex: 1,
+        //flex: 1,
+        marginTop: height * 0.15,
         justifyContent: 'center',
     },
     modalOverlay: {
