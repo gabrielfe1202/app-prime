@@ -19,7 +19,7 @@ export class ScheduleController {
             liberado: z.boolean(),
             agendado: z.boolean(),
             data_ativa_formatada: z.string(),
-            data_agendada: z.unknown().nullable()
+            data_agendada: z.string().nullable()
         });
         const datasSchema = z.object({
             datas: z.array(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
@@ -45,7 +45,9 @@ export class ScheduleController {
             configs.endTime = result.data.agenda.horario_fim;
             configs.year = result.data.agenda.ano;
             configs.month = result.data.agenda.mes;
-            configs.datesAvailable = result.data.datas;
+            configs.scheduled = result.data.agenda.agendado
+            configs.scheduledDateLabel = result.data.agenda.data_agendada;
+            configs.datesAvailable = result.data.datas;            
 
         } catch (error) {
             console.error(error)

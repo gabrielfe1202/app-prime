@@ -9,6 +9,10 @@ export class ScheduleConfigs {
 
     year!: string;
 
+    scheduled!: boolean;
+
+    scheduledDateLabel!: string | null;
+
     datesAvailable: string[] = []
 
     public initialDate(): string {

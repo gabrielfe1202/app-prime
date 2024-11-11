@@ -19,15 +19,19 @@ function Schedule() {
     const [selectedDate, setSelectedDate] = useState<DateData>()
     const [stateload, setStateload] = useState<boolean>(true);
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
+    const [scheduled, setScheduled] = useState<boolean>(false)
+    const [scheduledDate, setScheduledDate] = useState<string | null>(null)
     const childContext = useChild();
     const { childId } = childContext!;
 
     const fetchScheduleInfos = async () => {
         setStateload(true)
         try {
-            const data = await DI.schedule.getConfigSchedule(childId!);            
+            const data = await DI.schedule.getConfigSchedule(childId!);
             setMarkedDates(data.datesAvailable)
             setInitDate(data.initialDate())
+            setScheduled(data.scheduled)
+            setScheduledDate(data.scheduledDateLabel)
         } catch (err) {
             console.error(err);
         } finally {
@@ -43,13 +47,35 @@ function Schedule() {
 
     const handleDayPress = async (date: DateData) => {
         setSelectedDate(date);
-        const times = await DI.schedule.getTimesFromDate(date,childId!);
+        const times = await DI.schedule.getTimesFromDate(date, childId!);
         setDateTimes(times)
     }
 
     if (stateload) {
         return (
             <Loading />
+        )
+    }
+
+    if (scheduled) {
+        return (
+            <GestureHandlerRootView>
+                <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+
+                    <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
+                        <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+                    </TouchableOpacity>
+
+                    <View>
+                        <Text style={styles.textScheduled}>
+                            Você já possui uma reunião agendada para dia:{'\n\n' + scheduledDate}
+                        </Text>
+                    </View>
+
+                    <BottomTab />
+
+                </SafeAreaView>
+            </GestureHandlerRootView>
         )
     }
 
@@ -141,5 +167,11 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         backgroundColor: colors.laranja,
         borderRadius: 7
+    },
+    textScheduled: {
+        textAlign: "center",
+        fontSize: 20,
+        width: width * 0.7,
+        fontWeight: "bold"
     }
 })
