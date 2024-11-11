@@ -82,10 +82,7 @@ function Home() {
                         <View style={{ width: width * 0.8 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={[styles.texto_dados]}>
-                                    Nome:
-                                    <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 8 }]}>
-                                        {kidInfo?.Nome} 
-                                    </Text>
+                                    Nome: <Text style={[styles.texto_dados, { color: '#fff', fontWeight: '800', paddingHorizontal: 18 }]}>{kidInfo?.Nome}</Text>
                                 </Text>
                             </View>
                             <Text style={[styles.texto_dados, { fontWeight: '800' }]}>{kidInfo?.data_formata}</Text>
