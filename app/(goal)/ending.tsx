@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { DI } from "@/controllers/DI";
 import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
+import { useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 export default function Ending() {
@@ -22,6 +23,8 @@ export default function Ending() {
   const router = useRouter();
   const { goalVPRef } = useGoal();
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  const childContext = useChild();
+  const { childId } = childContext!;
 
   function handlePrevious() {
     router.back(); // volta (provavelmente para o inicio)
@@ -40,7 +43,7 @@ export default function Ending() {
     setStateload(true)
     const ConclusionId = 6;
     try {
-      const data = await DI.Conclusion.GetConclusions(ConclusionId);
+      const data = await DI.Conclusion.GetConclusions(ConclusionId,childId!);
       setConclusions(data.conclusions)
       setTitle(data.title)
     } catch (err) {
