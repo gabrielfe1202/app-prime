@@ -9,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import goalStyles from "./goalStyle"
 import globalStyles from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
-import { withAuthCheck } from "@/utils/auth";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading";
 

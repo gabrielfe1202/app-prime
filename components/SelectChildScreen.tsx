@@ -9,6 +9,7 @@ import logo from '../assets/images/logo-prime.png'
 import { colors } from '@/app/globalStyle';
 import { Loading } from './Loading';
 import { useRouter } from 'expo-router';
+import { useAppUser } from '@/contexts/UserContext';
 const { width, height } = Dimensions.get('screen');
 
 export default function SelectChildScreen() {
@@ -17,6 +18,7 @@ export default function SelectChildScreen() {
     const [childs, setChilds] = useState<Kid[]>([])
     const [stateload, setStateload] = useState<boolean>(true);
     const router = useRouter();
+    const { userToken, setUserToken, userController } = useAppUser(); 
 
     if (!childContext) return null;
     const { setChildId } = childContext;
@@ -28,8 +30,8 @@ export default function SelectChildScreen() {
     const fetchuserInformation = async () => {
         setStateload(true)
         try {
-            const data = await DI.user.getUserInformations();
-            const childs = await DI.user.getUserChilds()
+            const data = await userController.getUserInformations();
+            const childs = await userController.getUserChilds()
             setUser(data)
             setChilds(childs)
         } catch (err) {

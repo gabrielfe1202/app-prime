@@ -25,9 +25,9 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const { setChildId } = childContext!;
     const { userToken, setUserToken, userController } = useAppUser(); 
 
-    const handleLogOut = async () => {
-        setUserToken(null); // Remove o token
-    };
+    // const handleLogOut = async () => {
+    //     setUserToken(null); // Remove o token
+    // };
 
     const router = useRouter();
 
@@ -61,12 +61,12 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
         };
     });
 
-    // const handleLogOut = async () => {
-    //     await userController.logout()
-    //     const teste = await userController.getToken()
-    //     console.log(teste)
-    //     setUserToken(null)
-    // }
+    const handleLogOut = async () => {
+        await userController.logout()
+        const teste = await userController.getToken()
+        console.log(teste)
+        setUserToken(null)
+    }
 
     return (
         <Modal visible={modalVisible} transparent={true} animationType="none" onRequestClose={onClose}>

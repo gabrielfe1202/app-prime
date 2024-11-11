@@ -1,6 +1,5 @@
 import { SafeAreaView, Text, View, Dimensions, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CalendarComponent } from "./Calendar";
-import { withAuthCheck } from "@/utils/auth";
 import { DateData } from "react-native-calendars";
 import { useEffect, useState } from "react";
 import globalStyles, { colors, fonts } from "../globalStyle"
@@ -108,7 +107,7 @@ function Schedule() {
 }
 
 
-export default withAuthCheck(Schedule)
+export default Schedule
 
 const styles = StyleSheet.create({
     timesContainer: {

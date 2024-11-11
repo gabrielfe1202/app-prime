@@ -1,7 +1,6 @@
 import { useChild } from '@/contexts/ChildContext';
 import { DI } from '@/controllers/DI';
 import { KidImage } from '@/entities/kid';
-import { withAuthCheck } from '@/utils/auth';
 import { delay } from '@/utils/delay';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

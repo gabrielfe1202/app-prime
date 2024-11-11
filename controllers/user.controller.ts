@@ -7,10 +7,6 @@ import { isNullOrEmpty } from "@/utils/stringFunctions";
 export class UserController {
     private token = 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8';
 
-    public getToken(): string{
-        return this.token
-    }
-
     async getUserInformations(): Promise<User> {
         const userSchema = z.object({
             Idt_usuario: z.number(),
@@ -37,7 +33,7 @@ export class UserController {
         return user;
     }
 
-    async getToken2(): Promise<string | null> {
+    async getToken(): Promise<string | null> {
         const token = await AsyncStorage.getItem('@Primeapp:usertoken');
         return token;
     }
@@ -48,7 +44,7 @@ export class UserController {
     }
 
     async login(): Promise<string>  {
-        let token = ''
+        let token = 'b1903c95-78d2-400a-b21d-dd212a898276'
         await AsyncStorage.setItem('@Primeapp:usertoken', token)
         return token
     }

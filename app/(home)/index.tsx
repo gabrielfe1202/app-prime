@@ -15,7 +15,6 @@ import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
-import { withAuthCheck } from "@/utils/auth";
 import { AuthAndChildChecker } from "@/contexts/AuthChildChecker";
 import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";

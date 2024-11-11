@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 const baseURL = 'https://sistema.primetimecd.com.br/api/';
@@ -26,13 +27,23 @@ const api: AxiosInstance = axios.create({
     },
 });
 
-const token = 'b1903c95-78d2-400a-b21d-dd212a898276';
+const getTokenFromAsyncStorage = async (): Promise<string | null> => {    
+    try {
+        const token = await AsyncStorage.getItem('@Primeapp:usertoken');
+        return token;
+    } catch (error) {
+        console.error('Erro ao obter o token do AsyncStorage', error);
+        return null;
+    }
+};
 
 api.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
+    async (config: InternalAxiosRequestConfig) => {  
+        const token = await getTokenFromAsyncStorage();
+        console.log(token)
         if (token) {
-            const tokenParam = `token=${token}`;            
-            const separator = config.url?.includes('?') ? '&' : '?';            
+            const tokenParam = `token=${token}`;
+            const separator = config.url?.includes('?') ? '&' : '?';
             config.url = `${config.url}${separator}${tokenParam}`;
         }
         return config;
