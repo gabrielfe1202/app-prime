@@ -4,7 +4,7 @@ import api from "@/utils/axiosApi";
 import { z } from "zod";
 
 export class ConclusionController {
-    async GetConclusions(id: number): Promise<{ conclusions: Conclusion[], title: GoalTitle }> {
+    async GetConclusions(id: number,id_cri: number): Promise<{ conclusions: Conclusion[], title: GoalTitle }> {
 
         const concluionShape = z.object({
             Idt_conclusao: z.number(),
@@ -24,7 +24,7 @@ export class ConclusionController {
             const response = await api.get('/Conclusao', {
                 params: {
                     id: id, 
-                    idt_crianca: 69
+                    idt_crianca: id_cri
                 }
             });
     

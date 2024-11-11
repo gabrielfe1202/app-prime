@@ -15,6 +15,7 @@ import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
+import { useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 type ConclusionParams = {
@@ -29,19 +30,19 @@ export default function ConclusionPage() {
   const { goalVPRef } = useGoal();
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const { conclusionId } = useLocalSearchParams<ConclusionParams>();
+  const childContext = useChild();
+  const { childId } = childContext!;
 
   const fetchConclusions = async () => {
     setStateload(true)
     try {
-      const data = await DI.Conclusion.GetConclusions(parseInt(conclusionId));
+      const data = await DI.Conclusion.GetConclusions(parseInt(conclusionId), childId!);
       setConclusions(data.conclusions)
       setTitle(data.title)
     } catch (err) {
       console.error(err);
     } finally {
-      delay(1000).then(() => {
-        setStateload(false)
-      })
+      setStateload(false)
     }
   };
 
@@ -49,7 +50,7 @@ export default function ConclusionPage() {
     fetchConclusions();
   }, []);
 
-  if(stateload) return <Loading />
+  if (stateload) return <Loading />
 
   return (
     <GestureHandlerRootView>
@@ -88,7 +89,7 @@ export default function ConclusionPage() {
                 {conclusions.length == 0 && (
                   <View style={{ paddingTop: 25 }}>
                     <Text style={goalStyles.texto_dados}>
-                      Ainda não temos nenhum {title?.titulo}
+                      Ainda não temos nenhum(a) {title?.titulo} disponível
                     </Text>
                   </View>
                 )}
