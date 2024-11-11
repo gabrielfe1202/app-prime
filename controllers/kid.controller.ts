@@ -121,8 +121,7 @@ export class KidController {
         try {
             const response = await api.get('/Cri_imagem', {
                 params: {
-                    id: this.Id,
-                    token: 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8'
+                    id: this.Id
                 }
             });
 
