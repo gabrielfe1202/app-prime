@@ -13,9 +13,7 @@ type LoginResponse = {
     msg: string
 }
 
-export class UserController {
-    private token = 'f0a625f7-e83b-4e20-8b40-03fb4606eaa8';
-
+export class UserController {   
     async getUserInformations(): Promise<User> {
         const userSchema = z.object({
             Idt_usuario: z.number(),
