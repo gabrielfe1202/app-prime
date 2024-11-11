@@ -105,4 +105,13 @@ export class ScheduleController {
             return []
         }
     }
+    
+    async scheduleTime(chilId: number,timeId: number) {
+
+        const response = await api.post("Hoararios",{
+            Idt_Cri_Crianca: chilId,
+            Idt_age_horario: timeId
+        })
+
+    }
 }
