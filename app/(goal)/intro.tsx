@@ -3,7 +3,7 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, ScrollView } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import goalStyles from "./goalStyle"
@@ -11,11 +11,31 @@ import globalStyles from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading";
+import { DI } from "@/controllers/DI";
 
 function Intro() {
   const router = useRouter();
   const { goalVPRef } = useGoal();
   const [stateload, setStateload] = useState<boolean>(true);
+  const [text, setText] = useState<string>('')
+
+  const fetchGoalIntro = async () => {
+    setStateload(true)
+    try {
+      const data = await DI.goal.introGoal();
+      setText(data.text)
+    } catch (err) {
+      console.error(err);
+    } finally {
+      delay(1000).then(() => {
+        setStateload(false)
+      })
+    }
+  };
+
+  useEffect(() => {
+    fetchGoalIntro();
+  }, []);
 
   function handleNext() {
     router.push('/main');
@@ -29,44 +49,47 @@ function Intro() {
     });
   }
 
-  useEffect(() => {
-    delay(1500).then(() => {
-      setStateload(false)
-    })
-  }, [])
 
-  if(stateload) return <Loading />
+  if (stateload) return <Loading />
 
   return (
     <GestureHandlerRootView>
       <SafeAreaView
-        style={{ flex: 1, gap: 32, paddingTop: 32 }}
+        style={{ flex: 1, gap: 32, }}
       >
-        <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
-          <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
-        </TouchableOpacity>
-
         <SingleViewPager
           onNext={handleNext}
           renderItem={() => (
             <View key={'intro'} style={{ flex: 1, alignItems: "center" }}>
-              <View
-                style={goalStyles.introContainer}
+              <ScrollView
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20, }}
+                showsVerticalScrollIndicator={false}
               >
+
+                <TouchableOpacity style={[globalStyles.logoContainer, { paddingBottom: 30 }]} onPress={() => { }}>
+                  <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+                </TouchableOpacity>
+                <View
+                  style={goalStyles.introContainer}
+                >
                   <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
                     Introdução
                   </Text>
-                  <View style={{ paddingTop: 25, flex: 1 }}>                    
-                      <Text style={goalStyles.texto_dados}>
-                        teste
-                      </Text>                    
-                  </View>                
-              </View>
+                  <View style={{ paddingTop: 25, flex: 1 }}>
+                    <Text style={goalStyles.texto_dados}>
+                      {text}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={{ height: 70 }} />
+
+              </ScrollView>
+
             </View>
           )}
         />
 
-        <View style={{height: 70}} />
 
         <GoalBottomTab onGotoPage={handleGoToGoal} />
       </SafeAreaView>
