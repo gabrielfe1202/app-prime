@@ -10,6 +10,7 @@ import { Loading } from "@/components/Loading";
 import { ScheduleTimes } from "@/entities/schedule";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { BottomTab } from "@/components/BottomTab";
+import { useChild } from "@/contexts/ChildContext";
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -18,11 +19,13 @@ function Schedule() {
     const [selectedDate, setSelectedDate] = useState<DateData>()
     const [stateload, setStateload] = useState<boolean>(true);
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
+    const childContext = useChild();
+    const { childId } = childContext!;
 
     const fetchScheduleInfos = async () => {
         setStateload(true)
         try {
-            const data = await DI.schedule.getConfigSchedule();            
+            const data = await DI.schedule.getConfigSchedule(childId!);            
             setMarkedDates(data.datesAvailable)
             setInitDate(data.initialDate())
         } catch (err) {
@@ -40,7 +43,7 @@ function Schedule() {
 
     const handleDayPress = async (date: DateData) => {
         setSelectedDate(date);
-        const times = await DI.schedule.getTimesFromDate(date);
+        const times = await DI.schedule.getTimesFromDate(date,childId!);
         setDateTimes(times)
     }
 
