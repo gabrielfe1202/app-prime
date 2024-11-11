@@ -40,7 +40,7 @@ const getTokenFromAsyncStorage = async (): Promise<string | null> => {
 api.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {  
         const token = await getTokenFromAsyncStorage();
-        console.log(token)
+        
         if (token) {
             const tokenParam = `token=${token}`;
             const separator = config.url?.includes('?') ? '&' : '?';

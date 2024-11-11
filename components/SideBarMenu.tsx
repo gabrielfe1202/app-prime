@@ -63,8 +63,6 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
 
     const handleLogOut = async () => {
         await userController.logout()
-        const teste = await userController.getToken()
-        console.log(teste)
         setUserToken(null)
     }
 
