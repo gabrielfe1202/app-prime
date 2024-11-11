@@ -29,13 +29,13 @@ function Home() {
     const childContext = useChild();
     const { kidController } = childContext!;
     const router = useRouter();
-    const { userToken, setUserToken } = useAppUser(); 
+    //const { userToken, setUserToken } = useAppUser(); 
 
     const fetchKidInformation = async () => {
         setStateload(true)
         try {
             const data = await DI.kid.kidInformations();
-            const title = await DI.titles.GetTitles(userToken);
+            const title = await DI.titles.GetTitles();
             setKidInfo(data);
             setTitles(title)
         } catch (err) {

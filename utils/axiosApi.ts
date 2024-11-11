@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 const baseURL = 'https://sistema.primetimecd.com.br/api/';
 
@@ -26,15 +26,18 @@ const api: AxiosInstance = axios.create({
     },
 });
 
+const token = 'b1903c95-78d2-400a-b21d-dd212a898276';
 
-
-
-// api.post('/exemplo', { chave: 'valor' })
-//   .then(response => {
-//     console.log('Resposta POST:', response.data);
-//   })
-//   .catch(error => {
-//     console.error('Erro POST:', error);
-//   });
+api.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+        if (token) {
+            const tokenParam = `token=${token}`;            
+            const separator = config.url?.includes('?') ? '&' : '?';            
+            config.url = `${config.url}${separator}${tokenParam}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 export default api;

@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { DI } from "./DI";
 
 export class TitleController {
-    async GetTitles(token: string | null): Promise<GoalTitle[]> {
+    async GetTitles(): Promise<GoalTitle[]> {
         const TituloSchema = z.object({
             Idt_titulo: z.number(),
             titulo: z.string().nullable(),
@@ -27,11 +27,7 @@ export class TitleController {
         });
 
         try {
-            const response = await api.get('/Titulos', {
-                params: {
-                    token
-                }
-            });
+            const response = await api.get('/Titulos');
 
             const result = requestSchema.safeParse(response.data);
 
