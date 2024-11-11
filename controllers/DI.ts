@@ -10,7 +10,6 @@ export const DI = {
   goal: new GoalController(),
   kid: new KidController(),
   titles: new TitleController(),
-  user: new UserController(),
   schedule: new ScheduleController(),
   Conclusion: new ConclusionController(),
 }

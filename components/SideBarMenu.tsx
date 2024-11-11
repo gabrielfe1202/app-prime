@@ -23,17 +23,18 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const [countChilds, setCountChilds] = useState<number>(0)
     const childContext = useChild();
     const { setChildId } = childContext!;
-    const { userToken, setUserToken } = useAppUser(); // Hook para acessar o contexto
+    const { userToken, setUserToken, userController } = useAppUser(); 
 
-  const handleLogOut = async () => {    
-    setUserToken(null); // Remove o token
-  };
+    const handleLogOut = async () => {
+        setUserToken(null); // Remove o token
+    };
+
     const router = useRouter();
 
     const fetchuserInformation = async () => {
         try {
-            const data = await DI.user.getUserInformations();
-            const childs = await DI.user.getUserChilds()
+            const data = await userController.getUserInformations();
+            const childs = await userController.getUserChilds()
             setUser(data)
             setCountChilds(childs.length)
         } catch (err) {
@@ -126,7 +127,7 @@ const sideMenu = StyleSheet.create({
         paddingBottom: height * 0.2
     },
     headerBgTextContainer: {
-        justifyContent: 'center',        
+        justifyContent: 'center',
         marginHorizontal: width * 0.07,
         alignItems: 'center',
     },
