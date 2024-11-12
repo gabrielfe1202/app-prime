@@ -9,6 +9,7 @@ import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";
 import { useRouter } from "expo-router";
+import ConfirmationModal from "./ConfirmationModal";
 const { width, height } = Dimensions.get('screen');
 
 interface SideBarProps {
@@ -19,11 +20,12 @@ interface SideBarProps {
 export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const translateX = useSharedValue(-300);
     const [modalVisible, setModalVisible] = useState<boolean>(false)
+    const [modalConfirmVisible, setModalConfirmVisible] = useState<boolean>(false)
     const [user, setUser] = useState<User>()
     const [countChilds, setCountChilds] = useState<number>(0)
     const childContext = useChild();
     const { setChildId } = childContext!;
-    const { userToken, setUserToken, userController } = useAppUser(); 
+    const { userToken, setUserToken, userController } = useAppUser();
 
     // const handleLogOut = async () => {
     //     setUserToken(null); // Remove o token
@@ -66,42 +68,61 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
         setUserToken(null)
     }
 
+    const handleCancel = (): void => {
+        setModalConfirmVisible(false);
+    };
+
+    const handleShowConfirmModal = () => {
+        setModalConfirmVisible(true);  // Exibir o modal de confirmação
+    };
+
     return (
-        <Modal visible={modalVisible} transparent={true} animationType="none" onRequestClose={onClose}>
-            <View style={sideMenu.modalOverlay}>
-                <Animated.View style={[sideMenu.container, modalStyle, { height: height }]}>
-                    <View style={sideMenu.inside}>
-                        <View style={{ backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ width: 130, height: 130, margin: 15 }}
-                                resizeMode={'contain'}
-                                source={logo}
-                            />
-                        </View>
-                        <View style={sideMenu.headerBgTextContainer}>
-                            <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
-                        </View>
-                        <View style={sideMenu.buttonsContainer}>
-                            {countChilds > 1 && (
-                                <SideMenuItem
-                                    iconName="child"
-                                    text="Filhos"
-                                    iconFamily="FontAwesome"
-                                    callback={() => { setChildId(null) }}
+        <>
+            <Modal visible={modalVisible} transparent={true} animationType="none" onRequestClose={onClose}>
+                <View style={sideMenu.modalOverlay}>
+                    <Animated.View style={[sideMenu.container, modalStyle, { height: height }]}>
+                        <View style={sideMenu.inside}>
+                            <View style={{ backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                                <Image
+                                    style={{ width: 130, height: 130, margin: 15 }}
+                                    resizeMode={'contain'}
+                                    source={logo}
                                 />
-                            )}
-                            <SideMenuItem
-                                iconName="logout"
-                                text="Sair"
-                                iconFamily="MaterialCommunityIcons"
-                                callback={handleLogOut}
-                            />
+                            </View>
+                            <View style={sideMenu.headerBgTextContainer}>
+                                <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
+                            </View>
+                            <View style={sideMenu.buttonsContainer}>
+                                {countChilds > 1 && (
+                                    <SideMenuItem
+                                        iconName="child"
+                                        text="Filhos"
+                                        iconFamily="FontAwesome"
+                                        callback={() => { setChildId(null) }}
+                                    />
+                                )}
+                                <SideMenuItem
+                                    iconName="logout"
+                                    text="Sair"
+                                    iconFamily="MaterialCommunityIcons"
+                                    callback={handleShowConfirmModal}
+                                />
+                            </View>
                         </View>
-                    </View>
-                </Animated.View>
-            </View>
-            <TouchableOpacity style={sideMenu.outside} onPress={onClose} />
-        </Modal>
+                    </Animated.View>
+                </View>
+                <TouchableOpacity style={sideMenu.outside} onPress={onClose} />
+            </Modal>
+            <ConfirmationModal
+                visible={modalConfirmVisible}
+                tille="Logout"
+                text="Tem certeza que deseja sair?"
+                buttonText="Sair"
+                buttonType="DANGER"
+                onConfirm={handleLogOut}
+                onCancel={handleCancel}
+            />
+        </>
     )
 }
 
