@@ -1,7 +1,7 @@
 import { SafeAreaView, Text, View, Dimensions, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CalendarComponent } from "./Calendar";
 import { DateData } from "react-native-calendars";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import globalStyles, { colors, fonts } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { DI } from "@/controllers/DI";
@@ -13,6 +13,8 @@ import { BottomTab } from "@/components/BottomTab";
 import { useChild } from "@/contexts/ChildContext";
 import ConfirmationModal from "@/components/ConfirmationModal";
 import AlertModal from "@/components/AlertModal";
+import LottieView from "lottie-react-native";
+import scheduleAnimation from "../../assets/animations/schedule.json"
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -30,7 +32,8 @@ function Schedule() {
     const [alertModalTitle, setAlertModalTitle] = useState<string>('')
     const [alertModalMessage, setAlertModalMessage] = useState<string>('')
     const [alertModalType, setAlertModalType] = useState<"SUCCESS" | "DANGER" | "WARNING">('SUCCESS')
-    const [scheduledResponse, setScheduledResponse] = useState<{success: boolean,msg: string}>({success: false, msg: ''})
+    const [scheduledResponse, setScheduledResponse] = useState<{ success: boolean, msg: string }>({ success: false, msg: '' })
+    const animationRef = useRef<LottieView>(null);
     const childContext = useChild();
     const { childId } = childContext!;
 
@@ -73,7 +76,7 @@ function Schedule() {
     const handleScheduleTime = async () => {
         try {
             setStateload(true)
-            const data = await DI.schedule.scheduleTime(timeSelectedId, childId!);            
+            const data = await DI.schedule.scheduleTime(timeSelectedId, childId!);
             setScheduledResponse(data)
             showModal(data)
         } catch (error) {
@@ -84,10 +87,10 @@ function Schedule() {
         }
     }
 
-    const showModal = (data: {success: boolean,msg: string}) => {      
+    const showModal = (data: { success: boolean, msg: string }) => {
         if (data.success) {
-            setAlertModalTitle("Confirmado")            
-        }else{
+            setAlertModalTitle("Confirmado")
+        } else {
             setAlertModalTitle("Ops, ocoreu um erro")
             setAlertModalType("DANGER")
         }
@@ -96,7 +99,7 @@ function Schedule() {
     };
 
     const hideModal = () => {
-        if(scheduledResponse.success){
+        if (scheduledResponse.success) {
             setScheduled(true)
         }
         setIsModalVisible(false);
@@ -111,15 +114,38 @@ function Schedule() {
     if (scheduled) {
         return (
             <GestureHandlerRootView>
-                <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: "flex-start", alignItems: "center", paddingTop: height * 0.11 }}>
 
-                    <TouchableOpacity style={globalStyles.logoContainer} onPress={() => { }}>
-                        <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
+                    <TouchableOpacity
+                        style={[
+                            globalStyles.logoContainer,                         
+                        ]}
+                        onPress={() => { }}
+                    >
+                        <Image
+                            source={logo} style={[
+                                globalStyles.logo,
+                                { width: 150, height: 150 }
+                            ]}
+                            resizeMode='contain'
+                        />
                     </TouchableOpacity>
+
+                    <LottieView
+                        source={scheduleAnimation}
+                        autoPlay
+                        loop={true}
+                        ref={animationRef}
+                        style={{ flex: 0, width: width, height: 290, marginTop: 10 }}
+                    />
+
 
                     <View>
                         <Text style={styles.textScheduled}>
-                            Você já possui uma reunião agendada para dia:{'\n\n' + scheduledDate}
+                            Você já possui uma reunião agendada para dia:
+                        </Text>
+                        <Text style={styles.scheduledDate}>
+                            {scheduledDate}
                         </Text>
                     </View>
 
@@ -242,8 +268,18 @@ const styles = StyleSheet.create({
     },
     textScheduled: {
         textAlign: "center",
-        fontSize: 20,
+        fontSize: 22,
         width: width * 0.7,
-        fontWeight: "bold"
+        fontWeight: "bold",        
+        color: "#505050"
+    },
+    scheduledDate: {        
+        textAlign: "center",
+        fontSize: 23,
+        width: width * 0.7,
+        fontWeight: "bold",        
+        marginTop: 20,
+        textDecorationLine: "underline",
+        color: "#505050"
     }
 })
