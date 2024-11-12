@@ -3,17 +3,18 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View, Image, Dimensions } from "react-native";
+import { Text, TouchableOpacity, View, Image, Dimensions, StyleSheet } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../../assets/images/logo-prime.png"
 import goalStyles from './goalStyle'
-import globalStyles from "../globalStyle"
+import globalStyles, { fonts } from "../globalStyle"
 import { useEffect, useState } from "react";
 import { DI } from "@/controllers/DI";
 import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
 import { useChild } from "@/contexts/ChildContext";
+import pdf from "../../assets/images/pdf.png"
 const { width, height } = Dimensions.get('screen');
 
 export default function Ending() {
@@ -43,7 +44,7 @@ export default function Ending() {
     setStateload(true)
     const ConclusionId = 6;
     try {
-      const data = await DI.Conclusion.GetConclusions(ConclusionId,childId!);
+      const data = await DI.Conclusion.GetConclusions(ConclusionId, childId!);
       setConclusions(data.conclusions)
       setTitle(data.title)
     } catch (err) {
@@ -72,7 +73,7 @@ export default function Ending() {
                 showsVerticalScrollIndicator={false}
               >
 
-                <TouchableOpacity style={[globalStyles.logoContainer,{paddingBottom: 30}]} onPress={() => { }}>
+                <TouchableOpacity style={[globalStyles.logoContainer, { paddingBottom: 30 }]} onPress={() => { }}>
                   <Image source={logo} style={globalStyles.logo} resizeMode='contain' />
                 </TouchableOpacity>
 
@@ -100,12 +101,21 @@ export default function Ending() {
                     {conclusions.length == 0 && (
                       <View style={{ paddingTop: 25 }}>
                         <Text style={goalStyles.texto_dados}>
-                          Ainda não temos nenhum {/*titulo*/}
+                          Ainda não temos nenhuma Conclusão
                         </Text>
                       </View>
                     )}
                   </View>
                 </View>
+
+                <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#999999', alignItems: 'center', width: width * 0.9 }]} onPress={() => { }}>
+                  <Image style={[styles.imagem_titulo, { height: width * 0.08, width: width * 0.08 }]} source={pdf} resizeMode='contain' />
+                  <Text style={[styles.texto_titulo, { fontSize: width * 0.04, flex: 1 }]}>
+                    Download PDF
+                  </Text>
+                  <View style={{ width: width * 0.08 }}></View>
+                </TouchableOpacity>
+
               </ScrollView>
 
               <View style={{ height: 70 }} />
@@ -118,3 +128,24 @@ export default function Ending() {
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  button_titulo: {
+    backgroundColor: '#505050',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 15,
+    width: width * 0.42,
+    marginTop: 25,
+    flexDirection: 'row'
+  },
+  texto_titulo: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 18,
+    width: width * 0.20
+  },
+  imagem_titulo: {
+    width: width * 0.09
+  },
+})
