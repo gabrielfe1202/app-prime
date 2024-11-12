@@ -11,6 +11,7 @@ import { ScheduleTimes } from "@/entities/schedule";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { BottomTab } from "@/components/BottomTab";
 import { useChild } from "@/contexts/ChildContext";
+import ConfirmationModal from "@/components/ConfirmationModal";
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -21,6 +22,8 @@ function Schedule() {
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
     const [scheduled, setScheduled] = useState<boolean>(false)
     const [scheduledDate, setScheduledDate] = useState<string | null>(null)
+    const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
+    const [modalText,setModalText] = useState<string>('')
     const childContext = useChild();
     const { childId } = childContext!;
 
@@ -49,6 +52,19 @@ function Schedule() {
         setSelectedDate(date);
         const times = await DI.schedule.getTimesFromDate(date, childId!);
         setDateTimes(times)
+    }    
+    
+    const handleCancel = (): void => {
+        setModalConfirmationVisible(false);
+    };
+
+    const handleShowConfirmModal = (time: ScheduleTimes) => {
+        setModalText(`Confirmar agendamento\n ${time.dateLabel}?`)
+        setModalConfirmationVisible(true);
+    };
+
+    const handleScheduleTime = () => {
+
     }
 
     if (stateload) {
@@ -118,7 +134,7 @@ function Schedule() {
                                 ]}
                             >
                                 <Text>{time.dateLabel}</Text>
-                                <TouchableOpacity style={styles.timesBtn} onPress={() => { }}>
+                                <TouchableOpacity style={styles.timesBtn} onPress={() => handleShowConfirmModal(time)}>
                                     <Text>Reservar</Text>
                                 </TouchableOpacity>
                             </View>
@@ -131,6 +147,17 @@ function Schedule() {
                 <BottomTab />
 
             </SafeAreaView>
+
+            <ConfirmationModal 
+                visible={modalConfirmationVisible}
+                onCancel={handleCancel}
+                onConfirm={handleScheduleTime}
+                tille="Agendar"
+                text={modalText}
+                buttonText="Agendar"
+                buttonType="SUCCESS"
+            />
+
         </GestureHandlerRootView>
     )
 }
