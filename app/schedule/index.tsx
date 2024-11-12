@@ -12,6 +12,7 @@ import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler
 import { BottomTab } from "@/components/BottomTab";
 import { useChild } from "@/contexts/ChildContext";
 import ConfirmationModal from "@/components/ConfirmationModal";
+import AlertModal from "@/components/AlertModal";
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -25,6 +26,11 @@ function Schedule() {
     const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
     const [modalText, setModalText] = useState<string>('')
     const [timeSelectedId, setTimeSelectedId] = useState<number>(0)
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [alertModalTitle, setAlertModalTitle] = useState<string>('')
+    const [alertModalMessage, setAlertModalMessage] = useState<string>('')
+    const [alertModalType, setAlertModalType] = useState<"SUCCESS" | "DANGER" | "WARNING">('SUCCESS')
+    const [scheduledResponse, setScheduledResponse] = useState<{success: boolean,msg: string}>({success: false, msg: ''})
     const childContext = useChild();
     const { childId } = childContext!;
 
@@ -64,20 +70,12 @@ function Schedule() {
         setModalConfirmationVisible(true);
     };
 
-    const hideNotification = (): void => {
-
-    }
-
     const handleScheduleTime = async () => {
         try {
             setStateload(true)
-            const data = await DI.schedule.scheduleTime(timeSelectedId, childId!);
-            console.log(data)
-            
-            /*if (data.success) {
-                setScheduled(true)
-            }*/
-
+            const data = await DI.schedule.scheduleTime(timeSelectedId, childId!);            
+            setScheduledResponse(data)
+            showModal(data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -85,6 +83,24 @@ function Schedule() {
             setStateload(false)
         }
     }
+
+    const showModal = (data: {success: boolean,msg: string}) => {      
+        if (data.success) {
+            setAlertModalTitle("Confirmado")            
+        }else{
+            setAlertModalTitle("Ops, ocoreu um erro")
+            setAlertModalType("DANGER")
+        }
+        setAlertModalMessage(data.msg)
+        setIsModalVisible(true);
+    };
+
+    const hideModal = () => {
+        if(scheduledResponse.success){
+            setScheduled(true)
+        }
+        setIsModalVisible(false);
+    };
 
     if (stateload) {
         return (
@@ -178,6 +194,13 @@ function Schedule() {
                 buttonType="SUCCESS"
             />
 
+            <AlertModal
+                isVisible={isModalVisible}
+                onClose={hideModal}
+                title={alertModalTitle}
+                message={alertModalMessage}
+                type={alertModalType}
+            />
 
         </GestureHandlerRootView>
 
