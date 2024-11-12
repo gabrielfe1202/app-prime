@@ -44,9 +44,7 @@ const Gallery = () => {
         } catch (err) {
             console.error(err);
         } finally {
-            delay(1000).then(() => {
-                setStateload(false)
-            })
+            setStateload(false)
         }
     };
 
@@ -55,9 +53,9 @@ const Gallery = () => {
     }, []);
 
     useEffect(() => {
-        if(filterItem == "Todos"){
+        if (filterItem == "Todos") {
             setFilteredKidImages(kidImages)
-        }else{
+        } else {
             setFilteredKidImages(kidImages.filter(x => x.year == filterItem))
         }
     }, [filterItem, kidImages])
@@ -143,7 +141,7 @@ const Gallery = () => {
                 >
                     <View style={{ width: width * 0.55 }}>
                         <TouchableOpacity onPress={() => { router.replace('/(home)') }} style={{ width: '50%' }}>
-                            <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />                            
+                            <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: width * 0.3, flexDirection: 'row', justifyContent: 'flex-start' }}>

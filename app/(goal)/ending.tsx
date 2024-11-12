@@ -50,9 +50,7 @@ export default function Ending() {
     } catch (err) {
       console.error(err);
     } finally {
-      delay(1000).then(() => {
-        setStateload(false)
-      })
+      setStateload(false)      
     }
   };
 

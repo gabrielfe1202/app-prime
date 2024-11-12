@@ -23,7 +23,7 @@ function Schedule() {
     const [scheduled, setScheduled] = useState<boolean>(false)
     const [scheduledDate, setScheduledDate] = useState<string | null>(null)
     const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
-    const [modalText,setModalText] = useState<string>('')
+    const [modalText, setModalText] = useState<string>('')
     const childContext = useChild();
     const { childId } = childContext!;
 
@@ -38,9 +38,7 @@ function Schedule() {
         } catch (err) {
             console.error(err);
         } finally {
-            delay(1000).then(() => {
-                setStateload(false)
-            })
+            setStateload(false)
         }
     };
 
@@ -52,8 +50,8 @@ function Schedule() {
         setSelectedDate(date);
         const times = await DI.schedule.getTimesFromDate(date, childId!);
         setDateTimes(times)
-    }    
-    
+    }
+
     const handleCancel = (): void => {
         setModalConfirmationVisible(false);
     };
@@ -148,7 +146,7 @@ function Schedule() {
 
             </SafeAreaView>
 
-            <ConfirmationModal 
+            <ConfirmationModal
                 visible={modalConfirmationVisible}
                 onCancel={handleCancel}
                 onConfirm={handleScheduleTime}
