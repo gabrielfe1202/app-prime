@@ -24,6 +24,7 @@ function Schedule() {
     const [scheduledDate, setScheduledDate] = useState<string | null>(null)
     const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
     const [modalText, setModalText] = useState<string>('')
+    const [timeSelectedId, setTimeSelectedId] = useState<number>(0)
     const childContext = useChild();
     const { childId } = childContext!;
 
@@ -58,11 +59,31 @@ function Schedule() {
 
     const handleShowConfirmModal = (time: ScheduleTimes) => {
         setModalText(`Confirmar agendamento\n ${time.dateLabel}?`)
+        setScheduledDate(time.dateLabel)
+        setTimeSelectedId(time.id)
         setModalConfirmationVisible(true);
     };
 
-    const handleScheduleTime = () => {
+    const hideNotification = (): void => {
 
+    }
+
+    const handleScheduleTime = async () => {
+        try {
+            setStateload(true)
+            const data = await DI.schedule.scheduleTime(timeSelectedId, childId!);
+            console.log(data)
+            
+            /*if (data.success) {
+                setScheduled(true)
+            }*/
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            handleCancel()
+            setStateload(false)
+        }
     }
 
     if (stateload) {
@@ -93,7 +114,9 @@ function Schedule() {
         )
     }
 
+
     return (
+
         <GestureHandlerRootView>
             <SafeAreaView
                 style={{ flex: 1, paddingTop: 32 }}
@@ -143,7 +166,6 @@ function Schedule() {
                 <View style={{ height: 60 }} />
 
                 <BottomTab />
-
             </SafeAreaView>
 
             <ConfirmationModal
@@ -156,7 +178,9 @@ function Schedule() {
                 buttonType="SUCCESS"
             />
 
+
         </GestureHandlerRootView>
+
     )
 }
 

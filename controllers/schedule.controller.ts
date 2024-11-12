@@ -47,7 +47,7 @@ export class ScheduleController {
             configs.month = result.data.agenda.mes;
             configs.scheduled = result.data.agenda.agendado
             configs.scheduledDateLabel = result.data.agenda.data_agendada;
-            configs.datesAvailable = result.data.datas;            
+            configs.datesAvailable = result.data.datas;
 
         } catch (error) {
             console.error(error)
@@ -105,13 +105,39 @@ export class ScheduleController {
             return []
         }
     }
-    
-    async scheduleTime(chilId: number,timeId: number) {
 
-        const response = await api.post("Hoararios",{
-            Idt_Cri_Crianca: chilId,
-            Idt_age_horario: timeId
+    async scheduleTime(timeId: number, chilId: number): Promise<{ success: boolean, msg: string }> {
+
+        const responseShape = z.object({
+            success: z.boolean(),
+            msg: z.string()
         })
+
+        try {
+            const response = await api.post("Horarios", {
+                Idt_Cri_Crianca: chilId,
+                Idt_age_horario: timeId
+            })
+
+            const result = responseShape.safeParse(response.data)
+
+            if (result.error) return {
+                success: false,
+                msg: "Erro ao agendar"
+            }
+
+            return {
+                success: result.data.success,
+                msg: result.data.msg
+            }
+
+        } catch (error) {
+            console.log(error)
+            return {
+                success: false,
+                msg: "Erro ao agendar"
+            }
+        }
 
     }
 }
