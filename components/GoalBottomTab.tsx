@@ -52,7 +52,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
 
   const fetchKidInformation = async () => {
     try {
-      const title = await DI.titles.GetTitles(userToken);
+      const title = await DI.titles.GetTitles();
       setTitles(title)
     } catch (err) {
       console.error(err);
