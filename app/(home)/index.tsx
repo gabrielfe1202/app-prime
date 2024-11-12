@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
         paddingVertical: 7,
         borderRadius: 12,
         width: width * 0.42,
-        marginTop: 25,
+        marginTop: 15,
         flexDirection: 'row',
         justifyContent: 'center',
         minHeight: height * 0.05

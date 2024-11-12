@@ -163,7 +163,7 @@ function Schedule() {
                                     until={timeSlice}
                                     size={30}
                                     onFinish={() => { router.push('/schedule') }}
-                                    digitStyle={{ backgroundColor: '#FFF', borderColor: colors.laranja, borderWidth: 1 }}
+                                    digitStyle={{ backgroundColor: '#FFF', borderColor: colors.laranja, borderWidth: 1, elevation: 1 }}
                                     digitTxtStyle={{ color: colors.laranja, fontFamily: fonts.passo }}
                                     timeLabelStyle={{ color: '#505050', fontSize: 12 }}
                                     timeToShow={['D', 'H', 'M']}
