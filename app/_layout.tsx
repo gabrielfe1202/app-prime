@@ -11,6 +11,7 @@ import { AuthAndChildChecker } from '@/contexts/AuthChildChecker';
 import { ChildProvider } from '@/contexts/ChildContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { AuthChecker } from '@/contexts/AuthChecker';
+import { StatusBar } from 'expo-status-bar';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,18 +38,21 @@ export default function RootLayout() {
   }
 
   return (
-    <UserProvider>
-      <AuthChecker>
-        <ChildProvider>
-          <AuthAndChildChecker>
-            <ThemeProvider value={DefaultTheme}>
-              <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
+    <>
+      <StatusBar style="dark" backgroundColor="#F1F1F1" />
+      <UserProvider>
+        <AuthChecker>
+          <ChildProvider>
+            <AuthAndChildChecker>
+              <ThemeProvider value={DefaultTheme}>
+                <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
 
-              </Stack>
-            </ThemeProvider>
-          </AuthAndChildChecker >
-        </ChildProvider>
-      </AuthChecker>
-    </UserProvider>
+                </Stack>
+              </ThemeProvider>
+            </AuthAndChildChecker >
+          </ChildProvider>
+        </AuthChecker>
+      </UserProvider>
+    </>
   );
 }
