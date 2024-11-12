@@ -15,6 +15,7 @@ import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
 import { useChild } from "@/contexts/ChildContext";
 import pdf from "../../assets/images/pdf.png"
+import { Loading } from "@/components/Loading";
 const { width, height } = Dimensions.get('screen');
 
 export default function Ending() {
@@ -57,6 +58,13 @@ export default function Ending() {
   useEffect(() => {
     fetchConclusions();
   }, []);
+
+
+  const handleDownloadPdf = async () => {
+    
+  }
+
+  if(stateload) return <Loading />
 
   return (
     <GestureHandlerRootView>
@@ -106,7 +114,7 @@ export default function Ending() {
                   </View>
                 </View>
 
-                <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#999999', alignItems: 'center', width: width * 0.9 }]} onPress={() => { }}>
+                <TouchableOpacity style={[styles.button_titulo, { backgroundColor: '#999999', alignItems: 'center', width: width * 0.9 }]} onPress={handleDownloadPdf}>
                   <Image style={[styles.imagem_titulo, { height: width * 0.08, width: width * 0.08 }]} source={pdf} resizeMode='contain' />
                   <Text style={[styles.texto_titulo, { fontSize: width * 0.04, flex: 1 }]}>
                     Download PDF
