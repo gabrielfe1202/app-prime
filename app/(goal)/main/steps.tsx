@@ -7,8 +7,11 @@ import { Goal, GoalStep } from "@/entities/goal";
 import { delay } from "@/utils/delay";
 import { isNullOrEmpty } from "@/utils/stringFunctions";
 import { asyncArrayToState, useAsync } from "@/utils/use-async";
+import LottieView from "lottie-react-native";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, Image, Dimensions, StyleSheet } from "react-native";
+import LoadAnimationJson from "../../../assets/animations/splash.json"
+import { Load } from "@/components/Loading";
 const { width, height } = Dimensions.get('screen');
 
 export function Steps() {
@@ -27,11 +30,7 @@ export function Steps() {
 
   if (!selectedGoal.state) return <></>;
   if (isLoading) {
-    return <Text
-      style={{ color: 'white', paddingHorizontal: 24 }}
-    >
-      Carregando Passos...
-    </Text>
+    return <Load />
   }
 
   return <Main goal={selectedGoal.state} />
@@ -58,7 +57,7 @@ function Main({ goal }: Props) {
     stepsVPRef.current?.gotoPageWhere(p => p.id === lastId);
   }, [details.state]);
 
-  if (details.state === 'LOADING') return <Text>Carregando...</Text>;
+  if (details.state === 'LOADING') return <Load />;
   if (details.state === 'ERROR') return <></>;
 
   function handleReachHead() {
@@ -112,8 +111,8 @@ function Main({ goal }: Props) {
       // onChange={handleOnChange}
       onReachTail={handleReachTail}
       onReachHead={handleReachHead}
-      renderHead={() => <Text style={{ color: 'white', fontSize: 18 }}>voltar passo</Text>}
-      renderTail={() => <Text style={{ color: 'white', fontSize: 18 }}>ir passo a frente</Text>}
+      renderHead={() => <Load />}
+      renderTail={() => <Load />}
     />
   );
 }

@@ -23,24 +23,26 @@ export function Loading() {
                 style={{ flex: 0, width: width, height: 150, marginTop: -50 }}
             />
 
-            {/*erro && (
-            <View style={{ width: width, position: 'absolute', bottom: 40, justifyContent: 'center', alignItems: 'center', zIndex: 99999 }}>
-                <View style={{ width: width * 0.9, height: 50, backgroundColor: '#505050', borderRadius: 15, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, flexDirection: 'row' }}>
-                    <Text style={{ color: '#fff', fontWeight: '800', fontSize: 15 }}>
-                        Verifique a sua conexão
-                    </Text>
-                    <TouchableOpacity>
-                        <Text onPress={() => _bootstrapAsync()} style={{ color: '#7fa8f5', fontWeight: '800', fontSize: 15 }}>
-                            tente novamente
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )*/}
-
         </View>
     )
 }
+
+export function Load(){
+    const animationRef = useRef<LottieView>(null);
+  
+    return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', height: height * 0.2 }}>          
+            <LottieView
+                source={LoadAnimationJson}
+                autoPlay
+                loop={true}
+                ref={animationRef}
+                style={{ flex: 0, width: width, height: 150, marginTop: -50 }}
+            />
+  
+        </View>
+    )
+  }
 
 const styles = StyleSheet.create({
     logoFullWidth: {

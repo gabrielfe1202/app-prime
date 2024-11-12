@@ -10,6 +10,7 @@ import { useRouter, Link } from 'expo-router';
 import { Steps } from './steps';
 import { Goal } from '@/entities/goal';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Load } from '@/components/Loading';
 const { width, height } = Dimensions.get('screen');
 
 export default function Layout() {
@@ -86,8 +87,8 @@ export default function Layout() {
                 onChange={onChangeSelection}
                 onReachTail={handleReachTail}
                 onReachHead={handleReachHead}
-                renderHead={() => <Text style={{ color: 'white', fontSize: 24 }}>Introdução</Text>}
-                renderTail={() => <Text style={{ color: 'white', fontSize: 24 }}>Finalização</Text>}
+                renderHead={() => <Load />}
+                renderTail={() => <Load />}
               />
 
               {/*<View
