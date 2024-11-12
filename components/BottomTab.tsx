@@ -24,7 +24,7 @@ export function BottomTab() {
             <SideBarMenu visible={modalVisible} onClose={closeModal} />
 
             <View style={footerStyles.container} >
-                <TouchableOpacity onPress={() => { router.replace('/(home)') }} >
+                <TouchableOpacity onPress={() => { router.push('/(home)') }} >
                     <Image source={homeImage} style={footerStyles.icones} resizeMode='contain' />
                 </TouchableOpacity>
 

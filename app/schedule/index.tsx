@@ -16,6 +16,8 @@ import AlertModal from "@/components/AlertModal";
 import LottieView from "lottie-react-native";
 import scheduleAnimation from "../../assets/animations/schedule.json"
 import CountDown from 'react-native-countdown-component';
+import { router } from "expo-router";
+import { useBackHandler } from '@react-native-community/hooks';
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -39,6 +41,11 @@ function Schedule() {
     const animationRef = useRef<LottieView>(null);
     const childContext = useChild();
     const { childId } = childContext!;
+
+    useBackHandler(() => {
+        router.push('/(home)')
+        return true;
+    });
 
     const fetchScheduleInfos = async () => {
         setStateload(true)
@@ -149,18 +156,18 @@ function Schedule() {
                         {!scheduleAvable ? (
                             <>
                                 <Text style={styles.textScheduled}>
-                                    Agenda disponível em: 
+                                    Agenda disponível em:
                                 </Text>
                                 <CountDown
-                                    style={{marginTop: 20}}
+                                    style={{ marginTop: 20 }}
                                     until={timeSlice}
                                     size={30}
-                                    onFinish={() => {}}
+                                    onFinish={() => { router.push('/schedule') }}
                                     digitStyle={{ backgroundColor: '#FFF', borderColor: colors.laranja, borderWidth: 1 }}
-                                    digitTxtStyle={{ color: colors.laranja, fontFamily: fonts.passo}}
-                                    timeLabelStyle={{color: '#505050', fontSize: 12}}
-                                    timeToShow={['D','H', 'M']}
-                                    timeLabels={{ d: 'dias', h: 'horas', m: 'minutos'}}                                    
+                                    digitTxtStyle={{ color: colors.laranja, fontFamily: fonts.passo }}
+                                    timeLabelStyle={{ color: '#505050', fontSize: 12 }}
+                                    timeToShow={['D', 'H', 'M']}
+                                    timeLabels={{ d: 'dias', h: 'horas', m: 'minutos' }}
                                 />
                             </>
                         ) : (
