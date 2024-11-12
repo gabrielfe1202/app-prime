@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('screen');
@@ -24,8 +25,8 @@ const ConfirmationModal = ({ visible, onConfirm, onCancel, tille, text, buttonTe
                 <View style={styles.modalContainer}>
                     <View style={styles.header}>
                         <Text style={styles.modalTitle}>{tille}</Text>
-                        <TouchableOpacity onPress={onCancel} style={styles.closeButton}>
-                            <Text style={styles.closeButtonText}>X</Text>
+                        <TouchableOpacity onPress={onCancel} style={styles.closeButton}>                            
+                            <FontAwesome name='times' styles={styles.closeButtonText} size={22} />
                         </TouchableOpacity>
                     </View>
 
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
         borderBottomColor: '#ededed',
         borderBottomWidth: 2,
-        paddingTop: 0
+        paddingTop: 10
     },
     modalTitle: {
         fontSize: 20,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     closeButtonText: {
-        fontSize: 20,
+        fontSize: 40,
         color: '#505050',
         fontWeight: 'bold',
     },
