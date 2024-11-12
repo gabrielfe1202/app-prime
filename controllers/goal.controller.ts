@@ -144,4 +144,12 @@ export class GoalController {
     return goal
 
   }
+
+  async downloadPdfgoals(){
+    const response = await api.get("Pdf_passos")
+
+    
+
+  }
+
 }
