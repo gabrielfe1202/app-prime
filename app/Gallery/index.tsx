@@ -14,6 +14,8 @@ import {
     MenuTrigger,
     MenuProvider,
 } from 'react-native-popup-menu';
+import { colors } from '../globalStyle';
+import { Loading } from '@/components/Loading';
 const { width, height } = Dimensions.get('screen');
 
 const Gallery = () => {
@@ -120,6 +122,8 @@ const Gallery = () => {
         scale.setValue(1);
         opacity.setValue(1);
     };
+
+    if(stateload) return <Loading />
 
     return (
         <SafeAreaView style={styles.container}>
@@ -283,12 +287,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000',
         borderRadius: 5,
+        backgroundColor: 'rgba(255, 164, 49,0.4)'
     },
     thumbnail: {
         width: 90,
         height: 90,
         resizeMode: 'cover',
         borderRadius: 5,
+        backgroundColor: 'rgba(255, 164, 49,0.4)'
     },
     menuContainer: {
         width: width,
