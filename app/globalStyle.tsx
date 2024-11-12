@@ -33,6 +33,16 @@ const styles = StyleSheet.create({
         color: colors.laranja,
         fontSize: 20,
     },
+    buttonDanger: {
+        backgroundColor: '#DC3545',
+        borderColor: '#9a0007',
+        borderWidth: 2
+    },
+    buttonSuccess: {
+        backgroundColor: '#28A745',
+        borderColor: '#33822c',
+        borderWidth: 2
+    },
 });
 
 export default styles;
