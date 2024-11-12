@@ -43,6 +43,8 @@ export class ScheduleController {
             configs.id = result.data.agenda.Idt_agenda_config;
             configs.startTime = result.data.agenda.horario_inicio;
             configs.endTime = result.data.agenda.horario_fim;
+            configs.avable = result.data.agenda.liberado;
+            configs.avableDate = result.data.agenda.data_ativa;
             configs.year = result.data.agenda.ano;
             configs.month = result.data.agenda.mes;
             configs.scheduled = result.data.agenda.agendado

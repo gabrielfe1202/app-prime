@@ -15,6 +15,7 @@ import ConfirmationModal from "@/components/ConfirmationModal";
 import AlertModal from "@/components/AlertModal";
 import LottieView from "lottie-react-native";
 import scheduleAnimation from "../../assets/animations/schedule.json"
+import CountDown from 'react-native-countdown-component';
 const { width, height } = Dimensions.get('screen');
 
 function Schedule() {
@@ -24,6 +25,7 @@ function Schedule() {
     const [stateload, setStateload] = useState<boolean>(true);
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
     const [scheduled, setScheduled] = useState<boolean>(false)
+    const [scheduleAvable, setScheeduleAvable] = useState<boolean>(true)
     const [scheduledDate, setScheduledDate] = useState<string | null>(null)
     const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
     const [modalText, setModalText] = useState<string>('')
@@ -33,6 +35,7 @@ function Schedule() {
     const [alertModalMessage, setAlertModalMessage] = useState<string>('')
     const [alertModalType, setAlertModalType] = useState<"SUCCESS" | "DANGER" | "WARNING">('SUCCESS')
     const [scheduledResponse, setScheduledResponse] = useState<{ success: boolean, msg: string }>({ success: false, msg: '' })
+    const [timeSlice, setTimeSlice] = useState<number>(10)
     const animationRef = useRef<LottieView>(null);
     const childContext = useChild();
     const { childId } = childContext!;
@@ -45,6 +48,8 @@ function Schedule() {
             setInitDate(data.initialDate())
             setScheduled(data.scheduled)
             setScheduledDate(data.scheduledDateLabel)
+            setScheeduleAvable(data.avable)
+            setTimeSlice(data.timeSclice())
         } catch (err) {
             console.error(err);
         } finally {
@@ -111,14 +116,14 @@ function Schedule() {
         )
     }
 
-    if (scheduled) {
+    if (scheduled || !scheduleAvable) {
         return (
             <GestureHandlerRootView>
                 <SafeAreaView style={{ flex: 1, justifyContent: "flex-start", alignItems: "center", paddingTop: height * 0.11 }}>
 
                     <TouchableOpacity
                         style={[
-                            globalStyles.logoContainer,                         
+                            globalStyles.logoContainer,
                         ]}
                         onPress={() => { }}
                     >
@@ -141,12 +146,33 @@ function Schedule() {
 
 
                     <View>
-                        <Text style={styles.textScheduled}>
-                            Você já possui uma reunião agendada para dia:
-                        </Text>
-                        <Text style={styles.scheduledDate}>
-                            {scheduledDate}
-                        </Text>
+                        {!scheduleAvable ? (
+                            <>
+                                <Text style={styles.textScheduled}>
+                                    Agenda disponível em: 
+                                </Text>
+                                <CountDown
+                                    style={{marginTop: 20}}
+                                    until={timeSlice}
+                                    size={30}
+                                    onFinish={() => {}}
+                                    digitStyle={{ backgroundColor: '#FFF', borderColor: colors.laranja, borderWidth: 1 }}
+                                    digitTxtStyle={{ color: colors.laranja, fontFamily: fonts.passo}}
+                                    timeLabelStyle={{color: '#505050', fontSize: 12}}
+                                    timeToShow={['D','H', 'M']}
+                                    timeLabels={{ d: 'dias', h: 'horas', m: 'minutos'}}                                    
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Text style={styles.textScheduled}>
+                                    Você já possui uma reunião agendada para dia:
+                                </Text>
+                                <Text style={styles.scheduledDate}>
+                                    {scheduledDate}
+                                </Text>
+                            </>
+                        )}
                     </View>
 
                     <BottomTab />
@@ -270,14 +296,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 22,
         width: width * 0.7,
-        fontWeight: "bold",        
+        fontWeight: "bold",
         color: "#505050"
     },
-    scheduledDate: {        
+    scheduledDate: {
         textAlign: "center",
         fontSize: 23,
         width: width * 0.7,
-        fontWeight: "bold",        
+        fontWeight: "bold",
         marginTop: 20,
         textDecorationLine: "underline",
         color: "#505050"
