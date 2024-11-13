@@ -51,7 +51,7 @@ export class KidController {
                 cidade_ped: z.string().nullable(),
                 estado_ped: z.string().nullable(),
                 tipo_sala: z.string(),
-                sala: z.string(),
+                sala: z.string().nullable(),
                 nom_pasta: z.string(),
                 zip_foto: z.string().nullable(),
                 Idt_site: z.string().nullable(),
@@ -66,9 +66,9 @@ export class KidController {
                 imagem: z.string().url(),
                 data_formata: z.string(),
                 imagem_crianca: z.string().nullable(),
-                agora: z.string(),
-                contratos: z.number(),
-                contratos_m: z.number(),
+                agora: z.string().nullable(),
+                contratos: z.number().nullable(),
+                contratos_m: z.number().nullable(),
             }),
         });
 
@@ -81,8 +81,7 @@ export class KidController {
                 }
             });
 
-            const result = requestShape.safeParse(response.data);
-
+            const result = requestShape.safeParse(response.data)
 
             if (result.error) return kid;
 
