@@ -34,6 +34,9 @@ export default function SelectChildScreen() {
             const childs = await userController.getUserChilds()
             setUser(data)
             setChilds(childs)
+            if(childs.length == 1){
+                setChildId(childs[0].Idt_Cri_Crianca)
+            }
         } catch (err) {
             console.error(err);
         }finally{
