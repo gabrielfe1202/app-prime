@@ -47,18 +47,6 @@ export default function Layout() {
     })
   }
 
-  async function changeGoals() {
-    const data = await DI.goal.GetGoals(childId!)
-    setGoals(data)
-    setLoad(false)
-  }
-
-  useEffect(() => {
-    changeGoals()
-  },[childId])
-
-  if(load) return <Loading />
-
   return (
     <GestureHandlerRootView>
       <View style={styles.container}>

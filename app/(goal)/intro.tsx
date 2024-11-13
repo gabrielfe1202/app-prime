@@ -12,10 +12,13 @@ import logo from "../../assets/images/logo-prime.png"
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading";
 import { DI } from "@/controllers/DI";
+import { useChild } from "@/contexts/ChildContext";
 
 function Intro() {
   const router = useRouter();
-  const { goalVPRef } = useGoal();
+  const { goalVPRef, goals, selectedGoal, onChangeSelection, setGoals } = useGoal();
+  const childContext = useChild();
+  const { childId } = childContext!;
   const [stateload, setStateload] = useState<boolean>(true);
   const [text, setText] = useState<string>('')
 
@@ -34,6 +37,15 @@ function Intro() {
   useEffect(() => {
     fetchGoalIntro();
   }, []);
+
+  async function changeGoals() {
+    const data = await DI.goal.GetGoals(childId!)
+    setGoals(data)
+  }
+
+  useEffect(() => {
+    changeGoals()
+  },[childId])
 
   function handleNext() {
     router.push('/main');
