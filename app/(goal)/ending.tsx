@@ -85,10 +85,9 @@ export default function Ending() {
 
   }
 
-  const hideModal = () => {    
+  const hideModal = () => {
     setIsModalVisible(false);
-};
-
+  };
 
   if (stateload) return <Loading />
 

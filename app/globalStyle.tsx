@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     logo: {
-        width: 100,
-        height: 100,
+        width: 115,
+        height: 115,
         marginBottom: 5
     },
     buttonText: {
