@@ -18,11 +18,15 @@ import pdf from "../../assets/images/pdf.png"
 import { Loading } from "@/components/Loading";
 import LottieView from "lottie-react-native";
 import booksAnimation from "../../assets/animations/books.json"
+import AlertModal from "@/components/AlertModal";
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 const { width, height } = Dimensions.get('screen');
 
 export default function Ending() {
   const [stateload, setStateload] = useState<boolean>(true);
   const [stateloadPdf, setStateloadPdf] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [conclusions, setConclusions] = useState<Conclusion[]>([])
   const [title, setTitle] = useState<GoalTitle>()
   const router = useRouter();
@@ -66,17 +70,32 @@ export default function Ending() {
 
   const handleDownloadPdf = async () => {
     setStateloadPdf(true)
-    delay(10000).then(() => {
-      setStateloadPdf(false)
-    })
+
+    DI.goal.downloadPdfgoals(childId!)
+      .then(async response => {
+        const fileUri = FileSystem.documentDirectory + `relatorio-${childId}.pdf`;
+        await FileSystem.writeAsStringAsync(fileUri, response, { encoding: FileSystem.EncodingType.Base64 });
+        await setStateload(false)
+        await Sharing.shareAsync(fileUri);
+      })
+      .catch(error => {
+        console.log(error)
+        setIsModalVisible(true)
+      }).finally(() => setStateloadPdf(false))
+
   }
+
+  const hideModal = () => {    
+    setIsModalVisible(false);
+};
+
 
   if (stateload) return <Loading />
 
   if (stateloadPdf) {
     return (
-      <View style={{ flex: 1, justifyContent: "flex-start", alignItems: 'center', paddingTop: height * 0.11}}>
-        
+      <View style={{ flex: 1, justifyContent: "flex-start", alignItems: 'center', paddingTop: height * 0.11 }}>
+
         <Image
           style={[styles.logoFullWidth, { width: width * 0.45 }]}
           resizeMode={'contain'}
@@ -156,13 +175,22 @@ export default function Ending() {
 
               </ScrollView>
 
-              <View style={{ height: 70 }} />
+              <View style={{ height: 50 }} />
             </View>
           )}
         />
 
         <GoalBottomTab onGotoPage={handleGoToGoal} />
       </SafeAreaView>
+
+      <AlertModal
+        isVisible={isModalVisible}
+        onClose={hideModal}
+        title={"Ops, Houve um erro"}
+        message={"Ocorreu um erro inesperado ao gerar o seu pdf. \n tente novamente mais tarde"}
+        type="DANGER"
+      />
+
     </GestureHandlerRootView>
   );
 }
@@ -200,7 +228,7 @@ const styles = StyleSheet.create({
   },
   textLoad2: {
     fontSize: 16,
-    textAlign: "center",    
+    textAlign: "center",
     fontFamily: fonts.passo,
     //color: '#505050',
     color: colors.laranja,

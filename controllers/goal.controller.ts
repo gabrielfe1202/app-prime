@@ -123,9 +123,9 @@ export class GoalController {
 
     const goal = new Goal()
 
-    try{
-      
-      const response = await api.get("Objetivos",{
+    try {
+
+      const response = await api.get("Objetivos", {
         params: {
           id: 5
         }
@@ -133,11 +133,11 @@ export class GoalController {
 
       const result = responseShape.safeParse(response.data)
 
-      if(result.error) return goal
+      if (result.error) return goal
 
       goal.text = result.data.objetivos[0].texto
 
-    }catch (error){
+    } catch (error) {
       console.log(error)
     }
 
@@ -145,10 +145,25 @@ export class GoalController {
 
   }
 
-  async downloadPdfgoals(){
-    const response = await api.get("Pdf_passos")
+  async downloadPdfgoals(id: number): Promise<string> {
 
-    
+    const responseShape = z.object({
+      errorMsg: z.string().optional(),
+      uri: z.string().optional()
+    })
+
+    const response = await api.get("Pdf_passos", {
+      params: {
+        id
+      }
+    })
+
+    const result = responseShape.safeParse(response.data)
+
+    if (result.error) throw new Error("Erro ao gerar pdf")
+    if (result.data.errorMsg != undefined) throw new Error(result.data.errorMsg)
+
+    return result.data.uri!
 
   }
 
