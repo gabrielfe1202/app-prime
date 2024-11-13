@@ -15,7 +15,7 @@ import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
-import { AuthAndChildChecker } from "@/contexts/AuthChildChecker";
+import { ChildChecker } from "@/contexts/ChildChecker";
 import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');

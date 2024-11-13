@@ -13,7 +13,7 @@ interface AuthChildCheckerProps {
     children: React.ReactNode;
 }
 
-export function AuthAndChildChecker({ children }: AuthChildCheckerProps): JSX.Element {
+export function ChildChecker({ children }: AuthChildCheckerProps): JSX.Element {
     const router = useRouter();    
     const childContext = useChild();
     const { childId, kidController } = childContext!;

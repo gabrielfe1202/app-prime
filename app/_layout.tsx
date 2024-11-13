@@ -7,7 +7,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
-import { AuthAndChildChecker } from '@/contexts/AuthChildChecker';
+import { ChildChecker } from '@/contexts/ChildChecker';
 import { ChildProvider } from '@/contexts/ChildContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { AuthChecker } from '@/contexts/AuthChecker';
@@ -43,13 +43,13 @@ export default function RootLayout() {
       <UserProvider>
         <AuthChecker>
           <ChildProvider>
-            <AuthAndChildChecker>
+            <ChildChecker>
               <ThemeProvider value={DefaultTheme}>
                 <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
 
                 </Stack>
               </ThemeProvider>
-            </AuthAndChildChecker >
+            </ChildChecker >
           </ChildProvider>
         </AuthChecker>
       </UserProvider>
