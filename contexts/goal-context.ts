@@ -18,6 +18,7 @@ type Context = {
     index: number;
   };
   onChangeSelection(goal: Goal): void;
+  setGoals(goals: Goal[]): void
 }
 
 const goalVPRef = { current: null } as React.RefObject<ViewPagerRef<Goal>>;
@@ -39,6 +40,9 @@ export const useGoal = create<Context>((set) => {
             .findIndex(g => g.$clientId === _goal.$clientId)
         }
       }));
-    }
+    },
+    setGoals: (newGoals: Goal[]) => {
+      set({ goals: { state: 'SUCCESS', data: newGoals } });
+    },
   };
 })

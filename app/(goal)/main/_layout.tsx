@@ -10,13 +10,18 @@ import { useRouter, Link } from 'expo-router';
 import { Steps } from './steps';
 import { Goal } from '@/entities/goal';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
-import { Load } from '@/components/Loading';
-import { useEffect } from 'react';
+import { Load, Loading } from '@/components/Loading';
+import { useEffect, useState } from 'react';
+import { DI } from '@/controllers/DI';
+import { useChild } from '@/contexts/ChildContext';
 const { width, height } = Dimensions.get('screen');
 
 export default function Layout() {
-  const { goalVPRef, goals, selectedGoal, onChangeSelection } = useGoal();
-
+  const [load,setLoad] = useState<boolean>(true)
+  const { goalVPRef, goals, selectedGoal, onChangeSelection, setGoals } = useGoal();
+  const childContext = useChild();
+  const { childId } = childContext!;
+  
   const goalsState = asyncArrayToState(goals);
 
   const goalsLabel = `${selectedGoal.index + 1}/${goalsState.length} Objetivos`;
@@ -41,6 +46,18 @@ export default function Layout() {
       }
     })
   }
+
+  async function changeGoals() {
+    const data = await DI.goal.GetGoals(childId!)
+    setGoals(data)
+    setLoad(false)
+  }
+
+  useEffect(() => {
+    changeGoals()
+  },[childId])
+
+  if(load) return <Loading />
 
   return (
     <GestureHandlerRootView>

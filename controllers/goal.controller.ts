@@ -6,7 +6,7 @@ import { z } from 'zod';
 export class GoalController {
   private mapIdToGoal = new Map<string, Goal>();
 
-  async GetGoals(): Promise<Goal[]> {
+  async GetGoals(id: number = 0): Promise<Goal[]> {
     // dados mocados, mas poderia executar busca 
 
     const requestShape = z.object({
@@ -43,7 +43,7 @@ export class GoalController {
     try {
       const response = await api.get("/ObjetivosLista", {
         params: {
-          Idt_crianca: 69
+          Idt_crianca: id
         }
       })
 
