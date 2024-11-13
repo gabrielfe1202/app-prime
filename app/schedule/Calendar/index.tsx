@@ -64,7 +64,20 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                 dayComponent={({ date, state }: { date: DateData; state: DayState }) => {
                     const isMarked = markedDates.includes(date.dateString);
                     const isSelected = date.dateString === day?.dateString;
-                    
+
+                    if (state === "inactive" || state === "disabled") {
+                        return (
+                            <View
+                                key={date.dateString}
+                                style={styles.day}
+                            >
+                                <Text style={styles.disabled}>
+                                    {date.day}
+                                </Text>
+                            </View>
+                        )
+                    }
+
                     return (
                         <TouchableOpacity
                             key={date.dateString}
@@ -79,9 +92,9 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                         >
                             <Text
                                 style={[
-                                    isMarked && !isSelected && styles.makedDay,
-                                    (state === "inactive" || state === "disabled") && styles.disabled,
                                     state === "today" && styles.today,
+                                    isMarked && !isSelected && styles.makedDay,              
+                                    isSelected && styles.daySelectedText,                      
                                 ]}
                             >
                                 {date.day}

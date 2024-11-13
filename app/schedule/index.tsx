@@ -6,7 +6,7 @@ import globalStyles, { colors, fonts } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { DI } from "@/controllers/DI";
 import { delay } from "@/utils/delay";
-import { Loading } from "@/components/Loading";
+import { Load, Loading } from "@/components/Loading";
 import { ScheduleTimes } from "@/entities/schedule";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { BottomTab } from "@/components/BottomTab";
@@ -23,10 +23,11 @@ const { width, height } = Dimensions.get('screen');
 function Schedule() {
     const [markedDates, setMarkedDates] = useState<string[]>([])
     const [initDate, setInitDate] = useState<string>('')
-    const [selectedDate, setSelectedDate] = useState<DateData>()
+    const [selectedDate, setSelectedDate] = useState<DateData | null>(null)
     const [stateload, setStateload] = useState<boolean>(true);
     const [dateTimes, setDateTimes] = useState<ScheduleTimes[]>([])
     const [scheduled, setScheduled] = useState<boolean>(false)
+    const [loadTimes, setLoadTimes] = useState<boolean>(false)
     const [scheduleAvable, setScheeduleAvable] = useState<boolean>(true)
     const [scheduledDate, setScheduledDate] = useState<string | null>(null)
     const [modalConfirmationVisible, setModalConfirmationVisible] = useState<boolean>(false)
@@ -69,9 +70,17 @@ function Schedule() {
     }, []);
 
     const handleDayPress = async (date: DateData) => {
-        setSelectedDate(date);
-        const times = await DI.schedule.getTimesFromDate(date, childId!);
-        setDateTimes(times)
+        try {
+            setLoadTimes(true)
+            setDateTimes([])
+            setSelectedDate(date);
+            const times = await DI.schedule.getTimesFromDate(date, childId!);
+            setDateTimes(times)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoadTimes(false)
+        }
     }
 
     const handleCancel = (): void => {
@@ -235,6 +244,12 @@ function Schedule() {
                                 </TouchableOpacity>
                             </View>
                         ))}
+                        {loadTimes ?
+                             <Load /> :
+                                selectedDate != null &&
+                                    dateTimes.length == 0 && (
+                                        <Text>Não temos horários disponíveis nesta data</Text>
+                        )}
                     </ScrollView>
                 </View>
 

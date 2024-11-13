@@ -39,5 +39,8 @@ export const styles = StyleSheet.create({
   },
   makedDay: {
     color: colors.azul
+  },
+  daySelectedText: {
+    color: '#101010'
   }
 })
