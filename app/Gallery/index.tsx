@@ -103,34 +103,6 @@ const Gallery = () => {
                 ))}
             </ScrollView>
         )
-
-        return (
-            <FlatList
-                data={filteredkidImages}
-                horizontal={false}
-                renderItem={({ item, index }: { item: KidImage, index: number }) => (
-                    <TouchableOpacity
-                        onPress={() => {
-                            setCurrentIndex(index);
-                            setViewMode('carousel');
-                            if (pagerRef.current) {
-                                pagerRef.current.setPage(index);
-                            }
-                        }}
-                        style={[
-                            styles.gridItem,
-                            currentIndex == index && { borderWidth: 2 }
-                        ]}
-                    >
-                        <Image source={{ uri: item.linkMedium }} style={styles.gridImage} />
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item) => item.link + "grid"}
-                numColumns={3}
-                columnWrapperStyle={styles.gridRow}
-                contentContainerStyle={styles.gridContainer}
-            />
-        );
     };
 
     const handlePageScroll = (e: { nativeEvent: { offset: number } }) => {
