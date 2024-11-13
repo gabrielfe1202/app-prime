@@ -5,7 +5,7 @@ import { delay } from '@/utils/delay';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Button, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import PagerView, { PagerViewProps } from 'react-native-pager-view';
 import {
     Menu,
@@ -79,8 +79,35 @@ const Gallery = () => {
 
     const renderGridView = () => {
         return (
+            <ScrollView
+                contentContainerStyle={{flexDirection: 'row',flexWrap: 'wrap'}}
+                showsVerticalScrollIndicator={false}
+            >
+                {filteredkidImages.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                            setCurrentIndex(index);
+                            setViewMode('carousel');
+                            if (pagerRef.current) {
+                                pagerRef.current.setPage(index);
+                            }
+                        }}
+                        style={[
+                            styles.gridItem,
+                            currentIndex == index && { borderWidth: 2 }
+                        ]}
+                    >
+                        <Image source={{ uri: item.linkMedium }} style={styles.gridImage} />
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+        )
+
+        return (
             <FlatList
                 data={filteredkidImages}
+                horizontal={false}
                 renderItem={({ item, index }: { item: KidImage, index: number }) => (
                     <TouchableOpacity
                         onPress={() => {
@@ -123,7 +150,7 @@ const Gallery = () => {
         opacity.setValue(1);
     };
 
-    if(stateload) return <Loading />
+    if (stateload) return <Loading />
 
     return (
         <SafeAreaView style={styles.container}>
