@@ -45,15 +45,15 @@ export default function GoalModal() {
 
                     <View style={{ flex: 1, alignItems: "center" }}>
                         <View
-                            style={[goalStyles.introContainer, { backgroundColor: goalColor, position: "relative" }]}
+                            style={[goalStyles.introContainer, { backgroundColor: goalColor, position: "relative", paddingTop: 13, alignItems: "flex-end" }]}
                         >
-                            <TouchableOpacity style={{ position: "absolute", top: -10, right: 0 }} onPress={handleDimisModal}>
-                                <Text>
+                            <TouchableOpacity style={{/*backgroundColor: 'blue',*/ width: 40, height: 30, paddingRight: 5 }} onPress={handleDimisModal}>
+                                <Text style={{textAlign: "right"}}>
                                     <FontAwesome name="times" size={24} color="white" />
                                 </Text>
                             </TouchableOpacity>
 
-                            <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800', paddingTop: 25 }]}>
+                            <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800', paddingTop: 12 }]}>
                                 {goal}
                             </Text>
                             <View style={{ paddingTop: 25, flex: 1 }}>
