@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
         flexDirection: 'row',
         justifyContent: 'center',
-        minHeight: height * 0.05
+        minHeight: height * 0.05,
+        elevation: 3
     },
     button_titulo2: {
         width: width * 0.42,
