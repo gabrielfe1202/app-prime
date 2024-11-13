@@ -11,6 +11,7 @@ import { Steps } from './steps';
 import { Goal } from '@/entities/goal';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { Load } from '@/components/Loading';
+import { useEffect } from 'react';
 const { width, height } = Dimensions.get('screen');
 
 export default function Layout() {
@@ -48,7 +49,7 @@ export default function Layout() {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20 }}
           showsVerticalScrollIndicator={false}
         >
-          {goals.state === 'LOADING' && <Text>Carregando Objetivos</Text>}
+          {goals.state === 'LOADING' && <Load />}
           {goals.state === 'SUCCESS' && (
             <View style={{ height: 126 + 128, gap: 16 }}>
               {selectedGoal.state && (
