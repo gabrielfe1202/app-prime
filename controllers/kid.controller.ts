@@ -26,49 +26,17 @@ export class KidController {
         const requestShape = z.object({
             crianca: z.object({
                 Idt_Cri_Crianca: z.number(),
-                Nome: z.string(),
-                email: z.string().nullable(),
+                Nome: z.string(),                
                 data_nasc: z.string().refine((val) => !isNaN(Date.parse(val)), {
                     message: "Invalid date format"
-                }),
-                data_bercario: z.string().nullable(),
-                data_maternal: z.string().nullable(),
-                endereco: z.string(),
-                numero: z.string(),
-                complemento: z.string(),
-                cep: z.string(),
-                bairro: z.string(),
-                cidade: z.string(),
-                estado: z.string().nullable(),
-                nome_ped: z.string().nullable(),
-                email_ped: z.string().nullable(),
-                telefone_ped: z.string().nullable(),
-                endereco_ped: z.string().nullable(),
-                numero_ped: z.string().nullable(),
-                complemento_ped: z.string().nullable(),
-                cep_ped: z.string().nullable(),
-                bairro_ped: z.string().nullable(),
-                cidade_ped: z.string().nullable(),
-                estado_ped: z.string().nullable(),
+                }),                
                 tipo_sala: z.string(),
-                sala: z.string().nullable(),
-                nom_pasta: z.string(),
-                zip_foto: z.string().nullable(),
-                Idt_site: z.string().nullable(),
-                ativo: z.boolean().nullable(),
-                ativo_sim: z.boolean().nullable(),
-                titulos: z.string().nullable(),
-                pais: z.string().nullable(),
+                sala: z.string().nullable(),                
+                zip_foto: z.string().nullable(),                                
                 educadoras: z.array(userSchema),
-                imagens: z.string().nullable(),
-                reuniao: z.string().nullable(),
-                agenda: z.string().nullable(),
-                imagem: z.string().url(),
+                imagem: z.string().nullable(),
                 data_formata: z.string(),
                 imagem_crianca: z.string().nullable(),
-                agora: z.string().nullable(),
-                contratos: z.number().nullable(),
-                contratos_m: z.number().nullable(),
             }),
         });
 
@@ -81,7 +49,11 @@ export class KidController {
                 }
             });
 
+
             const result = requestShape.safeParse(response.data)
+
+            console.log(response.data)
+            console.log(result)
 
             if (result.error) return kid;
 
