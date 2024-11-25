@@ -44,7 +44,7 @@ export default function Login() {
 
   const handleEmailChange = (val: string) => {
     setEmail(val);
-    setEmailValido(validEmail(val));
+    //setEmailValido(validEmail(val));
     setErro('');
   };
 
