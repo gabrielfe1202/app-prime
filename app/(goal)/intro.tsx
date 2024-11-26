@@ -90,7 +90,7 @@ function Intro() {
                     {introductions.map(intro => (
                       <View key={intro.id}>
                         <Text style={goalStyles.texto_dados}>
-                          Julho de 2022
+                          {intro.dateFormated()}
                         </Text>
                         <Text style={[goalStyles.texto_dados,{marginTop: 15}]}>
                           {intro.text}
