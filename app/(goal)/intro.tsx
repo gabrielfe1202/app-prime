@@ -86,10 +86,13 @@ function Intro() {
                   <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800' }]}>
                     Introdução
                   </Text>
-                  <View style={{ paddingTop: 25, flex: 1 }}>
+                  <View style={{ paddingTop: 25, flex: 1, gap: 35 }}>
                     {introductions.map(intro => (
                       <View key={intro.id}>
                         <Text style={goalStyles.texto_dados}>
+                          Julho de 2022
+                        </Text>
+                        <Text style={[goalStyles.texto_dados,{marginTop: 15}]}>
                           {intro.text}
                         </Text>
                       </View>
