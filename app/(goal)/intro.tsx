@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading";
 import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
+import { Introduction } from "@/entities/Introduction";
 
 function Intro() {
   const router = useRouter();
@@ -20,17 +21,17 @@ function Intro() {
   const childContext = useChild();
   const { childId } = childContext!;
   const [stateload, setStateload] = useState<boolean>(true);
-  const [text, setText] = useState<string>('')
+  const [introductions, setIntroductions] = useState<Introduction[]>([])
 
   const fetchGoalIntro = async () => {
     setStateload(true)
     try {
-      const data = await DI.goal.introGoal();
-      setText(data.text)
+      const introductions = await DI.Introduction.GetIntros(childId!)
+      setIntroductions(introductions)
     } catch (err) {
       console.error(err);
     } finally {
-      setStateload(false)      
+      setStateload(false)
     }
   };
 
@@ -45,7 +46,7 @@ function Intro() {
 
   useEffect(() => {
     changeGoals()
-  },[childId])
+  }, [childId])
 
   function handleNext() {
     router.push('/main');
@@ -86,9 +87,13 @@ function Intro() {
                     Introdução
                   </Text>
                   <View style={{ paddingTop: 25, flex: 1 }}>
-                    <Text style={goalStyles.texto_dados}>
-                      {text}
-                    </Text>
+                    {introductions.map(intro => (
+                      <View key={intro.id}>
+                        <Text style={goalStyles.texto_dados}>
+                          {intro.text}
+                        </Text>
+                      </View>
+                    ))}
                   </View>
                 </View>
 

@@ -5,6 +5,7 @@ import { ScheduleController } from "./schedule.controller";
 import { TitleController } from "./title.controller";
 import { UserController } from "./user.controller";
 import { ConclusionController } from "./conclusion.controller";
+import { IntroductionController } from "./introduction.controller";
 
 export const DI = {
   goal: new GoalController(),
@@ -12,4 +13,5 @@ export const DI = {
   titles: new TitleController(),
   schedule: new ScheduleController(),
   Conclusion: new ConclusionController(),
+  Introduction: new IntroductionController()
 }
