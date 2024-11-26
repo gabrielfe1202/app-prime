@@ -2,6 +2,7 @@ import { GoalTitle } from "@/entities/goal";
 import { Introduction } from "@/entities/Introduction";
 import api from "@/utils/axiosApi";
 import { z } from "zod";
+import { decode } from 'html-entities';
 
 export class IntroductionController {
     async GetIntros(id_cri: number): Promise<Introduction[]> {
@@ -35,7 +36,7 @@ export class IntroductionController {
                 const introduction = new Introduction();
                 introduction.id = _introducao.Idt_introducao;
                 introduction.date = _introducao.data;
-                introduction.text = _introducao.texto;
+                introduction.text = decode(_introducao.texto);
                 introduction.title = _introducao.titulo;
                 return introduction;
             });
