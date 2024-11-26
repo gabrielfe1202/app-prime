@@ -49,11 +49,7 @@ export class KidController {
                 }
             });
 
-
             const result = requestShape.safeParse(response.data)
-
-            console.log(response.data)
-            console.log(result)
 
             if (result.error) return kid;
 
