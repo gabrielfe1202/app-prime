@@ -65,7 +65,7 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                     const isMarked = markedDates.includes(date.dateString);
                     const isSelected = date.dateString === day?.dateString;
 
-                    if (state === "inactive" || state === "disabled") {
+                    if (state === "inactive" || state === "disabled" || !isMarked) {
                         return (
                             <View
                                 key={date.dateString}
