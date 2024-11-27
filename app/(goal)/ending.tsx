@@ -3,7 +3,7 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View, Image, Dimensions, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View, Image, Dimensions, StyleSheet, Platform, Linking } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../../assets/images/logo-prime.png"
@@ -20,6 +20,7 @@ import LottieView from "lottie-react-native";
 import booksAnimation from "../../assets/animations/books.json"
 import AlertModal from "@/components/AlertModal";
 import * as FileSystem from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
 const { width, height } = Dimensions.get('screen');
 
@@ -67,22 +68,14 @@ export default function Ending() {
     fetchConclusions();
   }, []);
 
-
   const handleDownloadPdf = async () => {
-    setStateloadPdf(true)
-
-    DI.goal.downloadPdfgoals(childId!)
-      .then(async response => {
-        const fileUri = FileSystem.documentDirectory + `relatorio-${childId}.pdf`;
-        await FileSystem.writeAsStringAsync(fileUri, response, { encoding: FileSystem.EncodingType.Base64 });
-        await setStateload(false)
-        await Sharing.shareAsync(fileUri);
-      })
-      .catch(error => {
-        console.log(error)
-        setIsModalVisible(true)
-      }).finally(() => setStateloadPdf(false))
-
+    const url = `https://sistema.primetimecd.com.br/cri_crianca/pdf_passos/${childId}`;
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    }else{
+      setIsModalVisible(true)
+    }
   }
 
   const hideModal = () => {
