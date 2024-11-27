@@ -140,19 +140,16 @@ export default function Ending() {
                     {title?.titulo}
                   </Text>
                   <View style={{ paddingTop: 25, flex: 1 }}>
-                    {conclusions.map(item => {
-                      var x = new Date(item.dateLabel)
-                      return (
-                        <View key={item.id} style={{ paddingTop: 25 }}>
-                          <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
-                            {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1])]}
-                          </Text>
-                          <Text style={goalStyles.texto_dados}>
-                            {item.text}
-                          </Text>
-                        </View>
-                      )
-                    })}
+                    {conclusions.map(item => (
+                      <View key={item.id} style={{ paddingTop: 25 }}>
+                        <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
+                          {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1]) - 1]}
+                        </Text>
+                        <Text style={goalStyles.texto_dados}>
+                          {item.text}
+                        </Text>
+                      </View>
+                    ))}
 
                     {conclusions.length == 0 && (
                       <View style={{ paddingTop: 25 }}>
