@@ -53,7 +53,7 @@ export default function GoalModal() {
                                 </Text>
                             </TouchableOpacity>
 
-                            <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800', paddingTop: 12 }]}>
+                            <Text style={[goalStyles.titulo_dados, { paddingBottom: 10, fontWeight: '800', paddingTop: 12, width: '100%' }]}>
                                 {goal}
                             </Text>
                             <View style={{ paddingTop: 25, flex: 1 }}>
