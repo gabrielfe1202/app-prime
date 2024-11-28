@@ -2,7 +2,7 @@ import { useChild } from '@/contexts/ChildContext';
 import { DI } from '@/controllers/DI';
 import { KidImage } from '@/entities/kid';
 import { delay } from '@/utils/delay';
-import { Feather, FontAwesome } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native';
@@ -16,6 +16,8 @@ import {
 } from 'react-native-popup-menu';
 import { colors } from '../globalStyle';
 import { Loading } from '@/components/Loading';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 const { width, height } = Dimensions.get('screen');
 
 const Gallery = () => {
@@ -122,6 +124,14 @@ const Gallery = () => {
         opacity.setValue(1);
     };
 
+    const handleShareImage = async () => {
+        const image = filteredkidImages[currentIndex]
+        console.log(image.link)
+        const localUri = FileSystem.documentDirectory + `image-${image.id}.jpg`;      
+        const downloadResult = await FileSystem.downloadAsync(image.link, localUri);
+        await Sharing.shareAsync(downloadResult.uri);
+    }
+
     if (stateload) return <Loading />
 
     return (
@@ -147,11 +157,12 @@ const Gallery = () => {
                             <Feather name="chevron-left" style={{ fontSize: 27, color: '#000', marginLeft: 15 }} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ width: width * 0.3, flexDirection: 'row', justifyContent: 'flex-start' }}>
+                    <View style={{ width: width * 0.33, flexDirection: 'row', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={toggleViewMode} style={{ padding: 5, borderRadius: 20 }} >
                             <FontAwesome name="th" size={27} color={'#000'} />
                         </TouchableOpacity>
-                        <Menu style={{ paddingLeft: 15, padding: 5 }}>
+
+                        <Menu style={{ paddingLeft: 10, padding: 5 }}>
                             <MenuTrigger>
                                 <Feather name="list" size={27} color="black" />
                             </MenuTrigger>
@@ -194,6 +205,11 @@ const Gallery = () => {
                                 </View>
                             ))}
                         </PagerView>
+
+                        <TouchableOpacity style={{flexDirection: 'row', marginHorizontal: width * 0.05, paddingHorizontal: 15, paddingVertical: 5, borderWidth: 1, backgroundColor: '#ededed', width: width * 0.9, borderColor: "#c1c1c1", borderRadius: 6, justifyContent: 'center', alignItems: 'center', marginBottom: 45}}>
+                            <Text style={{fontSize: 16}}>Compartilhar foto</Text>
+                            <Entypo name="share" size={16} color="black" style={{marginLeft: 10}} />
+                        </TouchableOpacity>
 
                         <FlatList
                             data={filteredkidImages}
