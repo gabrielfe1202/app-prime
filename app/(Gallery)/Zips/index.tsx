@@ -9,7 +9,7 @@ export default function ZipsPage() {
 
     return (
         <SafeAreaView style={{ flex: 1, paddingTop: 55, backgroundColor: 'rgba(0,0,0,.2)', justifyContent: "center", alignItems: "center" }}>
-            <View style={{ backgroundColor: colors.laranja, flex: 1, width: width * 0.9, borderRadius: 25, padding: 20, alignItems: "flex-end" }}>
+            <View style={{ backgroundColor: '#fff', flex: 1, width: width * 0.9, borderRadius: 25, padding: 20, alignItems: "flex-end" }}>
                 <TouchableOpacity style={{/*backgroundColor: 'blue',*/ width: 40, height: 30, paddingRight: 5 }} onPress={() => router.back()}>
                     <Text style={{ textAlign: "right" }}>
                         <FontAwesome name="times" size={24} color="black" />
