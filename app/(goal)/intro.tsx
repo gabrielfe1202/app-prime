@@ -3,7 +3,7 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView, Dimensions } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import goalStyles from "./goalStyle"
@@ -14,6 +14,8 @@ import { Loading } from "@/components/Loading";
 import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
 import { Introduction } from "@/entities/Introduction";
+import RenderHtml from 'react-native-render-html';
+const { width, height } = Dimensions.get('screen');
 
 function Intro() {
   const router = useRouter();
@@ -89,12 +91,19 @@ function Intro() {
                   <View style={{ paddingTop: 25, flex: 1, gap: 35 }}>
                     {introductions.map(intro => (
                       <View key={intro.id}>
-                        <Text style={goalStyles.texto_dados}>
+                        <Text style={[goalStyles.texto_dados, {marginBottom: 15}]}>
                           {intro.dateFormated()}
                         </Text>
-                        <Text style={[goalStyles.texto_dados,{marginTop: 15}]}>
-                          {intro.text}
-                        </Text>
+                        <RenderHtml
+                          contentWidth={width}
+                          source={{
+                            html: intro.text
+                          }}
+                          tagsStyles={{
+                            p: goalStyles.texto_dados
+                          }}
+                          baseStyle={goalStyles.texto_dados}
+                        />
                       </View>
                     ))}
                   </View>
