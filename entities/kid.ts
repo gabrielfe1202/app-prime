@@ -40,3 +40,11 @@ export class KidImage {
 
     year!: string;
 }
+
+export class ZipImage {
+    Id!: number;
+    IdChild!: number;
+    date!: string;
+    link!: string;
+    createdAt!: string
+}
