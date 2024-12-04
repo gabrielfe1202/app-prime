@@ -16,6 +16,7 @@ import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
 import { useChild } from "@/contexts/ChildContext";
+import RenderHtml from 'react-native-render-html';
 const { width, height } = Dimensions.get('screen');
 
 type ConclusionParams = {
@@ -79,9 +80,16 @@ export default function ConclusionPage() {
                       <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
                         {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1])]}
                       </Text>
-                      <Text style={goalStyles.texto_dados}>
-                        {item.text}
-                      </Text>
+                      <RenderHtml
+                          contentWidth={width}
+                          source={{
+                            html: item.text
+                          }}
+                          tagsStyles={{
+                            p: goalStyles.texto_dados
+                          }}
+                          baseStyle={goalStyles.texto_dados}
+                        />
                     </View>
                   )
                 })}
