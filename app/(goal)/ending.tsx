@@ -73,7 +73,7 @@ export default function Ending() {
     const supported = await Linking.canOpenURL(url);
     if (supported) {
       await Linking.openURL(url);
-    }else{
+    } else {
       setIsModalVisible(true)
     }
   }
@@ -136,7 +136,7 @@ export default function Ending() {
                     {conclusions.map(item => (
                       <View key={item.id} style={{ paddingTop: 25 }}>
                         <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
-                          {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1]) - 1]}
+                          {monthNames[parseInt(item.dateLabel.split("/")[1]) - 1]} de {item.dateLabel.split("/")[2]}
                         </Text>
                         <Text style={goalStyles.texto_dados}>
                           {item.text}
