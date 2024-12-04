@@ -162,6 +162,10 @@ const Gallery = () => {
                             <FontAwesome name="th" size={27} color={'#000'} />
                         </TouchableOpacity>
 
+                        <TouchableOpacity onPress={() => router.replace("/(Gallery)/Zips")} style={{ padding: 5, borderRadius: 20 }} >
+                            <FontAwesome name="th" size={27} color={'#000'} />
+                        </TouchableOpacity>
+
                         <Menu style={{ paddingLeft: 10, padding: 5 }}>
                             <MenuTrigger>
                                 <Feather name="list" size={27} color="black" />

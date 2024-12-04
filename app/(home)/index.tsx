@@ -105,7 +105,7 @@ function Home() {
                             </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[styles.button_titulo, { padding: 0, paddingVertical: 0, overflow: 'hidden', flex: 1 }]} onPress={() => { router.replace('/Gallery') }}>
+                        <TouchableOpacity style={[styles.button_titulo, { padding: 0, paddingVertical: 0, overflow: 'hidden', flex: 1 }]} onPress={() => { router.replace('/(Gallery)') }}>
                             <ImageBackground source={{ uri: kidInfo?.imagem }} resizeMode="cover" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                             </ImageBackground>
                             <View style={styles.overlay} />
