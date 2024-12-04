@@ -10,7 +10,8 @@ const fonts = {
 const colors = {
     laranja: '#FFA431',
     azul: '#20B9EC',
-    white: '#fff'
+    white: '#fff',
+    cinza: '#96989A'
 }
 
 export { fonts, colors}
