@@ -22,6 +22,7 @@ import AlertModal from "@/components/AlertModal";
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
+import RenderHtml from 'react-native-render-html';
 const { width, height } = Dimensions.get('screen');
 
 export default function Ending() {
@@ -138,9 +139,16 @@ export default function Ending() {
                         <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
                           {monthNames[parseInt(item.dateLabel.split("/")[1]) - 1]} de {item.dateLabel.split("/")[2]}
                         </Text>
-                        <Text style={goalStyles.texto_dados}>
-                          {item.text}
-                        </Text>
+                        <RenderHtml
+                          contentWidth={width}
+                          source={{
+                            html: item.text
+                          }}
+                          tagsStyles={{
+                            p: goalStyles.texto_dados
+                          }}
+                          baseStyle={goalStyles.texto_dados}
+                        />
                       </View>
                     ))}
 
