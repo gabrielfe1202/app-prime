@@ -47,4 +47,5 @@ export class ZipImage {
     date!: string;
     link!: string;
     createdAt!: string
+    url!: string
 }

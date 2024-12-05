@@ -5,7 +5,7 @@ import { ZipImage } from "@/entities/kid";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Linking, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const { width, height } = Dimensions.get("screen")
 
 export default function ZipsPage() {
@@ -25,8 +25,15 @@ export default function ZipsPage() {
         getZips()
     }, [])
 
+    const handleDownloadZip = async (url: string) => {
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+          await Linking.openURL(url);
+        }
+      }
+
     return (
-        <SafeAreaView style={{ flex: 1, paddingTop: 55, backgroundColor: 'rgba(0,0,0,.2)', justifyContent: "center", alignItems: "center" }}>
+        <SafeAreaView style={{ flex: 1, paddingVertical: 55, backgroundColor: 'rgba(0,0,0,.2)', justifyContent: "center", alignItems: "center" }}>
             <View style={{ backgroundColor: '#fff', flex: 1, width: width * 0.9, borderRadius: 25, padding: 20, alignItems: "flex-end" }}>
                 <TouchableOpacity style={{/*backgroundColor: 'blue',*/ width: 40, height: 30, paddingRight: 5 }} onPress={() => router.back()}>
                     <Text style={{ textAlign: "right" }}>
@@ -42,7 +49,7 @@ export default function ZipsPage() {
                     {zips.map(item => (
                         <View style={styles.zipItem} key={item.Id}>
                             <Text style={styles.zipData}>{item.date}</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleDownloadZip(item.url)}>
                                 <FontAwesome name="download" size={25} color={'#000'} />
                             </TouchableOpacity>
                         </View>

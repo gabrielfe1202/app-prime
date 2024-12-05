@@ -129,7 +129,8 @@ export class KidController {
             Idt_Cri_Crianca: z.number(),
             ano: z.string(),
             link: z.string(),
-            data_gerado: z.string()
+            data_gerado: z.string(),
+            url: z.string()
         })
 
         const requestShape = z.object({
@@ -155,6 +156,7 @@ export class KidController {
                 zip.date = _zip.ano;
                 zip.link = _zip.link;
                 zip.createdAt = _zip.data_gerado
+                zip.url = _zip.url
 
                 return zip
             })
