@@ -114,7 +114,7 @@ export class UserController {
             Idt_Cri_Crianca: z.number(),
             Nome: z.string(),
             email: z.string().nullable(),
-            imagem: z.string().url(),
+            imagem: z.string().url().nullable(),
         });
 
         const requestShape = z.object({
@@ -133,7 +133,7 @@ export class UserController {
     
                 child.Idt_Cri_Crianca = _filho.Idt_Cri_Crianca;
                 child.Nome = _filho.Nome;
-                child.imagem = _filho.imagem;
+                child.imagem = _filho.imagem ?? 'https://sistema.primetimecd.com.br/images/logo-primetime2.png';
     
                 return child
             })

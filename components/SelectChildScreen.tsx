@@ -10,6 +10,7 @@ import { colors } from '@/app/globalStyle';
 import { Loading } from './Loading';
 import { useRouter } from 'expo-router';
 import { useAppUser } from '@/contexts/UserContext';
+import globalStyles from "../app/globalStyle"
 const { width, height } = Dimensions.get('screen');
 
 export default function SelectChildScreen() {
@@ -44,6 +45,11 @@ export default function SelectChildScreen() {
         }
     };
 
+    const handleLogOut = async () => {
+        await userController.logout()
+        setUserToken(null)
+    }
+
     useEffect(() => {
         fetchuserInformation()
     }, [])
@@ -60,7 +66,8 @@ export default function SelectChildScreen() {
                 <Text style={styles.texto}>Seja bem-vindo!</Text>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.9, flexWrap: 'wrap' }}>
-                    {childs.map((item, index) => {
+                    {childs.length > 0 ? 
+                    childs.map((item, index) => {
                         return (
                             <View key={index}>
                                 <TouchableOpacity style={styles.button} onPress={() => handleSelectChild(item.Idt_Cri_Crianca!)}>
@@ -71,7 +78,14 @@ export default function SelectChildScreen() {
                                 <Text style={styles.nome_filho}>{item.Nome}</Text>
                             </View>
                         )
-                    })}
+                    }) : (
+                        <View style={{flex: 1, marginTop: 20, alignItems: 'center'}}>
+                            <Text style={[styles.texto, {fontSize: 16, textAlign: 'center', maxWidth: width * 0.6}]}>Ainda não temos crianças relacionadas ao seu usuário</Text>
+                            <TouchableOpacity onPress={handleLogOut} style={[styles.buttonExit, globalStyles.buttonDanger]}>
+                                <Text style={styles.buttonText}>Sair</Text>
+                            </TouchableOpacity>
+                        </View>                        
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -113,5 +127,19 @@ const styles = StyleSheet.create({
         color: colors.laranja,
         maxWidth: width * 0.4,
         fontFamily: 'Inter_900Black'
-    }
+    },
+    buttonExit: {
+        flex: 1,
+        paddingVertical: 5,
+        marginHorizontal: 5,
+        borderRadius: 5,
+        backgroundColor: '#ccc',
+        alignItems: 'center',
+        minWidth: width * 0.2,
+        marginTop: 35
+    },
+    buttonText: {
+        fontSize: 16,
+        color: '#fff',
+    },
 });
