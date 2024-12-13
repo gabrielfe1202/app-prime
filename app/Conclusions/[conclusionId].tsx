@@ -78,7 +78,7 @@ export default function ConclusionPage() {
                   return (
                     <View key={item.id} style={{ paddingTop: 25 }}>
                       <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
-                        {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1])]}
+                        {item.dateLabel.split("/")[0]} de {monthNames[parseInt(item.dateLabel.split("/")[1]) - 1]}
                       </Text>
                       <RenderHtml
                           contentWidth={width}
