@@ -103,8 +103,8 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                                     />
                                 )}
                                 <SideMenuItem
-                                    iconName="cogs"
-                                    text="Minha conta"
+                                    iconName="cog"
+                                    text=" Minha conta"
                                     iconFamily="FontAwesome"
                                     callback={() => router.push("/(Account)")}
                                 />

@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { fonts } from "../globalStyle";
+import { useRouter } from "expo-router";
 const { width, height } = Dimensions.get("screen")
 
 export default function Account() {
     const [stateLoad, setStateload] = useState<boolean>(true)
     const [user, setUser] = useState<User>();
     const { userController } = useAppUser();
+    const router = useRouter();
 
     async function loadUserInfos() {
         try {
@@ -58,7 +60,7 @@ export default function Account() {
                         <Text style={styles.boxTileText}>Senha</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.boxButton}>
+                    <TouchableOpacity style={styles.boxButton} onPress={() => router.push("/(Account)/ChangePassword")}>
                         <FontAwesome name="edit" size={22} color={"#000"} />
                         <Text style={styles.boxButtonText}>Alterar senha</Text>
                     </TouchableOpacity>
