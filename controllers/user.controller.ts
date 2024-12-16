@@ -13,7 +13,7 @@ type LoginResponse = {
     msg: string
 }
 
-export class UserController {   
+export class UserController {
     async getUserInformations(): Promise<User> {
         const userSchema = z.object({
             Idt_usuario: z.number(),
@@ -41,7 +41,7 @@ export class UserController {
             user.imageUser = result.data.usuario.Img_usuario;
 
         } catch (error) {
-            console.error(error)            
+            console.error(error)
         }
 
         return user;
@@ -121,7 +121,7 @@ export class UserController {
             filhos: z.array(childShape)
         })
 
-        try{
+        try {
             const response = await api.get("/Filhos")
 
             const result = requestShape.safeParse(response.data)
@@ -130,19 +130,55 @@ export class UserController {
 
             const childs = result.data.filhos.map(_filho => {
                 const child = new Kid()
-    
+
                 child.Idt_Cri_Crianca = _filho.Idt_Cri_Crianca;
                 child.Nome = _filho.Nome;
                 child.imagem = _filho.imagem ?? 'https://sistema.primetimecd.com.br/images/logo-primetime2.png';
-    
+
                 return child
             })
-    
+
             return childs
 
-        }catch (error) {
+        } catch (error) {
             console.log(error)
             return []
+        }
+    }
+
+    async ChangePassword(password: string, newPassword: string): Promise<{ success: boolean, msg: string, token?: string }> {
+        const responseShape = z.object({
+            success: z.boolean(),
+            msg: z.string(),
+            token: z.string().optional()
+        })
+
+        try {
+            const response = await api.get("ChangePassword", {
+                params: {
+                    password,
+                    newPassword
+                }
+            })
+
+            const result = responseShape.safeParse(response.data)
+
+            console.log(result)
+
+            if (result.error) return {
+                success: false,
+                msg: "Erro ao alterar senha"
+            }
+
+            await AsyncStorage.removeItem('@Primeapp:usertoken')
+
+            return result.data;
+
+        } catch {
+            return {
+                success: false,
+                msg: "Erro ao alterar senha"
+            }
         }
     }
 }
