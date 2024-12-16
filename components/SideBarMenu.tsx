@@ -10,6 +10,7 @@ import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";
 import { useRouter } from "expo-router";
 import ConfirmationModal from "./ConfirmationModal";
+import React from "react";
 const { width, height } = Dimensions.get('screen');
 
 interface SideBarProps {
@@ -101,6 +102,12 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                                         callback={() => { setChildId(null) }}
                                     />
                                 )}
+                                <SideMenuItem
+                                    iconName="cogs"
+                                    text="Minha conta"
+                                    iconFamily="FontAwesome"
+                                    callback={() => router.push("/(Account)")}
+                                />
                                 <SideMenuItem
                                     iconName="logout"
                                     text="Sair"
