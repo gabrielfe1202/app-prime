@@ -1,4 +1,4 @@
-import { fonts } from "@/app/globalStyle";
+import { colors, fonts } from "@/app/globalStyle";
 import AlertModal from "@/components/AlertModal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         borderRadius: 5,
         color: "#505050",
+        fontFamily: fonts.passo
     },
     iconeBotao: {
         position: "absolute",
@@ -168,15 +169,17 @@ const styles = StyleSheet.create({
         color: 'red',
         textAlign: 'center',
         marginBottom: 10,
+        fontFamily: fonts.passo
     },
     botaoAlterar: {
-        backgroundColor: '#007bff',
+        backgroundColor: colors.laranja,
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 10,
         alignItems: 'center',
     },
     textoBotao: {
         color: '#fff',
         fontWeight: 'bold',
+        fontFamily: fonts.passo
     },
 });

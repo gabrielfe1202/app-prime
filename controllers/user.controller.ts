@@ -163,8 +163,6 @@ export class UserController {
 
             const result = responseShape.safeParse(response.data)
 
-            console.log(result)
-
             if (result.error) return {
                 success: false,
                 msg: "Erro ao alterar senha"
