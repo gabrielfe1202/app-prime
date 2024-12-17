@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Animated, Image, SafeAreaView, Text, View, Platform, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {
     CodeField,
@@ -36,6 +36,26 @@ const CodeInput = () => {
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
     const [stateLoad, setStateload] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [secondsLeft, setSecondsLeft] = useState(60);
+    const [isDisabled, setIsDisabled] = useState(true);
+
+    useEffect(() => {
+        if (secondsLeft > 0 && isDisabled) {
+            const timer = setInterval(() => {
+                setSecondsLeft(prevSeconds => prevSeconds - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        } else if (secondsLeft === 0) {
+            setIsDisabled(false);
+        }
+    }, [secondsLeft, isDisabled]);
+
+    const handleRetry = () => {
+        console.log('Tentando novamente...');
+        setIsDisabled(true);
+        setSecondsLeft(60);
+    };
 
     const renderCell = ({ index, symbol, isFocused }: { index: number, symbol: string, isFocused: boolean }) => {
         const hasValue = Boolean(symbol);
@@ -78,13 +98,25 @@ const CodeInput = () => {
         );
     };
 
+    const handleVerification = () => {
+        if (value.length === CELL_COUNT) {
+            console.log("Código preenchido com sucesso!", value);
+            verifyCode()
+        }
+    };
+
+    useEffect(() => {
+        handleVerification();
+    }, [value]);
+
     function verifyCode() {
         setStateload(true)
+        setErrorMessage("Código inválido")
     }
 
     return (
         <SafeAreaView style={styles.root}>
-            <Text style={styles.title}>Codigo de verificação</Text>
+            <Text style={styles.title}>Codigo de Verificação</Text>
             <Image style={styles.icon} source={padlock} />
             <Text style={styles.subTitle}>
                 Insira o código de verificação{'\n'}
@@ -96,12 +128,14 @@ const CodeInput = () => {
                 {...props}
                 value={value}
                 onChangeText={setValue}
-                cellCount={CELL_COUNT}                
+                cellCount={CELL_COUNT}
                 rootStyle={styles.codeFieldRoot}
                 keyboardType="number-pad"
                 textContentType="oneTimeCode"
                 renderCell={renderCell}
             />
+
+            {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
 
             <TouchableOpacity style={styles.nextButton} onPress={verifyCode} disabled={stateLoad}>
                 {!stateLoad ? (
@@ -111,7 +145,15 @@ const CodeInput = () => {
                 )}
             </TouchableOpacity>
 
-
+            <TouchableOpacity
+                style={[styles.nextButton, isDisabled && styles.buttonDisabled, {marginTop: 10}]}
+                onPress={handleRetry}
+                disabled={isDisabled}
+            >
+                <Text style={styles.nextButtonText}>
+                    {isDisabled ? `Aguarde ${secondsLeft}s` : 'Enviar Novamente'}
+                </Text>
+            </TouchableOpacity>
 
         </SafeAreaView>
     );
@@ -147,7 +189,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         elevation: 5,
     },
-    root: {        
+    root: {
         padding: 20,
         flex: 1,
         justifyContent: 'center',
@@ -156,10 +198,10 @@ const styles = StyleSheet.create({
     title: {
         paddingTop: 50,
         color: '#505050',
-        fontSize: 25,
+        fontSize: 28,
         textAlign: 'center',
         paddingBottom: 40,
-        fontFamily: fonts.passo
+        fontFamily: fonts.passoTitulo
     },
     icon: {
         width: width * .7,
@@ -172,7 +214,7 @@ const styles = StyleSheet.create({
         color: '#505050',
         textAlign: 'center',
         fontFamily: fonts.passo,
-        fontSize: 16
+        fontSize: 17
     },
     nextButton: {
         marginTop: 30,
@@ -180,8 +222,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: colors.azul,
         justifyContent: 'center',
-        width: width * .82,
-        marginBottom: 100,
+        width: width * .82,        
     },
     nextButtonText: {
         textAlign: 'center',
@@ -189,4 +230,14 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '700',
     },
+    errorMessage: {
+        marginTop: 20,
+        color: 'red',
+        fontSize: 16,
+        textAlign: 'center',
+        fontFamily: fonts.passo
+    },
+    buttonDisabled: {
+        opacity: .5
+    }
 });
