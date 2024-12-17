@@ -5,6 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
+import PassCodePage from "./PassCode";
 const { width, height } = Dimensions.get("screen")
 
 interface ForgotPasswordPageProps {
@@ -15,17 +16,22 @@ export default function ForgotPasswordPage({ onBack }: ForgotPasswordPageProps) 
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [textError, setTextError] = useState<string>("")
+    const [passCodeShow, setPassCodeShow] = useState<boolean>(false)
 
     const handleRecoverPassword = async () => {
         var valid = validEmail(email)
+        setPassCodeShow(true)
         if (valid) {
             setTextError("")
+            setPassCodeShow(true)
         } else {
             setTextError("Email inválido")
         }
     }
 
     if (loading) return <Loading />
+
+    if (passCodeShow) return <PassCodePage />
 
     return (
         <GestureHandlerRootView>
