@@ -1,12 +1,15 @@
 import { Text, View, Image, TextInput, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../globalStyle"
+import { colors, fonts } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { useState } from "react";
 import { useAppUser } from "@/contexts/UserContext";
 import { Loading } from "@/components/Loading";
 import { validEmail } from "@/utils/stringFunctions";
+import { router } from "expo-router";
+import ForgotPasswordPage from "./ForgotPassword";
+import { FadeIn } from "react-native-reanimated";
 const { width, height } = Dimensions.get('screen');
 
 export default function Login() {
@@ -17,6 +20,7 @@ export default function Login() {
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
   const [erro, setErro] = useState<string>('');
   const [emailValido, setEmailValido] = useState(true);
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false)
   const { setUserToken, userController } = useAppUser()
 
   async function handleLogin() {
@@ -49,6 +53,8 @@ export default function Login() {
   };
 
   if (stateload) return <Loading />
+
+  if (forgotPassword) return <ForgotPasswordPage onBack={() => setForgotPassword(false)} />
 
   return (
     <GestureHandlerRootView>
@@ -101,6 +107,11 @@ export default function Login() {
               Entrar
             </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setForgotPassword(true)}>
+            <Text style={styles.recSenha}>Esqueceu sua senha?</Text>
+          </TouchableOpacity>
+
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
@@ -155,5 +166,13 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     textAlign: "right",
     width: width * 0.8
+  },
+  recSenha: {
+    textAlign: "center",
+    width: width * 0.8,
+    paddingTop: 50,
+    fontSize: 20,
+    color: colors.laranja,
+    fontFamily: fonts.passoTitulo
   }
 })
