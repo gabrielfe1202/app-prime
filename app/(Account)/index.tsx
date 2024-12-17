@@ -6,7 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { fonts } from "../globalStyle";
+import { colors, fonts } from "../globalStyle";
 import { useRouter } from "expo-router";
 const { width, height } = Dimensions.get("screen")
 
@@ -35,7 +35,7 @@ export default function Account() {
         <GestureHandlerRootView>
             <SafeAreaView style={styles.container}>
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <FontAwesome name="user-circle" size={80} color={"#000"} />
+                    <FontAwesome name="user-circle" size={120} color={colors.laranja} />
                     <Text style={styles.userName}>{user?.name}</Text>
                 </View>
 
@@ -56,7 +56,7 @@ export default function Account() {
                 </View>
 
                 <View style={styles.box}>
-                    <View style={styles.boxTitle}>
+                    <View style={[styles.boxTitle,{backgroundColor: colors.laranja}]}>
                         <Text style={styles.boxTileText}>Senha</Text>
                     </View>
 
@@ -77,12 +77,12 @@ export default function Account() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
+        marginTop: height * .15,        
         alignItems: "center"
     },
     userName: {
-        fontFamily: fonts.passo,
-        fontSize: 22,
+        fontFamily: fonts.passoTitulo,
+        fontSize: 28,
         paddingTop: 10,
         paddingBottom: 20
     },
@@ -95,13 +95,15 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     boxTitle: {
-        backgroundColor: "#bababa",
+        //backgroundColor: "#bababa",
+        backgroundColor: colors.azul,
         paddingHorizontal: 20,
         paddingVertical: 5
     },
     boxTileText: {
         fontSize: 18,
         fontFamily: fonts.passo,
+        color: "#fff"
     },
     boxData: {
         paddingHorizontal: 30,
