@@ -3,6 +3,7 @@ import LottieView from 'lottie-react-native';
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions, TouchableOpacity } from 'react-native';
 import checkAnimation from '../../../assets/animations/check.json'
+import Login from '../index'
 const { width, height } = Dimensions.get("screen")
 
 const AlterarSenha: React.FC = () => {
@@ -11,6 +12,7 @@ const AlterarSenha: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const animationRef = useRef<LottieView>(null);
     const [animating, setAnimating] = useState<boolean>(false);
+    const [showLogin, setShowLogin] = useState<boolean>(false)
 
     const validarSenha = (): boolean => {
         if (!novaSenha || !confirmarSenha) {
@@ -46,6 +48,8 @@ const AlterarSenha: React.FC = () => {
         }
     };
 
+    if(showLogin) return <Login />
+
     if (animating) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -53,12 +57,12 @@ const AlterarSenha: React.FC = () => {
                     source={checkAnimation}
                     autoPlay
                     loop={false}
-                    ref={animationRef}
+                    ref={animationRef}                    
                     style={{ flex: 0, width: width, height: 350, marginTop: -50 }}
                 />
                 <Text style={{ fontFamily: fonts.passo, fontSize: 22, textAlign: 'center' }}>Sua senha foi alterada{'\n'} com sucesso!</Text>
 
-                <TouchableOpacity style={[styles.Button, {marginTop: 20}]} onPress={() => setAnimating(!animating)}>
+                <TouchableOpacity style={[styles.Button, {marginTop: 20}]} onPress={() => setShowLogin(true)}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>
 
