@@ -12,6 +12,7 @@ import { ChildProvider } from '@/contexts/ChildContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { AuthChecker } from '@/contexts/AuthChecker';
 import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

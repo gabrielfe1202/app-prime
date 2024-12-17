@@ -4,4 +4,8 @@ export class ForgotPasswordController {
        
         return false;
     }    
+
+    async verifyCode(code: string): Promise<boolean> {
+        return false;
+    }
 }

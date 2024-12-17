@@ -12,7 +12,7 @@ import ForgotPasswordPage from "./ForgotPassword";
 import { FadeIn } from "react-native-reanimated";
 const { width, height } = Dimensions.get('screen');
 
-export default function Login() {
+export default function LoginPage() {
   const [stateload, setStateload] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('')
   const [emailFocus, setEmailFocus] = useState<boolean>(false)

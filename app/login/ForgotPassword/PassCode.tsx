@@ -8,6 +8,7 @@ import {
 } from 'react-native-confirmation-code-field';
 import padlock from '../../../assets/images/padlock.png'
 import { colors, fonts } from '@/app/globalStyle';
+import ChangePasswordPage from './ChangePassword';
 
 const { width, height } = Dimensions.get("screen")
 const { Value, Text: AnimatedText } = Animated;
@@ -39,6 +40,7 @@ const CodeInput = () => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [secondsLeft, setSecondsLeft] = useState(60);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [resetPassword, setResetPassword] = useState<boolean>(false)
 
     useEffect(() => {
         if (secondsLeft > 0 && isDisabled) {
@@ -111,8 +113,11 @@ const CodeInput = () => {
 
     function verifyCode() {
         setStateload(true)
-        setErrorMessage("Código inválido")
+        //setErrorMessage("Código inválido")
+        setResetPassword(true)
     }
+
+    if(resetPassword) return <ChangePasswordPage />
 
     return (
         <SafeAreaView style={styles.root}>
