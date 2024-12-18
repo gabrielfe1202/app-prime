@@ -2,10 +2,13 @@ import { colors, fonts } from "@/app/globalStyle";
 import { Loading } from "@/components/Loading";
 import { isNullOrEmpty, validEmail } from "@/utils/stringFunctions";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import PassCodePage from "./PassCode";
+import { ForgotPasswordController } from "@/controllers/ForgotPassword.cotroller";
+import LottieView from "lottie-react-native";
+import sendAnimation from "../../../assets/animations/send.json"
 const { width, height } = Dimensions.get("screen")
 
 interface ForgotPasswordPageProps {
@@ -17,13 +20,25 @@ export default function SendCodePage({ onBack }: ForgotPasswordPageProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const [textError, setTextError] = useState<string>("")
     const [passCodeShow, setPassCodeShow] = useState<boolean>(false)
+    const [aniamationShow, setAnimationShow] = useState<boolean>(false)
+    const forgotPasswordController = new ForgotPasswordController()
+    const animationRef = useRef<LottieView>(null);
 
     const handleRecoverPassword = async () => {
         var valid = validEmail(email)
-        setPassCodeShow(true)
+
         if (valid) {
             setTextError("")
-            setPassCodeShow(true)
+
+            setLoading(true)
+            const result = await forgotPasswordController.sendCode(email).finally(() => {
+                setLoading(false)
+            })
+            if (result.success) {
+                setAnimationShow(true)
+            } else {
+                setTextError(result.msg)
+            }
         } else {
             setTextError("Email inválido")
         }
@@ -31,7 +46,22 @@ export default function SendCodePage({ onBack }: ForgotPasswordPageProps) {
 
     if (loading) return <Loading />
 
-    if (passCodeShow) return <PassCodePage />
+    if (passCodeShow) return <PassCodePage email={email} />
+
+    if (aniamationShow) return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <LottieView
+                source={sendAnimation}
+                autoPlay
+                loop={false}
+                ref={animationRef}
+                onAnimationFinish={() => {
+                    setPassCodeShow(true)
+                }}
+                style={{ flex: 0, width: width, height: 350, marginTop: -50 }}
+            />
+        </View>
+    )
 
     return (
         <GestureHandlerRootView>
@@ -103,7 +133,6 @@ const styles = StyleSheet.create({
         width: width * .85,
         fontFamily: fonts.passo,
         fontSize: 18,
-        marginBottom: 20
     },
     button: {
         borderRadius: 15,
@@ -111,6 +140,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.azul,
         justifyContent: 'center',
         width: width * .85,
+        marginTop: 15
     },
     buttonText: {
         textAlign: 'center',

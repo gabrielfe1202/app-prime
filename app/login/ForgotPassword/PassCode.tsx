@@ -9,6 +9,7 @@ import {
 import padlock from '../../../assets/images/padlock.png'
 import { colors, fonts } from '@/app/globalStyle';
 import ChangePasswordPage from './ChangePassword';
+import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
 
 const { width, height } = Dimensions.get("screen")
 const { Value, Text: AnimatedText } = Animated;
@@ -32,7 +33,12 @@ const animateCell = ({ hasValue, index, isFocused }: { hasValue: boolean, index:
     ]).start();
 };
 
-const CodeInput = () => {
+interface PassCodePageProps {
+    email: string;
+}
+
+
+const CodeInput = ({email}: PassCodePageProps) => {
     const [value, setValue] = useState<string>('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
@@ -41,6 +47,7 @@ const CodeInput = () => {
     const [secondsLeft, setSecondsLeft] = useState(60);
     const [isDisabled, setIsDisabled] = useState(true);
     const [resetPassword, setResetPassword] = useState<boolean>(false)
+    const forgotPasswordController = new ForgotPasswordController()
 
     useEffect(() => {
         if (secondsLeft > 0 && isDisabled) {
@@ -53,8 +60,8 @@ const CodeInput = () => {
         }
     }, [secondsLeft, isDisabled]);
 
-    const handleRetry = () => {
-        console.log('Tentando novamente...');
+    const handleRetry = async () => {
+        const result = await forgotPasswordController.sendCode(email)
         setIsDisabled(true);
         setSecondsLeft(60);
     };
@@ -111,10 +118,16 @@ const CodeInput = () => {
         handleVerification();
     }, [value]);
 
-    function verifyCode() {
+    async function verifyCode() {
         setStateload(true)
-        //setErrorMessage("Código inválido")
-        setResetPassword(true)
+
+        const result = await forgotPasswordController.verifyCode(value).finally(() => setStateload(false))
+
+        if(result.success){
+            setResetPassword(true)
+        }else{
+            setErrorMessage("Código inválido")
+        }
     }
 
     if(resetPassword) return <ChangePasswordPage />
@@ -151,11 +164,11 @@ const CodeInput = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                style={[styles.nextButton, isDisabled && styles.buttonDisabled, {marginTop: 10}]}
+                style={[styles.nextButton, styles.button2, isDisabled && styles.buttonDisabled, {marginTop: 10}]}
                 onPress={handleRetry}
                 disabled={isDisabled}
             >
-                <Text style={styles.nextButtonText}>
+                <Text style={styles.nextButtonText2}>
                     {isDisabled ? `Aguarde ${secondsLeft}s` : 'Enviar Novamente'}
                 </Text>
             </TouchableOpacity>
@@ -244,5 +257,14 @@ const styles = StyleSheet.create({
     },
     buttonDisabled: {
         opacity: .5
-    }
+    },
+    button2: {
+        backgroundColor: "#ededed",        
+    },
+    nextButtonText2: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: colors.azul,
+        fontWeight: '700',
+    },
 });
