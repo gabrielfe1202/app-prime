@@ -48,6 +48,7 @@ const CodeInput = ({email}: PassCodePageProps) => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [resetPassword, setResetPassword] = useState<boolean>(false)
     const forgotPasswordController = new ForgotPasswordController()
+    const [token, setToken] = useState<string>("")
 
     useEffect(() => {
         if (secondsLeft > 0 && isDisabled) {
@@ -58,12 +59,16 @@ const CodeInput = ({email}: PassCodePageProps) => {
         } else if (secondsLeft === 0) {
             setIsDisabled(false);
         }
-    }, [secondsLeft, isDisabled]);
+    }, [secondsLeft]);
 
     const handleRetry = async () => {
-        const result = await forgotPasswordController.sendCode(email)
+        setStateload(true);
         setIsDisabled(true);
-        setSecondsLeft(60);
+
+        const result = await forgotPasswordController.sendCode(email).finally(() => {
+            setStateload(false);
+            setSecondsLeft(60);
+        })        
     };
 
     const renderCell = ({ index, symbol, isFocused }: { index: number, symbol: string, isFocused: boolean }) => {
@@ -124,13 +129,14 @@ const CodeInput = ({email}: PassCodePageProps) => {
         const result = await forgotPasswordController.verifyCode(value).finally(() => setStateload(false))
 
         if(result.success){
-            setResetPassword(true)
+            setToken(result.token)
+            setResetPassword(true)            
         }else{
             setErrorMessage("Código inválido")
         }
     }
 
-    if(resetPassword) return <ChangePasswordPage />
+    if(resetPassword) return <ChangePasswordPage token={token} />
 
     return (
         <SafeAreaView style={styles.root}>

@@ -1,39 +1,49 @@
 import { colors, fonts } from '@/app/globalStyle';
 import LottieView from 'lottie-react-native';
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import checkAnimation from '../../../assets/animations/check.json'
 import Login from '../index'
+import { FontAwesome } from '@expo/vector-icons';
+import { isNullOrEmpty } from '@/utils/stringFunctions';
+import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
 const { width, height } = Dimensions.get("screen")
 
-const AlterarSenha: React.FC = () => {
+interface ChangePasswordPageProps {
+    token: string
+}
+
+const ChangePasswordPage: React.FC<ChangePasswordPageProps> = ({token}) => {
     const [novaSenha, setNovaSenha] = useState<string>('');
     const [confirmarSenha, setConfirmarSenha] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const animationRef = useRef<LottieView>(null);
     const [animating, setAnimating] = useState<boolean>(false);
     const [showLogin, setShowLogin] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+    const [error, setError] = useState<string>("")
+    const forgotPasswordController = new ForgotPasswordController()
 
     const validarSenha = (): boolean => {
-        if (!novaSenha || !confirmarSenha) {
-            Alert.alert('Erro', 'Todos os campos são obrigatórios.');
+        if (!novaSenha || !confirmarSenha) {            
+            setError('Todos os campos são obrigatórios.')
             return false;
         }
 
-        if (novaSenha !== confirmarSenha) {
-            Alert.alert('Erro', 'As senhas não coincidem.');
+        if (novaSenha !== confirmarSenha) {            
+            setError('As senhas não coincidem.')
             return false;
         }
 
-        if (novaSenha.length < 6) {
-            Alert.alert('Erro', 'A nova senha deve ter pelo menos 6 caracteres.');
+        if (novaSenha.length < 5) {
+            setError('A nova senha deve ter pelo menos 5 caracteres.')
             return false;
         }
 
         return true;
     };
 
-    // Função para enviar a solicitação de alteração de senha
     const alterarSenha = async (): Promise<void> => {
         if (!validarSenha()) return;
 
@@ -48,7 +58,22 @@ const AlterarSenha: React.FC = () => {
         }
     };
 
-    if(showLogin) return <Login />
+    const handleChangePassword = async () => {
+        if (!validarSenha()) return;
+
+        setLoading(true);
+
+        const result = await forgotPasswordController.changePassword(token, novaSenha).finally(() => setLoading(false))
+
+        if(result.success){
+            setAnimating(true)
+        }else{
+            setError(result.msg)
+        }
+
+    }
+
+    if (showLogin) return <Login />
 
     if (animating) {
         return (
@@ -57,12 +82,12 @@ const AlterarSenha: React.FC = () => {
                     source={checkAnimation}
                     autoPlay
                     loop={false}
-                    ref={animationRef}                    
+                    ref={animationRef}
                     style={{ flex: 0, width: width, height: 350, marginTop: -50 }}
                 />
                 <Text style={{ fontFamily: fonts.passo, fontSize: 22, textAlign: 'center' }}>Sua senha foi alterada{'\n'} com sucesso!</Text>
 
-                <TouchableOpacity style={[styles.Button, {marginTop: 20}]} onPress={() => setShowLogin(true)}>
+                <TouchableOpacity style={[styles.Button, { marginTop: 20 }]} onPress={() => setShowLogin(true)}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>
 
@@ -71,34 +96,50 @@ const AlterarSenha: React.FC = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titulo}>Alterar Senha</Text>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <Text style={styles.titulo}>Alterar Senha</Text>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Nova senha"
-                secureTextEntry
-                value={novaSenha}
-                onChangeText={setNovaSenha}
-                placeholderTextColor={'#505050'}
-                autoCapitalize='none'
-            />
+                <View style={{ position: "relative" }}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nova senha"
+                        value={novaSenha}
+                        onChangeText={setNovaSenha}
+                        secureTextEntry={!showPassword}
+                        placeholderTextColor={'#505050'}
+                        autoCapitalize='none'
+                    />
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.iconeBotao}>
+                        <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={24} color={"#505050"} />
+                    </TouchableOpacity>
+                </View>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Confirmar nova senha"
-                secureTextEntry
-                value={confirmarSenha}
-                onChangeText={setConfirmarSenha}
-                placeholderTextColor={'#505050'}
-                autoCapitalize='none'
-            />
+                <View style={{ position: "relative" }}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Confirmar nova senha"
+                        secureTextEntry={!showConfirmPassword}
+                        value={confirmarSenha}
+                        onChangeText={setConfirmarSenha}
+                        placeholderTextColor={'#505050'}
+                        autoCapitalize='none'
+                    />
+                    <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} style={styles.iconeBotao}>
+                        <FontAwesome name={showConfirmPassword ? "eye-slash" : "eye"} size={24} color={"#505050"} />
+                    </TouchableOpacity>
+                </View>
 
-            <TouchableOpacity style={styles.Button} onPress={() => setAnimating(!animating)}>
-                <Text style={styles.ButtonText}>Alterar</Text>
-            </TouchableOpacity>
+                {!isNullOrEmpty(error) && (
+                    <Text style={styles.error}>{error}</Text>
+                )}
 
-        </View>
+                <TouchableOpacity style={styles.Button} onPress={() => handleChangePassword()}>
+                    <Text style={styles.ButtonText}>Alterar</Text>
+                </TouchableOpacity>
+
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 
@@ -140,6 +181,17 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '700',
     },
+    iconeBotao: {
+        position: "absolute",
+        right: 10,
+        top: 12,
+    },
+    error: {
+        fontSize: 16,
+        marginTop: 10,
+        fontFamily: fonts.passo,
+        color: "#c70404"
+    }
 });
 
-export default AlterarSenha;
+export default ChangePasswordPage;
