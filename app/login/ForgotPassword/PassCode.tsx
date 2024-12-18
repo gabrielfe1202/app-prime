@@ -132,7 +132,7 @@ const CodeInput = ({email}: PassCodePageProps) => {
             setToken(result.token)
             setResetPassword(true)            
         }else{
-            setErrorMessage("Código inválido")
+            setErrorMessage(result.msg)
         }
     }
 

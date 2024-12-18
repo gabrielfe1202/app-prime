@@ -32,10 +32,11 @@ export class ForgotPasswordController {
         }
     }
 
-    async verifyCode(code: string): Promise<{success: boolean, token: string}> {
+    async verifyCode(code: string): Promise<{success: boolean, token: string, msg: string}> {
 
         const responseShape = z.object({
             success: z.boolean(),
+            msg: z.string(),
             token: z.string()
         })
 
@@ -50,7 +51,8 @@ export class ForgotPasswordController {
 
             if(result.error) return {
                 success: false,
-                token: ""
+                token: "",
+                msg: "Código inválido"
             }
 
             return result.data
@@ -58,7 +60,8 @@ export class ForgotPasswordController {
         } catch {
             return {
                 success: false,
-                token: ""
+                token: "",
+                msg: "Código inválido"
             }
         }
     }
