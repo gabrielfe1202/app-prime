@@ -96,26 +96,27 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30
     },
     input: {
-        height: 50,
+        height: 55,
         borderWidth: 1,
         paddingLeft: 10,
         borderRadius: 5,
         width: width * .85,
-        fontFamily: fonts.passo
+        fontFamily: fonts.passo,
+        fontSize: 18,
+        marginBottom: 20
     },
     button: {
+        borderRadius: 15,
+        height: 60,
         backgroundColor: colors.azul,
+        justifyContent: 'center',
         width: width * .85,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingVertical: 10,
-        borderRadius: 8,
-        marginTop: 20
     },
     buttonText: {
-        fontSize: 17,
-        fontFamily: fonts.passo,
-        color: "#fff"
+        textAlign: 'center',
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: '700',
     },
     error: {
         fontSize: 16,
