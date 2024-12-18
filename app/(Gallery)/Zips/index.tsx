@@ -28,9 +28,9 @@ export default function ZipsPage() {
     const handleDownloadZip = async (url: string) => {
         const supported = await Linking.canOpenURL(url);
         if (supported) {
-          await Linking.openURL(url);
+            await Linking.openURL(url);
         }
-      }
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, paddingVertical: 55, backgroundColor: 'rgba(0,0,0,.2)', justifyContent: "center", alignItems: "center" }}>
@@ -45,7 +45,7 @@ export default function ZipsPage() {
                     <Text style={styles.title}>Pacotes de fotos</Text>
                 </View>
 
-                <View style={styles.zipsContainer}>
+                <View style={[styles.zipsContainer,{width: width * 0.8}]}>
                     {zips.map(item => (
                         <View style={styles.zipItem} key={item.Id}>
                             <Text style={styles.zipData}>{item.date}</Text>
@@ -54,6 +54,9 @@ export default function ZipsPage() {
                             </TouchableOpacity>
                         </View>
                     ))}
+                    {zips.length == 0 && (                        
+                        <Text style={[styles.zipData,{textAlign: "center"}]}>Ainda não temos nenhum pacote de fotos disponível</Text>                        
+                    )}
                 </View>
             </View>
         </SafeAreaView>
