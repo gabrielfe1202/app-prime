@@ -5,6 +5,12 @@
     "build": {
         "preview": {
             "distribution": "internal"
+        },
+        "production": {
+            "distribution": "store",
+            "android": {
+                "releaseChannel": "production"  
+            }
         }
-    }
+    }    
 }

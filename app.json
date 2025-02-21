@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Primetime",
-    "slug": "o2ew-prime",
+    "slug": "primetime",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.gabrielfe1202.o2ewprime"
+      "package": "com.primetime_cd.primetime"
     },
     "web": {
       "bundler": "metro",
@@ -39,8 +39,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "2c5ca2c4-b79a-4b14-b08f-e32b6451d6f5"
+        "projectId": "92783140-61dd-45c4-b2cc-f29d4a9891c7"
       }
-    }
+    },
+    "owner": "primetime_cd"
   }
 }
