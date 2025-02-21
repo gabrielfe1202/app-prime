@@ -61,6 +61,8 @@ const footerStyles = StyleSheet.create({
     },
     icones: {
         width: width * 0.136,
-        height: width * 0.136
+        height: width * 0.136,
+        maxWidth: 90,
+        maxHeight: 90
     }
 });

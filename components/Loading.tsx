@@ -11,7 +11,7 @@ export function Loading() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
             <Image
-                style={[styles.logoFullWidth, { width: width * 0.65 }]}
+                style={[styles.logoFullWidth, { width: width * 0.65, maxWidth: 600   }]}
                 resizeMode={'contain'}
                 source={logoPrime}
             />
