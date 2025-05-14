@@ -21,7 +21,7 @@ function groupGoalsByColor(goals: Goal[]): GroupedGoal[] {
   const set = new Set<string>();
 
   goals.forEach(goal => set.add(goal.color));
-
+  
   return [...set].map((color, id) => ({ id, color }));
 }
 
@@ -34,7 +34,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
   const [titles, setTitles] = useState<GoalTitle[]>()
   const goalsState = asyncArrayToState(goals);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { userToken, setUserToken } = useAppUser(); 
+  const { userToken, setUserToken } = useAppUser();
 
   const closeModal = () => setModalVisible(false);
 
@@ -78,15 +78,12 @@ export function GoalBottomTab({ onGotoPage }: Props) {
           {titles &&
             titles
               .filter(x => x.menu == 1)
-              .map((item, index) => {
-                if (item.imagem_app != null && item.imagem_app != '') {
-                  return (
-                    <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
-                      <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
-                    </TouchableOpacity>
-                  )
-                }
-              })
+              .filter(x => x.imagem_app != null && x.imagem_app != '')              
+              .map((item, index) => (
+                <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
+                  <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
+                </TouchableOpacity>
+              ))
           }
         </View>
 
@@ -153,7 +150,8 @@ const footerStyles = StyleSheet.create({
     elevation: 40,
     borderTopColor: '#505050',
     borderWidth: 0,
-    paddingHorizontal: 18,
+    /*paddingHorizontal: 18,*/
+    paddingHorizontal: 4,
     paddingVertical: 5
   },
   icones: {
