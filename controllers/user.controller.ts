@@ -4,6 +4,7 @@ import { z } from 'zod'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isNullOrEmpty } from "@/utils/stringFunctions";
 import api from "@/utils/axiosApi";
+import { Address } from "@/objectValues/address";
 
 type LoginResponse = {
     status: "SUCCESS",
@@ -19,7 +20,14 @@ export class UserController {
             Idt_usuario: z.number(),
             Nom_usuario: z.string(),
             Nom_login: z.string(),
-            Img_usuario: z.string().nullable()
+            Img_usuario: z.string().nullable(),
+            End_endereco: z.string().nullable(),
+            End_numero: z.string().nullable(),
+            End_complemento: z.string().nullable(),
+            End_cep: z.string().nullable(),
+            End_bairro: z.string().nullable(),
+            End_cidade: z.string().nullable(),
+            End_estado: z.string().nullable(),
         });
 
         const requestSchema = z.object({
@@ -39,6 +47,14 @@ export class UserController {
             user.name = result.data.usuario.Nom_usuario;
             user.email = result.data.usuario.Nom_login;
             user.imageUser = result.data.usuario.Img_usuario;
+
+            const address = new Address()
+
+            address.setAddress(result.data.usuario.End_endereco, result.data.usuario.End_numero, result.data.usuario.End_complemento, result.data.usuario.End_bairro, result.data.usuario.End_cidade , result.data.usuario.End_estado ,result.data.usuario.End_cep)
+
+            if(address.validateAddress()){
+                user.address = address;
+            }
 
         } catch (error) {
             console.error(error)
