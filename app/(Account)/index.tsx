@@ -46,9 +46,11 @@ export default function Account() {
 
                     <View style={styles.boxData}>
                         <Text style={styles.boxDataText}>Email: {user?.email}</Text>
+                        <Text style={styles.boxDataText}>Telefone: {user?.email}</Text>                    
+                        <Text style={styles.boxDataText}>Endereço: {user?.address?.formatAddress()}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.boxButton}>
+                    <TouchableOpacity style={styles.boxButton} onPress={() => router.push("/(Account)/updateProfile")}>
                         <FontAwesome name="edit" size={22} color={"#000"} />
                         <Text style={styles.boxButtonText}>Alterar</Text>
                     </TouchableOpacity>
