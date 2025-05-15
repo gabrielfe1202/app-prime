@@ -58,6 +58,10 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
         fetchuserInformation()
     }, [visible]);
 
+    useEffect(() => {
+        fetchuserInformation()
+    },[])
+
     const modalStyle = useAnimatedStyle(() => {
         return {
             transform: [{ translateX: translateX.value }],
