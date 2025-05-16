@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { Address } from "@/objectValues/address";
+import { useRouter } from "expo-router";
 
 export default function ChangePassword() {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,8 +24,9 @@ export default function ChangePassword() {
     const [stateLoad, setStateload] = useState<boolean>(false)
     const [modalType, setModalType] = useState<"DANGER" | "SUCCESS">("DANGER")
     const [modalText, setModalText] = useState<string>("")
-    const { userData } = useAppUser();
+    const { userData, userController } = useAppUser();
     const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -54,7 +56,14 @@ export default function ChangePassword() {
     }, [])
 
     const handleSaveChanges = async () => {
-        console.log(address)
+        userController.updateInformations(email, phone, cellphone, address)
+            .then(() => {
+                router.push("/(Account)")
+            })
+            .catch((e: Error) => {
+                setModalText(e.message)
+                setIsModalVisible(true)
+            })
     };
 
     const hideModal = () => {

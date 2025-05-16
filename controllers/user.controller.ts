@@ -59,7 +59,7 @@ export class UserController {
 
             if (address.validateAddress()) {
                 user.address = address;
-            }            
+            }
 
         } catch (error) {
             console.error(error)
@@ -198,6 +198,39 @@ export class UserController {
                 success: false,
                 msg: "Erro ao alterar senha"
             }
+        }
+    }
+
+    async updateInformations(email: string, phone: string, cellPhone: string, address: Address) {
+
+        const responseShape = z.object({
+            success: z.boolean(),
+            msg: z.string(),
+        })
+
+        try {
+
+            const response = await api.post('/Dados', {
+                email,
+                phone,
+                cellPhone,
+                address
+            })
+
+            const result = responseShape.safeParse(response.data)
+
+            if (result.error) {
+                throw new Error("Ocorreu um erro ao alterar dados")
+            }
+
+            if(result.data.success){
+                throw new Error(result.data.msg)
+            }
+
+            return result.data
+
+        } catch {
+            throw new Error("Erro ao alterar dados")
         }
     }
 }
