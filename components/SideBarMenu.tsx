@@ -26,24 +26,13 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const [countChilds, setCountChilds] = useState<number>(0)
     const childContext = useChild();
     const { setChildId } = childContext!;
-    const { userToken, setUserToken, userController } = useAppUser();
+    const { userData, childCount, setUserToken, userController } = useAppUser();
 
     // const handleLogOut = async () => {
     //     setUserToken(null); // Remove o token
     // };
 
     const router = useRouter();
-
-    const fetchuserInformation = async () => {
-        try {
-            const data = await userController.getUserInformations();
-            const childs = await userController.getUserChilds()
-            setUser(data)
-            setCountChilds(childs.length)
-        } catch (err) {
-            console.error(err);
-        }
-    };
 
     useEffect(() => {
         if (visible) {
@@ -55,12 +44,8 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
             }, 300);
             translateX.value = withTiming(-600, { duration: 300, easing: Easing.out(Easing.ease) });
         }
-        fetchuserInformation()
     }, [visible]);
 
-    useEffect(() => {
-        fetchuserInformation()
-    },[])
 
     const modalStyle = useAnimatedStyle(() => {
         return {
@@ -95,10 +80,10 @@ export function SideBarMenu({ visible, onClose }: SideBarProps) {
                                 />
                             </View>
                             <View style={sideMenu.headerBgTextContainer}>
-                                <Text style={sideMenu.headerBgTextValue}>Olá, {user?.getFirstName()}</Text>
+                                <Text style={sideMenu.headerBgTextValue}>Olá, {userData?.getFirstName()}</Text>
                             </View>
                             <View style={sideMenu.buttonsContainer}>
-                                {countChilds > 1 && (
+                                {childCount > 1 && (
                                     <SideMenuItem
                                         iconName="child"
                                         text="Filhos"

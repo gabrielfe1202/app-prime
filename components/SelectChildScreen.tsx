@@ -14,12 +14,10 @@ import globalStyles from "../app/globalStyle"
 const { width, height } = Dimensions.get('screen');
 
 export default function SelectChildScreen() {
-    const childContext = useChild();
-    const [user, setUser] = useState<User>()
+    const childContext = useChild();    
     const [childs, setChilds] = useState<Kid[]>([])
-    const [stateload, setStateload] = useState<boolean>(true);
-    const router = useRouter();
-    const { userToken, setUserToken, userController } = useAppUser(); 
+    const [stateload, setStateload] = useState<boolean>(true);    
+    const { setChildCount, setUserToken, userController } = useAppUser(); 
 
     if (!childContext) return null;
     const { setChildId } = childContext;
@@ -30,10 +28,9 @@ export default function SelectChildScreen() {
 
     const fetchuserInformation = async () => {
         setStateload(true)
-        try {
-            const data = await userController.getUserInformations();
-            const childs = await userController.getUserChilds()
-            setUser(data)
+        try {            
+            const childs = await userController.getUserChilds()            
+            setChildCount(childs.length)
             setChilds(childs)
             if(childs.length == 1){
                 setChildId(childs[0].Idt_Cri_Crianca)

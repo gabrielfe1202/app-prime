@@ -8,7 +8,7 @@ export class User {
     phone!: Phone;
     cellPhone!: Phone;
     address!: Address | null;
-    imageUser!: string | null
+    imageUser!: string | null;
 
     public getFirstName() {
         if(this.name == null || this.name == ""){
