@@ -2,6 +2,7 @@ import { colors, fonts } from "@/app/globalStyle";
 import AlertModal from "@/components/AlertModal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
+import { CustomInput, masks } from "@/components/CustomInput";
 import { useAppUser } from "@/contexts/UserContext";
 import { User } from "@/entities/user";
 import { isNullOrEmpty } from "@/utils/stringFunctions";
@@ -9,31 +10,21 @@ import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { useEffect, useState } from "react";
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+import { Address } from "@/objectValues/address";
 
 export default function ChangePassword() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [email, setEmail] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+    const [cellphone, setCellphone] = useState<string>('');
+    const [address, setAddress] = useState<Address>(new Address())
     const [textError, setTextError] = useState<string>('')
     const [stateLoad, setStateload] = useState<boolean>(false)
     const [modalType, setModalType] = useState<"DANGER" | "SUCCESS">("DANGER")
     const [modalText, setModalText] = useState<string>("")
-    const { userController, setUserToken } = useAppUser();
+    const { userData } = useAppUser();
     const [keyboardVisible, setKeyboardVisible] = useState(false);
-    const [user, setUser] = useState<User>();
-
-    async function loadUserInfos() {
-        try {
-            const data = await userController.getUserInformations();
-            setUser(data)
-        } finally {
-            setStateload(false)
-        }
-    }
-
-    useEffect(() => {
-        loadUserInfos()
-    }, [])
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -55,15 +46,26 @@ export default function ChangePassword() {
         };
     }, []);
 
-    const handleAlterarSenha = async () => {
+    useEffect(() => {
+        setEmail(userData?.email ?? '')
+        setPhone(userData?.phone.number ?? '')
+        setCellphone(userData?.cellPhone.number ?? '')
+        setAddress(userData?.address ?? new Address())
+    }, [])
 
-
+    const handleSaveChanges = async () => {
+        console.log(address)
     };
 
     const hideModal = () => {
         setIsModalVisible(false);
     };
 
+    const handleChange = (key: keyof Address, value: string | null) => {
+        const updated = new Address();
+        Object.assign(updated, address, { [key]: value });
+        setAddress(updated);
+    };
 
     if (stateLoad) return <Loading />
 
@@ -71,22 +73,83 @@ export default function ChangePassword() {
         <GestureHandlerRootView>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
                 <View style={{ flex: 1 }}>
-                    <View style={styles.container}>
-                        <Text style={styles.titulo}>Meus dados</Text>
+                    <ScrollView contentContainerStyle={{paddingVertical: 100}}>
+                        <View style={styles.container}>
+                            <Text style={styles.titulo}>Meus dados</Text>
 
-                        <TextInput
-                            style={styles.input}
-                            placeholder="E-mail"
-                            value={email}
-                            onChangeText={setEmail}
-                            placeholderTextColor={"#505050"}
-                            autoCapitalize="none"
-                        />
+                            <View style={{ flexDirection: "column", gap: 15 }}>
+                                <CustomInput
+                                    placeholder="E-mail"
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    autoCapitalize="none"
+                                />
 
-                        <TouchableOpacity onPress={handleAlterarSenha} style={styles.botaoAlterar}>
-                            <Text style={styles.textoBotao}>Alterar senha</Text>
-                        </TouchableOpacity>
-                    </View>
+                                <CustomInput
+                                    placeholder="Telefone"
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                    mask={masks.phone}
+                                    keyboardType="numeric"
+                                />
+
+                                <CustomInput
+                                    placeholder="Celular"
+                                    value={cellphone}
+                                    onChangeText={setCellphone}
+                                    mask={masks.cellphone}
+                                    keyboardType="numeric"
+                                />
+                            </View>
+
+                            <Text style={[styles.titulo,{marginTop: 35}]}>Endereço</Text>
+
+                            <View style={{ flexDirection: "column", gap: 15 }}>
+                                <CustomInput
+                                    placeholder="CEP"
+                                    value={address.postalCode ?? ''}
+                                    onChangeText={(text) => handleChange('postalCode', text)}
+                                    mask={masks.zipCode}
+                                    keyboardType="numeric"
+                                />
+                                <CustomInput
+                                    placeholder="Rua"
+                                    value={address.street ?? ''}
+                                    onChangeText={(text) => handleChange('street', text)}
+                                />
+                                <CustomInput
+                                    placeholder="Número"
+                                    value={address.number ?? ''}
+                                    onChangeText={(text) => handleChange('number', text)}
+                                    keyboardType="numeric"
+                                />
+                                <CustomInput
+                                    placeholder="Complemento"
+                                    value={address.complement ?? ''}
+                                    onChangeText={(text) => handleChange('complement', text)}
+                                />
+                                <CustomInput
+                                    placeholder="Bairro"
+                                    value={address.neighborhood ?? ''}
+                                    onChangeText={(text) => handleChange('neighborhood', text)}
+                                />
+                                <CustomInput
+                                    placeholder="Cidade"
+                                    value={address.city ?? ''}
+                                    onChangeText={(text) => handleChange('city', text)}
+                                />
+                                <CustomInput
+                                    placeholder="Estado"
+                                    value={address.state ?? ''}
+                                    onChangeText={(text) => handleChange('state', text)}
+                                />                                
+                            </View>
+
+                            <TouchableOpacity onPress={handleSaveChanges} style={styles.botaoAlterar}>
+                                <Text style={styles.textoBotao}>Salvar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
 
                     {!keyboardVisible && (
                         <BottomTab />
@@ -101,7 +164,7 @@ export default function ChangePassword() {
                     />
                 </View>
             </TouchableWithoutFeedback>
-        </GestureHandlerRootView>
+        </GestureHandlerRootView >
     );
 }
 
@@ -112,17 +175,18 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     titulo: {
-        fontFamily: fonts.passo,
-        fontSize: 28,
-        fontWeight: 'bold',
+        fontFamily: fonts.passoTitulo,
+        fontSize: 28,      
         marginBottom: 20,
         textAlign: 'center',
+        color: colors.azul
     },
     botaoAlterar: {
-        backgroundColor: colors.laranja,
+        backgroundColor: colors.azul,
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
+        marginTop: 25
     },
     textoBotao: {
         color: '#fff',

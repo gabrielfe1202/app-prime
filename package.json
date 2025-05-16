@@ -44,6 +44,7 @@
     "react-native-countdown-component": "^2.7.1",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-loading-spinner-overlay": "^3.0.1",
+    "react-native-mask-input": "^1.2.3",
     "react-native-pager-view": "6.3.0",
     "react-native-popup-menu": "^0.16.1",
     "react-native-reanimated": "~3.10.1",
