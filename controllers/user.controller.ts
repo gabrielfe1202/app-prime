@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isNullOrEmpty } from "@/utils/stringFunctions";
 import api from "@/utils/axiosApi";
 import { Address } from "@/objectValues/address";
+import { Phone } from "@/objectValues/phone";
 
 type LoginResponse = {
     status: "SUCCESS",
@@ -28,6 +29,8 @@ export class UserController {
             End_bairro: z.string().nullable(),
             End_cidade: z.string().nullable(),
             End_estado: z.string().nullable(),
+            nom_telefone: z.string().nullable(),
+            nom_celular: z.string().nullable(),
         });
 
         const requestSchema = z.object({
@@ -47,14 +50,16 @@ export class UserController {
             user.name = result.data.usuario.Nom_usuario;
             user.email = result.data.usuario.Nom_login;
             user.imageUser = result.data.usuario.Img_usuario;
+            user.phone = new Phone(result.data.usuario.nom_telefone)
+            user.cellPhone = new Phone(result.data.usuario.nom_celular)
 
             const address = new Address()
 
-            address.setAddress(result.data.usuario.End_endereco, result.data.usuario.End_numero, result.data.usuario.End_complemento, result.data.usuario.End_bairro, result.data.usuario.End_cidade , result.data.usuario.End_estado ,result.data.usuario.End_cep)
+            address.setAddress(result.data.usuario.End_endereco, result.data.usuario.End_numero, result.data.usuario.End_complemento, result.data.usuario.End_bairro, result.data.usuario.End_cidade, result.data.usuario.End_estado, result.data.usuario.End_cep)
 
-            if(address.validateAddress()){
+            if (address.validateAddress()) {
                 user.address = address;
-            }
+            }            
 
         } catch (error) {
             console.error(error)
