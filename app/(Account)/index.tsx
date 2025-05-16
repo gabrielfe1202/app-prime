@@ -46,7 +46,8 @@ export default function Account() {
 
                     <View style={styles.boxData}>
                         <Text style={styles.boxDataText}>Email: {user?.email}</Text>
-                        <Text style={styles.boxDataText}>Telefone: {user?.email}</Text>                    
+                        <Text style={styles.boxDataText}>Telefone: {user?.phone.formatNumber()}</Text>                    
+                        <Text style={styles.boxDataText}>Celular: {user?.cellPhone.formatNumber()}</Text>                    
                         <Text style={styles.boxDataText}>Endereço: {user?.address?.formatAddress()}</Text>
                     </View>
 
