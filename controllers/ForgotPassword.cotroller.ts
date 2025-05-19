@@ -2,7 +2,31 @@ import api from "@/utils/axiosApi";
 import { z } from "zod";
 
 export class ForgotPasswordController {
-    async sendCode(email: string): Promise<{success: boolean, msg: string}> {
+    private email: string;
+    private token: string
+
+    constructor() {
+        this.email = ""
+        this.token = ""
+    }
+
+    getEmail(): string {
+        return this.email;
+    }
+
+    setEmail(email: string): void {
+        this.email = email
+    }
+
+    getToken(): string {
+        return this.token;
+    }
+
+    setToken(token: string): void {
+        this.token = token
+    }
+
+    async sendCode(email: string): Promise<{ success: boolean, msg: string }> {
         const responseShape = z.object({
             success: z.boolean(),
             msg: z.string()
@@ -17,7 +41,7 @@ export class ForgotPasswordController {
 
             const result = responseShape.safeParse(response.data)
 
-            if(result.error) return {
+            if (result.error) return {
                 success: false,
                 msg: "Erro ao enviar código"
             }
@@ -32,7 +56,7 @@ export class ForgotPasswordController {
         }
     }
 
-    async verifyCode(code: string): Promise<{success: boolean, token: string, msg: string}> {
+    async verifyCode(code: string): Promise<{ success: boolean, token: string, msg: string }> {
 
         const responseShape = z.object({
             success: z.boolean(),
@@ -49,7 +73,7 @@ export class ForgotPasswordController {
 
             const result = responseShape.safeParse(response.data)
 
-            if(result.error) return {
+            if (result.error) return {
                 success: false,
                 token: "",
                 msg: "Código inválido"
@@ -66,7 +90,7 @@ export class ForgotPasswordController {
         }
     }
 
-    async changePassword(userToken: string,password: string): Promise<{success: boolean, msg: string}> {
+    async changePassword(userToken: string, password: string): Promise<{ success: boolean, msg: string }> {
         const responseShape = z.object({
             success: z.boolean(),
             msg: z.string()
@@ -82,7 +106,7 @@ export class ForgotPasswordController {
 
             const result = responseShape.safeParse(response.data)
 
-            if(result.error) return {
+            if (result.error) return {
                 success: false,
                 msg: "Erro ao alterar senha"
             }

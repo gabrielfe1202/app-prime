@@ -8,19 +8,46 @@ import { useAppUser } from "@/contexts/UserContext";
 import { Loading } from "@/components/Loading";
 import { validEmail } from "@/utils/stringFunctions";
 import { router } from "expo-router";
-import ForgotPasswordPage from "./ForgotPassword";
 import { FadeIn } from "react-native-reanimated";
+import SendCodePage from "./ForgotPassword/SendCodePage";
+import PassCode from "./ForgotPassword/PassCode"
+import ChangePasswordPage from './ForgotPassword/ChangePassword';
+import { ForgotPasswordController } from "@/controllers/ForgotPassword.cotroller";
 const { width, height } = Dimensions.get('screen');
 
-export default function LoginPage() {
+type LoginPageType = 'LOGIN' | 'FORGOT' | 'CODE' | 'CHANGEPASS';
+
+export type LoginComponentProps = {
+  onToggle: (page: LoginPageType) => void;
+  controller: ForgotPasswordController  
+};
+
+export default function Login() {
+  const [activePage, setActivePage] = useState<LoginPageType>('LOGIN');
+  const controller = new ForgotPasswordController()
+
+  const handleToggle = (page: LoginPageType) => {
+    setActivePage(page);
+  };
+
+  const pages = {
+    LOGIN: <LoginPage onToggle={handleToggle} controller={controller} />,
+    FORGOT: <SendCodePage onToggle={handleToggle} controller={controller} />,
+    CODE: <PassCode onToggle={handleToggle} controller={controller} />,
+    CHANGEPASS: <ChangePasswordPage onToggle={handleToggle} controller={controller} />
+  };
+
+  return pages[activePage];
+}
+
+export function LoginPage({ onToggle }: LoginComponentProps) {
   const [stateload, setStateload] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('')
   const [emailFocus, setEmailFocus] = useState<boolean>(false)
   const [senha, setSenha] = useState<string>('')
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
   const [erro, setErro] = useState<string>('');
-  const [emailValido, setEmailValido] = useState(true);
-  const [forgotPassword, setForgotPassword] = useState<boolean>(false)
+  const [emailValido, setEmailValido] = useState(true);  
   const { setUserToken, userController } = useAppUser()
 
   async function handleLogin() {
@@ -53,8 +80,6 @@ export default function LoginPage() {
   };
 
   if (stateload) return <Loading />
-
-  if (forgotPassword) return <ForgotPasswordPage onBack={() => setForgotPassword(false)} />
 
   return (
     <GestureHandlerRootView>
@@ -108,7 +133,7 @@ export default function LoginPage() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setForgotPassword(true)}>
+          <TouchableOpacity onPress={() => onToggle('FORGOT')}>
             <Text style={styles.recSenha}>Esqueceu sua senha?</Text>
           </TouchableOpacity>
 

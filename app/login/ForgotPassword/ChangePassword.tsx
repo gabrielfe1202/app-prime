@@ -3,27 +3,24 @@ import LottieView from 'lottie-react-native';
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import checkAnimation from '../../../assets/animations/check.json'
-import Login from '../index'
+import { LoginComponentProps } from '../index'
 import { FontAwesome } from '@expo/vector-icons';
 import { isNullOrEmpty } from '@/utils/stringFunctions';
 import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
-const { width, height } = Dimensions.get("screen")
+import { useForgotPasswordStore } from '@/stores/forgotPasswordStore';
+const { width } = Dimensions.get("screen")
 
-interface ChangePasswordPageProps {
-    token: string
-}
-
-const ChangePasswordPage: React.FC<ChangePasswordPageProps> = ({token}) => {
+const ChangePasswordPage = ({onToggle}: LoginComponentProps) => {
     const [novaSenha, setNovaSenha] = useState<string>('');
     const [confirmarSenha, setConfirmarSenha] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const animationRef = useRef<LottieView>(null);
     const [animating, setAnimating] = useState<boolean>(false);
-    const [showLogin, setShowLogin] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
     const forgotPasswordController = new ForgotPasswordController()
+    const token = useForgotPasswordStore(state => state.token);
 
     const validarSenha = (): boolean => {
         if (!novaSenha || !confirmarSenha) {            
@@ -44,20 +41,6 @@ const ChangePasswordPage: React.FC<ChangePasswordPageProps> = ({token}) => {
         return true;
     };
 
-    const alterarSenha = async (): Promise<void> => {
-        if (!validarSenha()) return;
-
-        setLoading(true);
-
-        try {
-
-        } catch (error) {
-            Alert.alert('Erro', 'Erro de rede ou servidor.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const handleChangePassword = async () => {
         if (!validarSenha()) return;
 
@@ -73,8 +56,6 @@ const ChangePasswordPage: React.FC<ChangePasswordPageProps> = ({token}) => {
 
     }
 
-    if (showLogin) return <Login />
-
     if (animating) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -87,7 +68,7 @@ const ChangePasswordPage: React.FC<ChangePasswordPageProps> = ({token}) => {
                 />
                 <Text style={{ fontFamily: fonts.passo, fontSize: 22, textAlign: 'center' }}>Sua senha foi alterada{'\n'} com sucesso!</Text>
 
-                <TouchableOpacity style={[styles.Button, { marginTop: 20 }]} onPress={() => setShowLogin(true)}>
+                <TouchableOpacity style={[styles.Button, { marginTop: 20 }]} onPress={() => onToggle('LOGIN')}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>
 

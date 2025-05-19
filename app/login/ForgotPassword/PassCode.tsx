@@ -10,6 +10,8 @@ import padlock from '../../../assets/images/padlock.png'
 import { colors, fonts } from '@/app/globalStyle';
 import ChangePasswordPage from './ChangePassword';
 import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
+import { LoginComponentProps } from '..';
+import { useForgotPasswordStore } from '@/stores/forgotPasswordStore';
 
 const { width, height } = Dimensions.get("screen")
 const { Value, Text: AnimatedText } = Animated;
@@ -33,12 +35,7 @@ const animateCell = ({ hasValue, index, isFocused }: { hasValue: boolean, index:
     ]).start();
 };
 
-interface PassCodePageProps {
-    email: string;
-}
-
-
-const CodeInput = ({email}: PassCodePageProps) => {
+const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
     const [value, setValue] = useState<string>('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
@@ -46,9 +43,10 @@ const CodeInput = ({email}: PassCodePageProps) => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [secondsLeft, setSecondsLeft] = useState(60);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [resetPassword, setResetPassword] = useState<boolean>(false)
-    const forgotPasswordController = new ForgotPasswordController()
-    const [token, setToken] = useState<string>("")
+    const forgotPasswordController = new ForgotPasswordController()    
+    const email = useForgotPasswordStore(state => state.email);
+    const setTokenStore = useForgotPasswordStore.getState().setToken
+
 
     useEffect(() => {
         if (secondsLeft > 0 && isDisabled) {
@@ -113,8 +111,7 @@ const CodeInput = ({email}: PassCodePageProps) => {
     };
 
     const handleVerification = () => {
-        if (value.length === CELL_COUNT) {
-            console.log("Código preenchido com sucesso!", value);
+        if (value.length === CELL_COUNT) {            
             verifyCode()
         }
     };
@@ -129,14 +126,12 @@ const CodeInput = ({email}: PassCodePageProps) => {
         const result = await forgotPasswordController.verifyCode(value).finally(() => setStateload(false))
 
         if(result.success){
-            setToken(result.token)
-            setResetPassword(true)            
+            setTokenStore(result.token)
+            onToggle('CHANGEPASS')
         }else{
             setErrorMessage(result.msg)
         }
     }
-
-    if(resetPassword) return <ChangePasswordPage token={token} />
 
     return (
         <SafeAreaView style={styles.root}>
