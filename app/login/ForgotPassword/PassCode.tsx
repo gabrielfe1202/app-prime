@@ -13,7 +13,7 @@ import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller
 import { LoginComponentProps } from '..';
 import { useForgotPasswordStore } from '@/stores/forgotPasswordStore';
 
-const { width, height } = Dimensions.get("screen")
+const { width } = Dimensions.get("screen")
 const { Value, Text: AnimatedText } = Animated;
 const CELL_COUNT = 4;
 const animationsColor = Array(CELL_COUNT).fill(null).map(() => new Value(0));
@@ -35,7 +35,7 @@ const animateCell = ({ hasValue, index, isFocused }: { hasValue: boolean, index:
     ]).start();
 };
 
-const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
+const CodeInput = ({ onToggle }: LoginComponentProps) => {
     const [value, setValue] = useState<string>('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
@@ -43,7 +43,7 @@ const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [secondsLeft, setSecondsLeft] = useState(60);
     const [isDisabled, setIsDisabled] = useState(true);
-    const forgotPasswordController = new ForgotPasswordController()    
+    const forgotPasswordController = new ForgotPasswordController()
     const email = useForgotPasswordStore(state => state.email);
     const setTokenStore = useForgotPasswordStore.getState().setToken
 
@@ -63,10 +63,10 @@ const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
         setStateload(true);
         setIsDisabled(true);
 
-        const result = await forgotPasswordController.sendCode(email).finally(() => {
+        await forgotPasswordController.sendCode(email).finally(() => {
             setStateload(false);
             setSecondsLeft(60);
-        })        
+        })
     };
 
     const renderCell = ({ index, symbol, isFocused }: { index: number, symbol: string, isFocused: boolean }) => {
@@ -111,7 +111,7 @@ const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
     };
 
     const handleVerification = () => {
-        if (value.length === CELL_COUNT) {            
+        if (value.length === CELL_COUNT) {
             verifyCode()
         }
     };
@@ -125,10 +125,10 @@ const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
 
         const result = await forgotPasswordController.verifyCode(value).finally(() => setStateload(false))
 
-        if(result.success){
+        if (result.success) {
             setTokenStore(result.token)
             onToggle('CHANGEPASS')
-        }else{
+        } else {
             setErrorMessage(result.msg)
         }
     }
@@ -165,7 +165,7 @@ const CodeInput = ({onToggle, controller}: LoginComponentProps) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                style={[styles.nextButton, styles.button2, isDisabled && styles.buttonDisabled, {marginTop: 10}]}
+                style={[styles.nextButton, styles.button2, isDisabled && styles.buttonDisabled, { marginTop: 10 }]}
                 onPress={handleRetry}
                 disabled={isDisabled}
             >
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: colors.azul,
         justifyContent: 'center',
-        width: width * .82,        
+        width: width * .82,
     },
     nextButtonText: {
         textAlign: 'center',
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
         opacity: .5
     },
     button2: {
-        backgroundColor: "#ededed",        
+        backgroundColor: "#ededed",
     },
     nextButtonText2: {
         textAlign: 'center',

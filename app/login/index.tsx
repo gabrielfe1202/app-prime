@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Text, Image, TextInput, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, fonts } from "../globalStyle"
@@ -6,35 +6,29 @@ import logo from "../../assets/images/logo-prime.png"
 import { useState } from "react";
 import { useAppUser } from "@/contexts/UserContext";
 import { Loading } from "@/components/Loading";
-import { validEmail } from "@/utils/stringFunctions";
-import { router } from "expo-router";
-import { FadeIn } from "react-native-reanimated";
 import SendCodePage from "./ForgotPassword/SendCodePage";
 import PassCode from "./ForgotPassword/PassCode"
 import ChangePasswordPage from './ForgotPassword/ChangePassword';
-import { ForgotPasswordController } from "@/controllers/ForgotPassword.cotroller";
 const { width, height } = Dimensions.get('screen');
 
 type LoginPageType = 'LOGIN' | 'FORGOT' | 'CODE' | 'CHANGEPASS';
 
 export type LoginComponentProps = {
   onToggle: (page: LoginPageType) => void;
-  controller: ForgotPasswordController  
 };
 
 export default function Login() {
   const [activePage, setActivePage] = useState<LoginPageType>('LOGIN');
-  const controller = new ForgotPasswordController()
 
   const handleToggle = (page: LoginPageType) => {
     setActivePage(page);
   };
 
   const pages = {
-    LOGIN: <LoginPage onToggle={handleToggle} controller={controller} />,
-    FORGOT: <SendCodePage onToggle={handleToggle} controller={controller} />,
-    CODE: <PassCode onToggle={handleToggle} controller={controller} />,
-    CHANGEPASS: <ChangePasswordPage onToggle={handleToggle} controller={controller} />
+    LOGIN: <LoginPage onToggle={handleToggle} />,
+    FORGOT: <SendCodePage onToggle={handleToggle} />,
+    CODE: <PassCode onToggle={handleToggle} />,
+    CHANGEPASS: <ChangePasswordPage onToggle={handleToggle} />
   };
 
   return pages[activePage];
@@ -47,7 +41,7 @@ export function LoginPage({ onToggle }: LoginComponentProps) {
   const [senha, setSenha] = useState<string>('')
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
   const [erro, setErro] = useState<string>('');
-  const [emailValido, setEmailValido] = useState(true);  
+  const [emailValido, setEmailValido] = useState(true);
   const { setUserToken, userController } = useAppUser()
 
   async function handleLogin() {

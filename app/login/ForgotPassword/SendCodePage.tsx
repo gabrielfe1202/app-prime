@@ -12,10 +12,10 @@ import { LoginComponentProps } from "..";
 import { useForgotPasswordStore } from "@/stores/forgotPasswordStore";
 const { width } = Dimensions.get("screen")
 
-export default function SendCodePage({ onToggle, controller }: LoginComponentProps) {
+export default function SendCodePage({ onToggle }: LoginComponentProps) {
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [textError, setTextError] = useState<string>("")    
+    const [textError, setTextError] = useState<string>("")
     const [aniamationShow, setAnimationShow] = useState<boolean>(false)
     const forgotPasswordController = new ForgotPasswordController()
     const animationRef = useRef<LottieView>(null);
