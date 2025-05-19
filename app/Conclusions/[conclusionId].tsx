@@ -1,8 +1,4 @@
-import { GoalBottomTab, GroupedGoal } from "@/components/GoalBottomTab";
-import { SingleViewPager } from "@/components/SingleViewPager";
-import { useGoal } from "@/contexts/goal-context";
-import { delay } from "@/utils/delay";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { Text, TouchableOpacity, View, Image, Dimensions } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +13,7 @@ import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
 import { useChild } from "@/contexts/ChildContext";
 import RenderHtml from 'react-native-render-html';
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 type ConclusionParams = {
   conclusionId: string;
@@ -26,9 +22,7 @@ type ConclusionParams = {
 export default function ConclusionPage() {
   const [stateload, setStateload] = useState<boolean>(true);
   const [conclusions, setConclusions] = useState<Conclusion[]>([])
-  const [title, setTitle] = useState<GoalTitle>()
-  const router = useRouter();
-  const { goalVPRef } = useGoal();
+  const [title, setTitle] = useState<GoalTitle>()  
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const { conclusionId } = useLocalSearchParams<ConclusionParams>();
   const childContext = useChild();
