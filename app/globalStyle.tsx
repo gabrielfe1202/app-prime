@@ -11,7 +11,8 @@ const colors = {
     laranja: '#FFA431',
     azul: '#20B9EC',
     white: '#fff',
-    cinza: '#96989A'
+    cinza: '#96989A',
+    rosa: '#F280A4'
 }
 
 export { fonts, colors}

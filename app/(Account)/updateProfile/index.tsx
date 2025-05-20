@@ -93,6 +93,7 @@ export default function ChangePassword() {
                                     onChangeText={setEmail}
                                     autoCapitalize="none"
                                     editable={false}
+                                    style={{opacity: 0.5}}
                                 />
 
                                 <CustomInput

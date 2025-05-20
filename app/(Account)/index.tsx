@@ -59,7 +59,7 @@ export default function Account() {
                 </View>
 
                 <View style={styles.box}>
-                    <View style={[styles.boxTitle,{backgroundColor: colors.laranja}]}>
+                    <View style={[styles.boxTitle,{backgroundColor: colors.rosa}]}>
                         <Text style={styles.boxTileText}>Senha</Text>
                     </View>
 
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     userName: {
-        fontFamily: fonts.passoTitulo,
-        fontSize: 28,
+        fontFamily: fonts.passo,
+        fontSize: 27,
         paddingTop: 10,
         paddingBottom: 20
     },
