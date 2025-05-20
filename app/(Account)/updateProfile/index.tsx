@@ -92,6 +92,7 @@ export default function ChangePassword() {
                                     value={email}
                                     onChangeText={setEmail}
                                     autoCapitalize="none"
+                                    editable={false}
                                 />
 
                                 <CustomInput
