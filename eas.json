@@ -10,6 +10,9 @@
             "distribution": "store",
             "android": {
                 "releaseChannel": "production"  
+            },
+            "ios": {
+                "image": "macos-sequoia-15.3-xcode-16.2"
             }
         }
     }    
