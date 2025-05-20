@@ -1,21 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { View, Image, Dimensions, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useGoal } from "@/contexts/goal-context";
-import { Goal, GoalTitle } from "@/entities/goal";
-import { asyncArrayToState } from "@/utils/use-async";
 import { router } from "expo-router";
 import homeImage from "../assets/images/home.png"
 import menuImage from "../assets/images/menu.png"
 import { SideBarMenu } from "./SideBarMenu";
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export function BottomTab() {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-    const openModal = () => setModalVisible(true);
-  
     const closeModal = () => setModalVisible(false);
 
     return (

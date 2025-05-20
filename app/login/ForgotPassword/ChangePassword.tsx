@@ -1,13 +1,14 @@
 import { colors, fonts } from '@/app/globalStyle';
 import LottieView from 'lottie-react-native';
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import checkAnimation from '../../../assets/animations/check.json'
 import { LoginComponentProps } from '../index'
 import { FontAwesome } from '@expo/vector-icons';
 import { isNullOrEmpty } from '@/utils/stringFunctions';
 import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
 import { useForgotPasswordStore } from '@/stores/forgotPasswordStore';
+import { Loading } from '@/components/Loading';
 const { width } = Dimensions.get("screen")
 
 const ChangePasswordPage = ({onToggle}: LoginComponentProps) => {
@@ -75,6 +76,8 @@ const ChangePasswordPage = ({onToggle}: LoginComponentProps) => {
             </View>
         )
     }
+
+    if(loading) return <Loading />
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

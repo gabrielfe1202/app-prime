@@ -1,26 +1,21 @@
 // SelectChildScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { useChild } from '../contexts/ChildContext';
-import { DI } from '@/controllers/DI';
-import { User } from '@/entities/user';
 import { Kid } from '@/entities/kid';
 import logo from '../assets/images/logo-prime.png'
 import { colors } from '@/app/globalStyle';
 import { Loading } from './Loading';
-import { useRouter } from 'expo-router';
 import { useAppUser } from '@/contexts/UserContext';
 import globalStyles from "../app/globalStyle"
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export default function SelectChildScreen() {
     const childContext = useChild();    
     const [childs, setChilds] = useState<Kid[]>([])
     const [stateload, setStateload] = useState<boolean>(true);    
-    const { setChildCount, setUserToken, userController } = useAppUser(); 
-
-    if (!childContext) return null;
-    const { setChildId } = childContext;
+    const { setChildCount, setUserToken, userController } = useAppUser();     
+    const { setChildId } = childContext!;
 
     const handleSelectChild = (id: number) => {        
         setChildId(id);       
@@ -32,7 +27,7 @@ export default function SelectChildScreen() {
             const childs = await userController.getUserChilds()            
             setChildCount(childs.length)
             setChilds(childs)
-            if(childs.length == 1){
+            if(childs.length === 1){
                 setChildId(childs[0].Idt_Cri_Crianca)
             }
         } catch (err) {

@@ -1,5 +1,4 @@
 import { ScheduleConfigs, ScheduleTimes } from "@/entities/schedule";
-import { User } from "@/entities/user";
 import api from "@/utils/axiosApi";
 import { DateData } from "react-native-calendars";
 import { z } from 'zod'

@@ -6,11 +6,9 @@ import { DI } from "@/controllers/DI";
 import { Goal, GoalStep } from "@/entities/goal";
 import { delay } from "@/utils/delay";
 import { isNullOrEmpty } from "@/utils/stringFunctions";
-import { asyncArrayToState, useAsync } from "@/utils/use-async";
-import LottieView from "lottie-react-native";
+import { useAsync } from "@/utils/use-async";
 import { useEffect, useRef, useState } from "react";
 import { Text, View, Image, Dimensions, StyleSheet } from "react-native";
-import LoadAnimationJson from "../../../assets/animations/splash.json"
 import { Load } from "@/components/Loading";
 import RenderHtml from 'react-native-render-html';
 const { width, height } = Dimensions.get('screen');

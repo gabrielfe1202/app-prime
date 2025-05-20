@@ -218,22 +218,22 @@ export function ViewPagerImpl<DataItem>(
                 zIndex: getZIndex(),  // Configura o zIndex para garantir a ordem de renderização
               };
 
-              return {
-                opacity: isCurrentPositioned
-                  ? interpolate(listOffset.value, [0, 1], [0, 1], Extrapolation.CLAMP)
-                  : isBeforePositioned
-                    ? interpolate(listOffset.value, [0, 1], [1, 0], Extrapolation.CLAMP)
-                    : 1,
-                transform: [
-                  {
-                    scale: isCurrentPositioned
-                      ? interpolate(listOffset.value, [0, 1], [0.6, 1], Extrapolation.CLAMP)
-                      : isBeforePositioned
-                        ? interpolate(listOffset.value, [0, 1], [1, 0.6], Extrapolation.CLAMP)
-                        : 1,
-                  }
-                ]
-              }
+              // return {
+              //   opacity: isCurrentPositioned
+              //     ? interpolate(listOffset.value, [0, 1], [0, 1], Extrapolation.CLAMP)
+              //     : isBeforePositioned
+              //       ? interpolate(listOffset.value, [0, 1], [1, 0], Extrapolation.CLAMP)
+              //       : 1,
+              //   transform: [
+              //     {
+              //       scale: isCurrentPositioned
+              //         ? interpolate(listOffset.value, [0, 1], [0.6, 1], Extrapolation.CLAMP)
+              //         : isBeforePositioned
+              //           ? interpolate(listOffset.value, [0, 1], [1, 0.6], Extrapolation.CLAMP)
+              //           : 1,
+              //     }
+              //   ]
+              // }
             })
           ]}
         >

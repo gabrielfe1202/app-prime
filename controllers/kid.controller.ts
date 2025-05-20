@@ -166,7 +166,5 @@ export class KidController {
         }catch{
             return []
         }
-
-        return []
     }
 }

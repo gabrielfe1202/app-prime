@@ -9,8 +9,7 @@ import homeImage from "../assets/images/home.png"
 import menuImage from "../assets/images/menu.png"
 import { DI } from "@/controllers/DI";
 import { SideBarMenu } from "./SideBarMenu";
-import { useAppUser } from "@/contexts/UserContext";
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export type GroupedGoal = {
   id: number;
@@ -33,8 +32,7 @@ export function GoalBottomTab({ onGotoPage }: Props) {
   const { goalVPRef, goals } = useGoal();
   const [titles, setTitles] = useState<GoalTitle[]>()
   const goalsState = asyncArrayToState(goals);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { userToken, setUserToken } = useAppUser();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);  
 
   const closeModal = () => setModalVisible(false);
 
@@ -77,8 +75,8 @@ export function GoalBottomTab({ onGotoPage }: Props) {
         <View style={{ flexDirection: "row" }}>
           {titles &&
             titles
-              .filter(x => x.menu == 1)
-              .filter(x => x.imagem_app != null && x.imagem_app != '')              
+              .filter(x => x.menu === 1)
+              .filter(x => x.imagem_app != null && x.imagem_app !== '')              
               .map((item, index) => (
                 <TouchableOpacity key={index.toString()} onPress={() => { handleGotoPage(groupedGoals[index]) }} style={{ marginLeft: 2 }}>
                   <Image source={{ uri: item.imagem_app }} style={footerStyles.icones} resizeMode='contain' />
@@ -92,45 +90,6 @@ export function GoalBottomTab({ onGotoPage }: Props) {
         </TouchableOpacity>
       </View>
     </>
-  )
-
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        gap: 8,
-        padding: 24,
-      }}
-    >
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#ccc",
-          height: 64,
-          width: 64,
-          borderRadius: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onPress={() => router.replace('/')}
-      >
-      </TouchableOpacity>
-      {groupedGoals.map(goal => (
-        <TouchableOpacity
-          key={goal.id}
-          style={{
-            backgroundColor: goal.color,
-            height: 64,
-            width: 64,
-            borderRadius: 8,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={() => handleGotoPage(goal)}
-        >
-        </TouchableOpacity>
-      ))}
-    </View>
   )
 }
 

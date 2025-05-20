@@ -98,14 +98,14 @@ export class UserController {
                 msg: "Erro ao efetuar login",
             }
 
-            if (result.data.errorMsg != undefined) {
+            if (result.data.errorMsg !== undefined) {
                 return {
                     status: "ERROR",
                     msg: result.data.errorMsg,
                 }
             }
 
-            if (result.data.token != undefined) {
+            if (result.data.token !== undefined) {
                 await AsyncStorage.setItem('@Primeapp:usertoken', result.data.token)
                 return {
                     status: "SUCCESS",

@@ -1,7 +1,6 @@
 import { GoalTitle } from "@/entities/goal";
 import api from "@/utils/axiosApi";
 import { z } from 'zod'
-import { DI } from "./DI";
 
 export class TitleController {
     async GetTitles(): Promise<GoalTitle[]> {

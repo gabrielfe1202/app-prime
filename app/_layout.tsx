@@ -1,12 +1,11 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+//import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
-import { View } from 'react-native';
 import { ChildChecker } from '@/contexts/ChildChecker';
 import { ChildProvider } from '@/contexts/ChildContext';
 import { UserProvider } from '@/contexts/UserContext';
@@ -17,8 +16,7 @@ import React from 'react';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {  
   const [loaded] = useFonts({
     Inter_900Black,
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),

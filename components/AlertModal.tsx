@@ -5,7 +5,7 @@ import success from "../assets/images/success.png"
 import warning from "../assets/images/warning.png"
 import { fonts } from '@/app/globalStyle';
 import globalStyles from "../app/globalStyle"
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 interface AlertModalProps {
     isVisible: boolean;
@@ -53,9 +53,9 @@ const AlertModal = ({ isVisible, title, message, onClose, type }: AlertModalProp
                 >
                     <Image
                         source={
-                            type == "DANGER" ? danger :
-                                type == "SUCCESS" ? success :
-                                    type == "WARNING" && warning
+                            type === "DANGER" ? danger :
+                                type === "SUCCESS" ? success :
+                                    type === "WARNING" && warning
                         }
                         style={styles.image}
                     />
@@ -66,9 +66,9 @@ const AlertModal = ({ isVisible, title, message, onClose, type }: AlertModalProp
                         onPress={onClose}
                         style={[
                             styles.closeButton,
-                            type == "DANGER" ? globalStyles.buttonDanger :
-                                type == "SUCCESS" ? globalStyles.buttonSuccess :
-                                    type == "WARNING" && {}
+                            type === "DANGER" ? globalStyles.buttonDanger :
+                                type === "SUCCESS" ? globalStyles.buttonSuccess :
+                                    type === "WARNING" && {}
                         ]}
                     >
                         <Text style={styles.closeButtonText}>Fechar</Text>

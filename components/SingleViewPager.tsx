@@ -2,8 +2,8 @@ import { ViewPagerRef } from "@/components/ViewPager/react-augment";
 import { ViewPager } from "@/components/ViewPager/ViewPager";
 import { delay } from "@/utils/delay";
 import { useRef } from "react";
-import { Text, View } from "react-native";
-import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type Props = {
   onNext?(): void;

@@ -3,38 +3,31 @@ import { SingleViewPager } from "@/components/SingleViewPager";
 import { useGoal } from "@/contexts/goal-context";
 import { delay } from "@/utils/delay";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View, Image, Dimensions, StyleSheet, Platform, Linking } from "react-native";
+import { Text, TouchableOpacity, View, Image, Dimensions, StyleSheet, Linking } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../../assets/images/logo-prime.png"
 import goalStyles from './goalStyle'
 import globalStyles, { colors, fonts } from "../globalStyle"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DI } from "@/controllers/DI";
 import { Conclusion } from "@/entities/conclusion";
 import { GoalTitle } from "@/entities/goal";
 import { useChild } from "@/contexts/ChildContext";
 import pdf from "../../assets/images/pdf.png"
 import { Loading } from "@/components/Loading";
-import LottieView from "lottie-react-native";
-import booksAnimation from "../../assets/animations/books.json"
 import AlertModal from "@/components/AlertModal";
-import * as FileSystem from 'expo-file-system';
-import * as DocumentPicker from 'expo-document-picker';
-import * as Sharing from 'expo-sharing';
 import RenderHtml from 'react-native-render-html';
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export default function Ending() {
   const [stateload, setStateload] = useState<boolean>(true);
-  const [stateloadPdf, setStateloadPdf] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [conclusions, setConclusions] = useState<Conclusion[]>([])
   const [title, setTitle] = useState<GoalTitle>()
   const router = useRouter();
   const { goalVPRef } = useGoal();
-  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-  const animationRef = useRef<LottieView>(null);
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];  
   const childContext = useChild();
   const { childId } = childContext!;
 
@@ -85,31 +78,6 @@ export default function Ending() {
 
   if (stateload) return <Loading />
 
-  if (stateloadPdf) {
-    return (
-      <View style={{ flex: 1, justifyContent: "flex-start", alignItems: 'center', paddingTop: height * 0.11 }}>
-
-        <Image
-          style={[styles.logoFullWidth, { width: width * 0.45 }]}
-          resizeMode={'contain'}
-          source={logo}
-        />
-
-        <LottieView
-          source={booksAnimation}
-          autoPlay
-          loop={true}
-          ref={animationRef}
-          style={{ flex: 0, width: width, height: 400, marginTop: -120 }}
-        />
-
-        <Text style={styles.textLoad}>Gerando um PDF{'\n'}atualizado pra você</Text>
-        <Text style={styles.textLoad2}>Isso pode demorar um pouquinho</Text>
-
-      </View>
-    )
-  }
-
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={{ flex: 1, gap: 32, paddingTop: 12 }}>
@@ -152,7 +120,7 @@ export default function Ending() {
                       </View>
                     ))}
 
-                    {conclusions.length == 0 && (
+                    {conclusions.length === 0 && (
                       <View style={{ paddingTop: 25 }}>
                         <Text style={goalStyles.texto_dados}>
                           Ainda não temos nenhuma Conclusão

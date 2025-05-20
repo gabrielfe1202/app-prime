@@ -15,11 +15,11 @@ import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
 import { Introduction } from "@/entities/Introduction";
 import RenderHtml from 'react-native-render-html';
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 function Intro() {
   const router = useRouter();
-  const { goalVPRef, goals, selectedGoal, onChangeSelection, setGoals } = useGoal();
+  const { goalVPRef, setGoals } = useGoal();
   const childContext = useChild();
   const { childId } = childContext!;
   const [stateload, setStateload] = useState<boolean>(true);

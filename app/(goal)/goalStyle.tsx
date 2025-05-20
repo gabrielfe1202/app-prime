@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { fonts } from "../globalStyle";
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
     title: {

@@ -1,13 +1,9 @@
 // AuthChildChecker.tsx
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import React, { useEffect } from 'react';
 import SelectChildScreen from '../components/SelectChildScreen';
 import { useChild } from './ChildContext';
 import { useRouter } from 'expo-router';
-import { delay } from '@/utils/delay';
 import { DI } from '@/controllers/DI';
-import Login from '@/app/login';
-import { Loading } from '@/components/Loading';
 
 interface AuthChildCheckerProps {
     children: React.ReactNode;

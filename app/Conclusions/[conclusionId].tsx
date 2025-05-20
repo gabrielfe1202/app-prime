@@ -67,8 +67,7 @@ export default function ConclusionPage() {
                 {title?.titulo}
               </Text>
               <View style={{ paddingTop: 25, flex: 1 }}>
-                {conclusions.map(item => {
-                  var x = new Date(item.dateLabel)
+                {conclusions.map(item => {                  
                   return (
                     <View key={item.id} style={{ paddingTop: 25 }}>
                       <Text style={[goalStyles.texto_dados, { marginBottom: 8 }]}>
@@ -88,7 +87,7 @@ export default function ConclusionPage() {
                   )
                 })}
 
-                {conclusions.length == 0 && (
+                {conclusions.length === 0 && (
                   <View style={{ paddingTop: 25 }}>
                     <Text style={goalStyles.texto_dados}>
                       Ainda não temos nenhum(a) {title?.titulo} disponível

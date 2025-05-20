@@ -8,8 +8,6 @@ export class Address {
     postalCode!: string | null;
     country!: string | null;
 
-    constructor() { }
-
     setAddress(
         street: string | null,
         number: string | null,

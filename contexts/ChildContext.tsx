@@ -1,4 +1,3 @@
-// ChildContext.tsx
 import { KidController } from '@/controllers/kid.controller';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 

@@ -1,8 +1,7 @@
 import { Loading } from '@/components/Loading';
 import { UserController } from '@/controllers/user.controller';
 import { User } from '@/entities/user';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, useContext, useState, ReactNode, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface UserContextType {
     userToken: string | null;
@@ -54,7 +53,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
 
         const loadUserInformations = async () => {
             try{
-                const data = await userController.getUserInformations()
+                const data = await userController.getUserInformations()                
                 setUserData(data)
             }catch{
 

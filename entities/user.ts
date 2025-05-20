@@ -11,7 +11,7 @@ export class User {
     imageUser!: string | null;
 
     public getFirstName() {
-        if(this.name == null || this.name == ""){
+        if(this.name == null || this.name === ""){
             return ""
         }
         return this.name.trim().split(" ")[0]

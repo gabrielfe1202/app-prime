@@ -1,11 +1,9 @@
 import { colors } from "@/app/globalStyle";
-import { Modal, View, Image, Text, Dimensions, TouchableOpacity, StyleSheet, Button } from "react-native"
+import { Modal, View, Image, Text, Dimensions, TouchableOpacity, StyleSheet } from "react-native"
 import logo from "../assets/images/logo-prime.png"
 import SideMenuItem from "./slideMenuItem";
 import { useEffect, useState } from "react";
 import Animated, { Easing, withTiming, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
-import { User } from "@/entities/user";
-import { DI } from "@/controllers/DI";
 import { useChild } from "@/contexts/ChildContext";
 import { useAppUser } from "@/contexts/UserContext";
 import { useRouter } from "expo-router";
@@ -21,17 +19,10 @@ interface SideBarProps {
 export function SideBarMenu({ visible, onClose }: SideBarProps) {
     const translateX = useSharedValue(-300);
     const [modalVisible, setModalVisible] = useState<boolean>(false)
-    const [modalConfirmVisible, setModalConfirmVisible] = useState<boolean>(false)
-    const [user, setUser] = useState<User>()
-    const [countChilds, setCountChilds] = useState<number>(0)
+    const [modalConfirmVisible, setModalConfirmVisible] = useState<boolean>(false)    
     const childContext = useChild();
     const { setChildId } = childContext!;
-    const { userData, childCount, setUserToken, userController } = useAppUser();
-
-    // const handleLogOut = async () => {
-    //     setUserToken(null); // Remove o token
-    // };
-
+    const { userData, childCount, setUserToken, userController } = useAppUser();    
     const router = useRouter();
 
     useEffect(() => {

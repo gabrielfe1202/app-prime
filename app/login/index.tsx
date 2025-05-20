@@ -40,21 +40,20 @@ export function LoginPage({ onToggle }: LoginComponentProps) {
   const [emailFocus, setEmailFocus] = useState<boolean>(false)
   const [senha, setSenha] = useState<string>('')
   const [senhaFocus, setSenhaFocus] = useState<boolean>(false)
-  const [erro, setErro] = useState<string>('');
-  const [emailValido, setEmailValido] = useState(true);
+  const [erro, setErro] = useState<string>('');  
   const { setUserToken, userController } = useAppUser()
 
   async function handleLogin() {
     setStateload(true)
     try {
 
-      if (email == '' || senha == '' || !emailValido) {
+      if (email === '' || senha === '') {
         setErro('Prencha os campos corretamente')
         return null
       }
 
       const response = await userController.login(email, senha)
-      if (response.status == "ERROR") {
+      if (response.status === "ERROR") {
         setErro(response.msg)
       } else {
         setUserToken(response.token)
@@ -68,8 +67,7 @@ export function LoginPage({ onToggle }: LoginComponentProps) {
   }
 
   const handleEmailChange = (val: string) => {
-    setEmail(val);
-    //setEmailValido(validEmail(val));
+    setEmail(val);    
     setErro('');
   };
 
@@ -90,21 +88,12 @@ export function LoginPage({ onToggle }: LoginComponentProps) {
             style={[
               styles.input,
               {
-                borderBottomColor: emailFocus
-                  ? colors.laranja
-                  : emailValido
-                    ? "#96989A"
-                    : "red",
+                borderBottomColor: emailFocus ? colors.laranja : "#96989A"                    
               },
             ]}
             autoCapitalize='none'
             keyboardType="email-address"
           />
-
-          {!emailValido && (
-            <Text style={styles.emailError}>E-mail inválido</Text>
-          )}
-
 
           <TextInput
             value={senha}
@@ -117,7 +106,7 @@ export function LoginPage({ onToggle }: LoginComponentProps) {
             autoCapitalize='none'
           />
 
-          <Text style={[styles.errorMessage, { display: erro == "" ? 'none' : 'flex' }]}>
+          <Text style={[styles.errorMessage, { display: erro === "" ? 'none' : 'flex' }]}>
             {erro}
           </Text>
 

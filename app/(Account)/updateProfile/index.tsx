@@ -4,12 +4,9 @@ import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
 import { CustomInput, masks } from "@/components/CustomInput";
 import { useAppUser } from "@/contexts/UserContext";
-import { User } from "@/entities/user";
-import { isNullOrEmpty } from "@/utils/stringFunctions";
-import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { Address } from "@/objectValues/address";
 import { useRouter } from "expo-router";
@@ -19,8 +16,7 @@ export default function ChangePassword() {
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [cellphone, setCellphone] = useState<string>('');
-    const [address, setAddress] = useState<Address>(new Address())
-    const [textError, setTextError] = useState<string>('')
+    const [address, setAddress] = useState<Address>(new Address())    
     const [stateLoad, setStateload] = useState<boolean>(false)
     const [modalType, setModalType] = useState<"DANGER" | "SUCCESS">("DANGER")
     const [modalText, setModalText] = useState<string>("")
@@ -56,13 +52,17 @@ export default function ChangePassword() {
     }, [])
 
     const handleSaveChanges = async () => {
+        setStateload(true)
         userController.updateInformations(email, phone, cellphone, address)
             .then(() => {
                 router.push("/(Account)")
             })
             .catch((e: Error) => {
+                setModalType("DANGER")
                 setModalText(e.message)
                 setIsModalVisible(true)
+            }).finally(() => {
+                setStateload(false)
             })
     };
 

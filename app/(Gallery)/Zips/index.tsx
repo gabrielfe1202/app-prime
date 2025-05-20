@@ -1,12 +1,11 @@
-import { colors, fonts } from "@/app/globalStyle";
-import { useChild } from "@/contexts/ChildContext";
+import { fonts } from "@/app/globalStyle";
 import { DI } from "@/controllers/DI";
 import { ZipImage } from "@/entities/kid";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, Linking, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-const { width, height } = Dimensions.get("screen")
+const { width } = Dimensions.get("screen")
 
 export default function ZipsPage() {
     const router = useRouter()
@@ -54,7 +53,7 @@ export default function ZipsPage() {
                             </TouchableOpacity>
                         </View>
                     ))}
-                    {zips.length == 0 && (                        
+                    {zips.length === 0 && (                        
                         <Text style={[styles.zipData,{textAlign: "center"}]}>Ainda não temos nenhum pacote de fotos disponível</Text>                        
                     )}
                 </View>

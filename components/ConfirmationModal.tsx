@@ -1,8 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import globalStyles from "../app/globalStyle"
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 interface LogoutConfirmationModalProps {
     visible: boolean;
@@ -42,7 +42,7 @@ const ConfirmationModal = ({ visible, onConfirm, onCancel, tille, text, buttonTe
                         <TouchableOpacity
                             style={[
                                 styles.button,
-                                buttonType == 'DANGER' ? globalStyles.buttonDanger : globalStyles.buttonSuccess
+                                buttonType === 'DANGER' ? globalStyles.buttonDanger : globalStyles.buttonSuccess
                             ]}
                             onPress={onConfirm}
                         >

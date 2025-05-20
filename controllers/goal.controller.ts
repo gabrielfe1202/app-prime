@@ -97,7 +97,7 @@ export class GoalController {
 
       return goals;
 
-    } catch (error) {
+    } catch {
       return []
     }
 
@@ -161,7 +161,7 @@ export class GoalController {
     const result = responseShape.safeParse(response.data)
 
     if (result.error) throw new Error("Erro ao gerar pdf")
-    if (result.data.errorMsg != undefined) throw new Error(result.data.errorMsg)
+    if (result.data.errorMsg !== undefined) throw new Error(result.data.errorMsg)
 
     return result.data.uri!
 

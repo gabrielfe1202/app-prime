@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, Image, SafeAreaView, Text, View, Platform, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Animated, Image, SafeAreaView, Text, StyleSheet, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {
     CodeField,
     Cursor,
@@ -8,7 +8,6 @@ import {
 } from 'react-native-confirmation-code-field';
 import padlock from '../../../assets/images/padlock.png'
 import { colors, fonts } from '@/app/globalStyle';
-import ChangePasswordPage from './ChangePassword';
 import { ForgotPasswordController } from '@/controllers/ForgotPassword.cotroller';
 import { LoginComponentProps } from '..';
 import { useForgotPasswordStore } from '@/stores/forgotPasswordStore';

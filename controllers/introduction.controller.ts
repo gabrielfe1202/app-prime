@@ -1,4 +1,3 @@
-import { GoalTitle } from "@/entities/goal";
 import { Introduction } from "@/entities/Introduction";
 import api from "@/utils/axiosApi";
 import { z } from "zod";

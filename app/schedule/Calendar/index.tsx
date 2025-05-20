@@ -7,7 +7,6 @@ import { Feather } from "@expo/vector-icons"
 
 import { ptBR } from "../../../utils/localeCalendarConfig"
 import { styles } from "./CalendarStyles"
-import { colors } from "@/app/globalStyle"
 
 LocaleConfig.locales["pt-br"] = ptBR
 LocaleConfig.defaultLocale = "pt-br"

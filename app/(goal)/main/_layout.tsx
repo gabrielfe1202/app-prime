@@ -6,21 +6,15 @@ import { ViewPager } from '@/components/ViewPager/ViewPager';
 import { useGoal } from '@/contexts/goal-context';
 import { delay } from '@/utils/delay';
 import { asyncArrayToState } from '@/utils/use-async';
-import { useRouter, Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Steps } from './steps';
 import { Goal } from '@/entities/goal';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
-import { Load, Loading } from '@/components/Loading';
-import { useEffect, useState } from 'react';
-import { DI } from '@/controllers/DI';
-import { useChild } from '@/contexts/ChildContext';
+import { Load } from '@/components/Loading';
 const { width, height } = Dimensions.get('screen');
 
-export default function Layout() {
-  const [load,setLoad] = useState<boolean>(true)
-  const { goalVPRef, goals, selectedGoal, onChangeSelection, setGoals } = useGoal();
-  const childContext = useChild();
-  const { childId } = childContext!;
+export default function Layout() { 
+  const { goalVPRef, goals, selectedGoal, onChangeSelection } = useGoal();  
   
   const goalsState = asyncArrayToState(goals);
 
@@ -136,24 +130,6 @@ export default function Layout() {
       </View>
     </GestureHandlerRootView>
   );
-}
-
-type BtnProps = { label: string; onPress?(): void };
-function Btn({ label, onPress }: BtnProps) {
-  return (
-    <TouchableOpacity
-      style={{
-        height: 48,
-        flex: 1,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      onPress={onPress}
-    >
-      <Text style={{ fontSize: 24, fontWeight: 'semibold', color: 'white' }}>{label}</Text>
-    </TouchableOpacity>
-  )
 }
 
 const styles = StyleSheet.create({

@@ -4,34 +4,25 @@ import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, Text, View, Dimensions, Image, StyleSheet, ImageBackground } from "react-native";
 import { GestureHandlerRootView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Spinner from 'react-native-loading-spinner-overlay';
 import logo from '../../assets/images/logo-prime.png'
-import { useAsync } from "@/utils/use-async";
 import { Kid } from "@/entities/kid";
 import agendaImage from "../../assets/images/agenda.png"
 import fotos from "../../assets/images/fotos.png"
-import globalStyles from "../globalStyle"
-import { delay } from "@/utils/delay";
 import { GoalTitle } from "@/entities/goal";
 import { BottomTab } from "@/components/BottomTab";
 import { Loading } from "@/components/Loading";
-import { ChildChecker } from "@/contexts/ChildChecker";
-import { useChild } from "@/contexts/ChildContext";
-import { useAppUser } from "@/contexts/UserContext";
 const { width, height } = Dimensions.get('screen');
 
 function Home() {
     const [stateload, setStateload] = useState<boolean>(true);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [kidInfo, setKidInfo] = useState<Kid>();
-    const [titles, setTitles] = useState<GoalTitle[]>()
-    const childContext = useChild();
-    const { kidController } = childContext!;
+    const [titles, setTitles] = useState<GoalTitle[]>()    
     const router = useRouter();
-    //const { userToken, setUserToken } = useAppUser(); 
 
     const fetchKidInformation = async () => {
         setStateload(true)
+        setRefreshing(true)
         try {
             const data = await DI.kid.kidInformations();
             const title = await DI.titles.GetTitles();
@@ -41,6 +32,7 @@ function Home() {
             console.error(err);
         } finally {
             setStateload(false)
+            setRefreshing(false)
         }
     };
 
@@ -119,7 +111,7 @@ function Home() {
 
                         {titles &&
                             titles
-                                .filter(x => x.menu == 2)
+                                .filter(x => x.menu === 2)
                                 .map((item: any) => {
                                     return (
                                         <TouchableOpacity key={item.Idt_titulo.toString()} style={[styles.button_titulo, { paddingVertical: 15 }]} onPress={() => handleGoTitle(item.Idt_titulo)}>

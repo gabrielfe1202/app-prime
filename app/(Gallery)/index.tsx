@@ -1,12 +1,10 @@
-import { useChild } from '@/contexts/ChildContext';
 import { DI } from '@/controllers/DI';
 import { KidImage } from '@/entities/kid';
-import { delay } from '@/utils/delay';
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native';
-import PagerView, { PagerViewProps } from 'react-native-pager-view';
+import PagerView from 'react-native-pager-view';
 import {
     Menu,
     MenuOptions,
@@ -14,11 +12,8 @@ import {
     MenuTrigger,
     MenuProvider,
 } from 'react-native-popup-menu';
-import { colors } from '../globalStyle';
 import { Loading } from '@/components/Loading';
-import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const Gallery = () => {
     const [stateload, setStateload] = useState<boolean>(true);
@@ -31,9 +26,7 @@ const Gallery = () => {
     const pagerRef = useRef<PagerView | null>(null);
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
-    const router = useRouter();
-    const childContext = useChild();
-    const { childId } = childContext!;
+    const router = useRouter();    
     const toggleViewMode = () => {
         setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel');
     };
@@ -57,27 +50,12 @@ const Gallery = () => {
     }, []);
 
     useEffect(() => {
-        if (filterItem == "Todos") {
+        if (filterItem === "Todos") {
             setFilteredKidImages(kidImages)
         } else {
-            setFilteredKidImages(kidImages.filter(x => x.year == filterItem))
+            setFilteredKidImages(kidImages.filter(x => x.year === filterItem))
         }
     }, [filterItem, kidImages])
-
-    const renderThumbnail = ({ item, index }: { item: { id: string, uri: string }, index: number }) => (
-        <TouchableOpacity
-            onPress={() => {
-                setCurrentIndex(index);
-                setViewMode('carousel');
-                if (pagerRef.current) {
-                    pagerRef.current.setPage(index);
-                }
-            }}
-            style={styles.thumbnailWrapper}
-        >
-            <Image source={{ uri: item.uri }} style={styles.thumbnail} />
-        </TouchableOpacity>
-    );
 
     const renderGridView = () => {
         return (
@@ -97,7 +75,7 @@ const Gallery = () => {
                         }}
                         style={[
                             styles.gridItem,
-                            currentIndex == index && { borderWidth: 2 }
+                            currentIndex === index && { borderWidth: 2 }
                         ]}
                     >
                         <Image source={{ uri: item.linkMedium }} style={styles.gridImage} />
@@ -123,14 +101,6 @@ const Gallery = () => {
         scale.setValue(1);
         opacity.setValue(1);
     };
-
-    const handleShareImage = async () => {
-        const image = filteredkidImages[currentIndex]
-        console.log(image.link)
-        const localUri = FileSystem.documentDirectory + `image-${image.id}.jpg`;      
-        const downloadResult = await FileSystem.downloadAsync(image.link, localUri);
-        await Sharing.shareAsync(downloadResult.uri);
-    }
 
     if (stateload) return <Loading />
 
@@ -176,7 +146,7 @@ const Gallery = () => {
                                         key={item}
                                         onSelect={() => setFilterItem(item)}
                                         text={item}
-                                        customStyles={{ optionWrapper: { padding: 5, backgroundColor: filterItem == item ? "#000" : "#fff" }, optionText: { fontSize: 18, color: filterItem == item ? "#fff" : "#000" } }}
+                                        customStyles={{ optionWrapper: { padding: 5, backgroundColor: filterItem === item ? "#000" : "#fff" }, optionText: { fontSize: 18, color: filterItem === item ? "#fff" : "#000" } }}
                                     />
                                 ))}
                             </MenuOptions>
@@ -228,7 +198,7 @@ const Gallery = () => {
                                     }}
                                     style={[
                                         styles.thumbnailWrapper,
-                                        currentIndex == index && { borderWidth: 2 }
+                                        currentIndex === index && { borderWidth: 2 }
                                     ]}
                                 >
                                     <Image source={{ uri: item.linkSmall }} style={styles.thumbnail} />

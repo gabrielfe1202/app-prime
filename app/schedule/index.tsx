@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import globalStyles, { colors, fonts } from "../globalStyle"
 import logo from "../../assets/images/logo-prime.png"
 import { DI } from "@/controllers/DI";
-import { delay } from "@/utils/delay";
 import { Load, Loading } from "@/components/Loading";
 import { ScheduleTimes } from "@/entities/schedule";
 import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
@@ -247,7 +246,7 @@ function Schedule() {
                         {loadTimes ?
                              <Load /> :
                                 selectedDate != null &&
-                                    dateTimes.length == 0 && (
+                                    dateTimes.length === 0 && (
                                         <Text>Não temos horários disponíveis nesta data</Text>
                         )}
                     </ScrollView>

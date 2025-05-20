@@ -1,13 +1,8 @@
-import { GoalBottomTab, GroupedGoal } from "@/components/GoalBottomTab";
-import { SingleViewPager } from "@/components/SingleViewPager";
-import { useGoal } from "@/contexts/goal-context";
-import { delay } from "@/utils/delay";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import { Text, View, Dimensions } from "react-native";
 import { GestureHandlerRootView, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import goalStyles from "./goalStyle"
-import globalStyles from "../globalStyle"
 import { FontAwesome } from "@expo/vector-icons";
 import RenderHtml from 'react-native-render-html';
 const { width, height } = Dimensions.get('screen');

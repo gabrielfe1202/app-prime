@@ -47,7 +47,7 @@ export default function ChangePassword() {
     }, []);
 
     const handleAlterarSenha = async () => {
-        if (novaSenha.length == 0 || confirmarSenha.length == 0 || senhaAtual.length == 0) {
+        if (novaSenha.length === 0 || confirmarSenha.length === 0 || senhaAtual.length === 0) {
             setTextError("Prencha os campos corretamente")
             return;
         }
@@ -77,7 +77,7 @@ export default function ChangePassword() {
                 setNovaSenha('');
                 setConfirmarSenha('');
             } else {
-                setModalType("DANGER")
+                setModalType("DANGER") 
             }
         } finally {
             setStateload(false)
