@@ -8,6 +8,7 @@ import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } fr
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { colors, fonts } from "../globalStyle";
 import { useRouter } from "expo-router";
+import Bold from "../../components/BoldText"
 const { width, height } = Dimensions.get("screen")
 
 export default function Account() {
@@ -36,7 +37,7 @@ export default function Account() {
             <SafeAreaView style={styles.container}>
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <FontAwesome name="user-circle" size={120} color={colors.laranja} />
-                    <Text style={styles.userName}>{user?.name}</Text>
+                    <Text style={styles.userName}>{user?.getFirstAndLastName()}</Text>
                 </View>
 
                 <View style={styles.box}>
@@ -45,10 +46,11 @@ export default function Account() {
                     </View>
 
                     <View style={styles.boxData}>
-                        <Text style={styles.boxDataText}>Email: {user?.email}</Text>
-                        <Text style={styles.boxDataText}>Telefone: {user?.phone.formatNumber()}</Text>                    
-                        <Text style={styles.boxDataText}>Celular: {user?.cellPhone.formatNumber()}</Text>                    
-                        <Text style={styles.boxDataText}>Endereço: {user?.address?.formatAddress()}</Text>
+                        <Text style={styles.boxDataText}><Bold>Nome comp.:</Bold> {user?.name}</Text>
+                        <Text style={styles.boxDataText}><Bold>Email:</Bold> {user?.email}</Text>
+                        <Text style={styles.boxDataText}><Bold>Telefone:</Bold> {user?.phone.formatNumber()}</Text>                    
+                        <Text style={styles.boxDataText}><Bold>Celular:</Bold> {user?.cellPhone.formatNumber()}</Text>                    
+                        <Text style={styles.boxDataText}><Bold>Endereço:</Bold> {user?.address?.formatAddress()}</Text>
                     </View>
 
                     <TouchableOpacity style={styles.boxButton} onPress={() => router.push("/(Account)/updateProfile")}>
