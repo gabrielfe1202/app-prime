@@ -7,7 +7,7 @@ import { useGoal } from '@/contexts/goal-context';
 import { delay } from '@/utils/delay';
 import { asyncArrayToState } from '@/utils/use-async';
 import { useRouter } from 'expo-router';
-import { Steps } from './steps';
+import  Steps from './_steps';
 import { Goal } from '@/entities/goal';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { Load } from '@/components/Loading';

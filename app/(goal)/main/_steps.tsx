@@ -13,7 +13,7 @@ import { Load } from "@/components/Loading";
 import RenderHtml from 'react-native-render-html';
 const { width, height } = Dimensions.get('screen');
 
-export function Steps() {
+export default function Steps() {
     const { selectedGoal } = useGoal();
 
     const [isLoading, setIsLoading] = useState(true);
