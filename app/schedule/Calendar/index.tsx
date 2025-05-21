@@ -4,17 +4,26 @@ import { Calendar, DateData, LocaleConfig } from "react-native-calendars"
 import { DayState } from "react-native-calendars/src/types"
 
 import { Feather } from "@expo/vector-icons"
-
 import { ptBR } from "../../../utils/localeCalendarConfig"
 import { styles } from "./CalendarStyles"
 
 LocaleConfig.locales["pt-br"] = ptBR
 LocaleConfig.defaultLocale = "pt-br"
-
 interface CalendarComponentProps {
     markedDates: string[];
     onDayPress: (day: DateData) => void;
     initDate: string;
+}
+
+function getDayState(dateData: DateData): DayState {
+  const today = new Date();
+  const inputDate = new Date(dateData.year, dateData.month - 1, dateData.day);
+
+  if (inputDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+    return 'disabled';
+  }
+
+  return '';
 }
 
 export function CalendarComponent({ markedDates, onDayPress, initDate }: CalendarComponentProps) {
@@ -45,7 +54,7 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                     borderBottomColor: "#E8E8E8",
                     paddingBottom: 10,
                     marginBottom: 10,
-                    color: "#515151"
+                    //color: "#515151"
                 }}
                 theme={{
                     textMonthFontSize: 18,
@@ -53,25 +62,25 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                     dayTextColor: '#515151',
                     monthTextColor: '#515151',
                     textDayHeaderFontWeight: 'bold',
-                    textDayHeaderColor: 'purple',
+                    //textSectionTitleColor: 'purple',
                     arrowStyle: {
                         margin: 0,
                         padding: 0,
                     },
                 }}
-                minDate={new Date().toDateString()}
-                dayComponent={({ date, state }: { date: DateData; state: DayState }) => {
-                    const isMarked = markedDates.includes(date.dateString);
-                    const isSelected = date.dateString === day?.dateString;
-
+                minDate={new Date().toDateString()}                
+                dayComponent={(date) => {
+                    const isMarked = markedDates.includes(date.date?.dateString ?? '');
+                    const isSelected = date.date?.dateString === day?.dateString;
+                    const state = getDayState(date.date!);
                     if (state === "inactive" || state === "disabled" || !isMarked) {
                         return (
                             <View
-                                key={date.dateString}
+                                key={date.date?.dateString}
                                 style={styles.day}
                             >
                                 <Text style={styles.disabled}>
-                                    {date.day}
+                                    {date.date?.day}
                                 </Text>
                             </View>
                         )
@@ -79,14 +88,14 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
 
                     return (
                         <TouchableOpacity
-                            key={date.dateString}
+                            key={date.date?.dateString}
                             style={[
                                 styles.day,
                                 isSelected && styles.daySelected,
                             ]}
                             onPress={() => {
-                                setDay(date)
-                                onDayPress(date)
+                                setDay(date.date)
+                                onDayPress(date.date!)
                             }}
                         >
                             <Text
@@ -96,7 +105,7 @@ export function CalendarComponent({ markedDates, onDayPress, initDate }: Calenda
                                     isSelected && styles.daySelectedText,                      
                                 ]}
                             >
-                                {date.day}
+                                {date.date?.day}
                             </Text>
                         </TouchableOpacity>
                     );
