@@ -3,7 +3,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
+import Constants from 'expo-constants';
 //import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
 import { ChildChecker } from '@/contexts/ChildChecker';
@@ -12,11 +12,12 @@ import { UserProvider } from '@/contexts/UserContext';
 import { AuthChecker } from '@/contexts/AuthChecker';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { Platform, View } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {  
+export default function RootLayout() {
   const [loaded] = useFonts({
     Inter_900Black,
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -37,8 +38,17 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      <StatusBar style="dark" backgroundColor="#F1F1F1" />
+    <>     
+     
+      <View style={{
+        height: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
+        backgroundColor: '#F1F1F1',
+      }} />
+      <StatusBar
+        translucent        
+        style='dark'
+      />
+
       <UserProvider>
         <AuthChecker>
           <ChildProvider>
