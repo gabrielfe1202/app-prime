@@ -4,7 +4,7 @@ import { Calendar, DateData, LocaleConfig } from "react-native-calendars"
 import { DayState } from "react-native-calendars/src/types"
 
 import { Feather } from "@expo/vector-icons"
-import { ptBR } from "../../../utils/localeCalendarConfig"
+import { ptBR } from "../../utils/localeCalendarConfig"
 import { styles } from "./CalendarStyles"
 
 LocaleConfig.locales["pt-br"] = ptBR

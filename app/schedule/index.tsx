@@ -1,5 +1,5 @@
 import { SafeAreaView, Text, View, Dimensions, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { CalendarComponent } from "./Calendar";
+import { CalendarComponent } from "../../components/Calendar";
 import { DateData } from "react-native-calendars";
 import { useEffect, useRef, useState } from "react";
 import globalStyles, { colors, fonts } from "../globalStyle"
