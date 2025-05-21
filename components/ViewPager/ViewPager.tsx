@@ -204,8 +204,8 @@ export function ViewPagerImpl<DataItem>(
 
               const getZIndex = () => {
                 // Garantir que o item atual tenha maior prioridade (está no topo)
-                if (isCurrentPositioned) return 1;
-                if (isBeforePositioned) return 0.5;  // O item anterior pode ter um zIndex menor
+                if (isCurrentPositioned) return 2;
+                if (isBeforePositioned) return 1;  // O item anterior pode ter um zIndex menor
                 return 0;  // Os outros itens ficam atrás
               };
               return {
