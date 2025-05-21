@@ -145,7 +145,7 @@ export function ViewPagerImpl<DataItem>(
     <AnimatedPagerView
       ref={listRef}
       onPageSelected={handlePageSelected}
-      initialPage={listPosition.value}
+      initialPage={initialPage}
       onPageScroll={animatedListHandler}
       style={[{ flex: 1 }, style]}
     >
