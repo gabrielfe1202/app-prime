@@ -44,7 +44,7 @@ export default function RootLayout() {
           <ChildProvider>
             <ChildChecker>
               <ThemeProvider value={DefaultTheme}>
-                <Stack initialRouteName="(home)" screenOptions={{ headerShown: false }}>
+                <Stack screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="(Gallery)/Zips/index" options={{ animation: 'slide_from_bottom', presentation: 'transparentModal' }} />
                 </Stack>
               </ThemeProvider>
