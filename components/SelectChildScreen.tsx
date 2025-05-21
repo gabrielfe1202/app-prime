@@ -1,4 +1,3 @@
-// SelectChildScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import { useChild } from '../contexts/ChildContext';
@@ -8,31 +7,31 @@ import { colors } from '@/app/globalStyle';
 import { Loading } from './Loading';
 import { useAppUser } from '@/contexts/UserContext';
 import globalStyles from "../app/globalStyle"
-const { width } = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 export default function SelectChildScreen() {
-    const childContext = useChild();    
+    const childContext = useChild();
     const [childs, setChilds] = useState<Kid[]>([])
-    const [stateload, setStateload] = useState<boolean>(true);    
-    const { setChildCount, setUserToken, userController } = useAppUser();     
+    const [stateload, setStateload] = useState<boolean>(true);
+    const { setChildCount, setUserToken, userController } = useAppUser();
     const { setChildId } = childContext!;
 
-    const handleSelectChild = (id: number) => {        
-        setChildId(id);       
+    const handleSelectChild = (id: number) => {
+        setChildId(id);
     };
 
     const fetchuserInformation = async () => {
         setStateload(true)
-        try {            
-            const childs = await userController.getUserChilds()            
+        try {
+            const childs = await userController.getUserChilds()
             setChildCount(childs.length)
             setChilds(childs)
-            if(childs.length === 1){
+            if (childs.length === 1) {
                 setChildId(childs[0].Idt_Cri_Crianca)
             }
         } catch (err) {
             console.error(err);
-        }finally{
+        } finally {
             setStateload(false)
         }
     };
@@ -46,7 +45,7 @@ export default function SelectChildScreen() {
         fetchuserInformation()
     }, [])
 
-    if(stateload) return <Loading />
+    if (stateload) return <Loading />
 
     return (
         <SafeAreaView style={styles.container}>
@@ -54,30 +53,30 @@ export default function SelectChildScreen() {
             <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 40, paddingTop: 20 }}
                 showsVerticalScrollIndicator={false}>
                 <Image source={logo} style={styles.logo} resizeMode='contain' />
-                
+
                 <Text style={styles.texto}>Seja bem-vindo!</Text>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width * 0.9, flexWrap: 'wrap' }}>
-                    {childs.length > 0 ? 
-                    childs.map((item, index) => {
-                        return (
-                            <View key={index}>
-                                <TouchableOpacity style={styles.button} onPress={() => handleSelectChild(item.Idt_Cri_Crianca!)}>
-                                    <ImageBackground source={{ uri: item.imagem }} resizeMode='cover' style={[styles.image_filho,{}]}
-                                        imageStyle={{ borderRadius: 15,backgroundColor: 'rgba(0,0,0,0.4)' }}>
-                                    </ImageBackground>
+                    {childs.length > 0 ?
+                        childs.map((item, index) => {
+                            return (
+                                <View key={index}>
+                                    <TouchableOpacity style={styles.button} onPress={() => handleSelectChild(item.Idt_Cri_Crianca!)}>
+                                        <ImageBackground source={{ uri: item.imagem }} resizeMode='cover' style={[styles.image_filho, {}]}
+                                            imageStyle={{ borderRadius: 15, backgroundColor: 'rgba(0,0,0,0.4)' }}>
+                                        </ImageBackground>
+                                    </TouchableOpacity>
+                                    <Text style={styles.nome_filho}>{item.Nome}</Text>
+                                </View>
+                            )
+                        }) : (
+                            <View style={{ flex: 1, marginTop: 20, alignItems: 'center' }}>
+                                <Text style={[styles.texto, { fontSize: 16, textAlign: 'center', maxWidth: width * 0.6 }]}>Ainda não temos crianças relacionadas ao seu usuário</Text>
+                                <TouchableOpacity onPress={handleLogOut} style={[styles.buttonExit, globalStyles.buttonDanger]}>
+                                    <Text style={styles.buttonText}>Sair</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.nome_filho}>{item.Nome}</Text>
                             </View>
-                        )
-                    }) : (
-                        <View style={{flex: 1, marginTop: 20, alignItems: 'center'}}>
-                            <Text style={[styles.texto, {fontSize: 16, textAlign: 'center', maxWidth: width * 0.6}]}>Ainda não temos crianças relacionadas ao seu usuário</Text>
-                            <TouchableOpacity onPress={handleLogOut} style={[styles.buttonExit, globalStyles.buttonDanger]}>
-                                <Text style={styles.buttonText}>Sair</Text>
-                            </TouchableOpacity>
-                        </View>                        
-                    )}
+                        )}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -102,7 +101,8 @@ const styles = StyleSheet.create({
     logo: {
         width: 200,
         height: 200,
-        marginBottom: 25
+        marginBottom: 25,
+        marginTop: height * 0.15
     },
     texto: {
         fontSize: 25,
