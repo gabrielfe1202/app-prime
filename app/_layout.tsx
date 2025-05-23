@@ -13,9 +13,11 @@ import { AuthChecker } from '@/contexts/AuthChecker';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform, View } from 'react-native';
+import { Loading } from '@/components/Loading';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+//SplashScreen.hideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -34,7 +36,7 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) {
-    return null;
+    return <Loading />;
   }
 
   return (
