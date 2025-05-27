@@ -3,7 +3,7 @@ import { KidImage } from '@/entities/kid';
 import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, FlatList, TouchableOpacity, Animated, ScrollView, ActivityIndicator, ImageProps, StyleProp, ViewStyle, ImageSourcePropType } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {
     Menu,
@@ -26,7 +26,7 @@ const Gallery = () => {
     const pagerRef = useRef<PagerView | null>(null);
     const scale = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(1)).current;
-    const router = useRouter();    
+    const router = useRouter();
     const toggleViewMode = () => {
         setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel');
     };
@@ -60,7 +60,7 @@ const Gallery = () => {
     const renderGridView = () => {
         return (
             <ScrollView
-                contentContainerStyle={{flexDirection: 'row',flexWrap: 'wrap'}}
+                contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
                 showsVerticalScrollIndicator={false}
             >
                 {filteredkidImages.map((item, index) => (
@@ -168,21 +168,23 @@ const Gallery = () => {
                                     <Animated.View
                                         style={[
                                             styles.imageWrapper,
-                                            {
-                                                transform: [{ scale: scale }],
-                                                opacity: opacity,
-                                            },
                                         ]}
                                     >
-                                        <Image source={{ uri: image.linkMedium }} style={styles.image} />
+                                        <ImageWithLoadingBackground
+                                            source={{ uri: image.linkMedium }}
+                                            style={[styles.image]}
+                                            backgroundColor="#E0E0E0"
+                                            indicatorColor="#9E9E9E" 
+                                            resizeMode='contain'    
+                                        />
                                     </Animated.View>
                                 </View>
                             ))}
                         </PagerView>
 
-                        <TouchableOpacity style={{flexDirection: 'row', marginHorizontal: width * 0.05, paddingHorizontal: 15, paddingVertical: 5, borderWidth: 1, backgroundColor: '#ededed', width: width * 0.9, borderColor: "#c1c1c1", borderRadius: 6, justifyContent: 'center', alignItems: 'center', marginBottom: 45}}>
-                            <Text style={{fontSize: 16}}>Compartilhar foto</Text>
-                            <Entypo name="share" size={16} color="black" style={{marginLeft: 10}} />
+                        <TouchableOpacity style={{ flexDirection: 'row', marginHorizontal: width * 0.05, paddingHorizontal: 15, paddingVertical: 5, borderWidth: 1, backgroundColor: '#ededed', width: width * 0.9, borderColor: "#c1c1c1", borderRadius: 6, justifyContent: 'center', alignItems: 'center', marginBottom: 45 }}>
+                            <Text style={{ fontSize: 16 }}>Compartilhar foto</Text>
+                            <Entypo name="share" size={16} color="black" style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
 
                         <FlatList
@@ -308,3 +310,64 @@ const styles = StyleSheet.create({
 });
 
 export default Gallery;
+
+
+interface ImageWithLoadingBackgroundProps extends Omit<ImageProps, 'source' | 'style'> {
+  source: ImageSourcePropType;
+  style?: StyleProp<ViewStyle>; // Style for the container View
+  imageStyle?: StyleProp<ImageProps['style']>; // Optional specific style for the Image itself
+  backgroundColor?: string;
+  indicatorColor?: string;
+}
+
+const ImageWithLoadingBackground = ({
+  source,
+  style,
+  imageStyle,
+  backgroundColor = '#E0E0E0',
+  indicatorColor = '#9E9E9E',
+  ...props
+}: ImageWithLoadingBackgroundProps) => {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  return (
+    <View style={[stylesImage.container, style]}>
+      {loading && (
+        <View style={[stylesImage.background, { backgroundColor }]}>
+          <ActivityIndicator size="small" color={indicatorColor} />
+        </View>
+      )}
+      <Image
+        source={source}
+        style={[stylesImage.image, loading ? stylesImage.hidden : {}]} // Combine base image style, custom imageStyle, and hidden style
+        onLoadStart={() => setLoading(true)}
+        onLoad={() => setLoading(false)}
+        onError={() => setLoading(false)} // Handle potential loading errors
+        {...props} // Pass remaining ImageProps like resizeMode, etc.
+      />
+    </View>
+  );
+};
+
+const stylesImage = StyleSheet.create({
+  container: {
+    overflow: 'hidden', // Ensures background doesn't spill out if image has border radius
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative', // Needed for absolute positioning of the background
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject, // Position the background absolutely to cover the container
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1, // Ensure background is behind the image, but visible when image is hidden
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    zIndex: 0, // Ensure image is behind the background initially (when hidden)
+  },
+  hidden: {
+    opacity: 0, // Hide the image component itself until loaded
+  },
+});
