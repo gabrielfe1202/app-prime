@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint"
@@ -22,6 +22,7 @@
     "@react-navigation/native": "^6.0.2",
     "@types/axios": "^0.14.4",
     "axios": "^1.7.7",
+    "compare-versions": "^6.1.1",
     "expo": "^53.0.9",
     "expo-constants": "~17.1.6",
     "expo-document-picker": "~13.1.5",
@@ -51,6 +52,7 @@
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
+    "react-native-version-check": "^3.5.0",
     "react-native-web": "0.20.0",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
@@ -60,6 +62,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "~19.0.10",
     "@types/react-native-countdown-component": "^2.7.4",
+    "@types/react-native-version-check": "^3.4.8",
     "@types/react-test-renderer": "^18.0.7",
     "eslint": "^8.57.0",
     "eslint-config-expo": "~9.2.0",

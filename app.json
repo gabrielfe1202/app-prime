@@ -39,17 +39,17 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-        [
-    "expo-splash-screen",
-    {
-      "android": {
-        "statusBarTranslucent": true,
-        "resizeMode": "contain",
-        "image": "./assets/images/splash.png",
-        "backgroundColor": "#ffffff"
-      }
-    }
-  ],
+      [
+        "expo-splash-screen",
+        {
+          "android": {
+            "statusBarTranslucent": true,
+            "resizeMode": "contain",
+            "image": "./assets/images/splash.png",
+            "backgroundColor": "#ffffff"
+          }
+        }
+      ],
       "expo-router",
       "expo-font",
       "expo-web-browser"

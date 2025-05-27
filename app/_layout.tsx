@@ -14,6 +14,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform, View } from 'react-native';
 import { Loading } from '@/components/Loading';
+import UpdateChecker from '@/contexts/UpdateChecker';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,30 +41,32 @@ export default function RootLayout() {
   }
 
   return (
-    <>     
-     
+    <>
+
       <View style={{
         height: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
         backgroundColor: '#F1F1F1',
       }} />
       <StatusBar
-        translucent        
+        translucent
         style='dark'
       />
 
-      <UserProvider>
-        <AuthChecker>
-          <ChildProvider>
-            <ChildChecker>
-              <ThemeProvider value={DefaultTheme}>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(Gallery)/Zips/index" options={{ animation: 'slide_from_bottom', presentation: 'transparentModal' }} />
-                </Stack>
-              </ThemeProvider>
-            </ChildChecker >
-          </ChildProvider>
-        </AuthChecker>
-      </UserProvider>
+      <UpdateChecker>
+        <UserProvider>
+          <AuthChecker>
+            <ChildProvider>
+              <ChildChecker>
+                <ThemeProvider value={DefaultTheme}>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(Gallery)/Zips/index" options={{ animation: 'slide_from_bottom', presentation: 'transparentModal' }} />
+                  </Stack>
+                </ThemeProvider>
+              </ChildChecker >
+            </ChildProvider>
+          </AuthChecker>
+        </UserProvider>
+      </UpdateChecker>
     </>
   );
 }
