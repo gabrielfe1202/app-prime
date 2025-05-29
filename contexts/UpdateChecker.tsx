@@ -109,8 +109,7 @@ const UpdateChecker: React.FC<UpdateCheckerProps> = ({ children }) => {
 
   if (stateLoading) return <Loading />;
 
-  //if (isUpdateNeeded) {
-  if (true) { // Temporariamente forçando a atualização para teste
+  if (isUpdateNeeded) {  
     return (
       <View style={styles.container}>
 
