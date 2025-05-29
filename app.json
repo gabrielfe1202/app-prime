@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
@@ -29,7 +29,7 @@
       "versionCode": 2,
       "splash": {
         "image": "./assets/images/splash.png",
-        "resizeMode": "contain",
+        "resizeMode": "cover",
         "backgroundColor": "#ffffff"
       }
     },
@@ -44,7 +44,7 @@
         {
           "android": {
             "statusBarTranslucent": true,
-            "resizeMode": "contain",
+            "resizeMode": "cover",
             "image": "./assets/images/splash.png",
             "backgroundColor": "#ffffff"
           }
