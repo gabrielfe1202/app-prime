@@ -42,12 +42,10 @@
       [
         "expo-splash-screen",
         {
-          "android": {
-            "statusBarTranslucent": true,
-            "resizeMode": "cover",
-            "image": "./assets/images/splash.png",
-            "backgroundColor": "#ffffff"
-          }
+          "backgroundColor": "#ffffff",
+          "image": "./assets/logo-prime.png",
+          "resizeMode": "contain",
+          "imageWidth": 180
         }
       ],
       "expo-router",
