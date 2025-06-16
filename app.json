@@ -43,7 +43,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#ffffff",
-          "image": "./assets/logo-prime.png",
+          "image": "./assets/images/logo-prime.png",
           "resizeMode": "contain",
           "imageWidth": 180
         }
